@@ -1,0 +1,434 @@
+[{
+  "email": "sid@nexea.co",
+  "password": "$2b$10$KH096QbmeWbjADiMfoiXDOBbhjhoDQbiwvKhqVY6qeOw5pr1jwJ36",
+  "name": "Sid",
+  "position": "investment analyst",
+  "verified": true,
+  "confirmationToken": null,
+  "createdAt": {
+    "$date": "2021-10-28T01:58:10.802Z"
+  },
+  "updatedAt": {
+    "$date": "2021-10-28T01:58:21.842Z"
+  },
+  "userLevel": 0
+},
+{
+  "email": "ben@nexea.co",
+  "password": "$2b$10$.WVEQnxCwp01gZHoIbuERefagJj0Ia7iHyYFHdfjRtVt9JjI02C9.",
+  "name": "Ben",
+  "position": "-",
+  "verified": true,
+  "confirmationToken": null,
+  "createdAt": {
+    "$date": "2021-11-15T09:46:22.610Z"
+  },
+  "updatedAt": {
+    "$date": "2021-11-15T09:46:34.789Z"
+  },
+  "userLevel": 99
+},
+{
+  "email": "kaishuan@nexea.co",
+  "password": "$2b$10$iXBEuVWoi.sxH4ym2h3qnuN96NYzLqzBXwV1./VBykK4x75LuzgAa",
+  "name": "Te Kai Shuan",
+  "position": "Investment Analyst ",
+  "verified": true,
+  "confirmationToken": null,
+  "createdAt": {
+    "$date": "2021-11-17T10:11:58.960Z"
+  },
+  "updatedAt": {
+    "$date": "2021-11-17T10:12:20.062Z"
+  },
+  "userLevel": 0
+},
+{
+  "email": "cheah@nexea.co",
+  "password": "$2b$10$p2VDli3pAZsDnoGXcu1OEOFxP0urWIlA0lCfJVeRpVR0fzsUDo85a",
+  "name": "Cheah",
+  "position": "Intern",
+  "verified": true,
+  "confirmationToken": "433d9e4c9877b7ddd7ed1eed67596101e1623699",
+  "createdAt": {
+    "$date": "2021-12-01T09:46:31.195Z"
+  },
+  "updatedAt": "2022-03-18T17:00:11+08:00",
+  "userLevel": 0
+},
+{
+  "email": "danny@nexea.co",
+  "password": "$2b$10$81cR6LtAZbhIKoe7rbUfk.x8JEi1P/gSV9dvdWPquLKeEHay8waI2",
+  "name": "Danny",
+  "position": "Tech Partner",
+  "verified": true,
+  "confirmationToken": "590164d5c6b2f3325c0d7e90ad4d4f675f4e4384",
+  "createdAt": {
+    "$date": "2021-10-27T08:37:32.149Z"
+  },
+  "updatedAt": "2022-03-18T18:33:03+08:00",
+  "userLevel": 99
+},
+{
+  "email": "benjamin@nexea.co",
+  "password": "$2b$10$Vha4SmrxZbiBKRm3BhEjsuazK72tnQW1.2pb4GuCfvl1Fh2dSwkNG",
+  "name": "Benjamin Lim",
+  "position": "Investment Analyst Intern ",
+  "verified": true,
+  "confirmationToken": null,
+  "userLevel": 0,
+  "createdAt": "2022-01-28T11:46:11+08:00",
+  "updatedAt": "2022-02-16T10:15:31+08:00"
+},
+{
+  "email": "yunxin@nexea.co",
+  "password": "$2b$10$0ee94/1fMo0cQ5ZGMimCKO705iaBiJO8gAVu19VItZiessNqlBHYK",
+  "name": "Yun Xin",
+  "position": "Investment Analyst Intern",
+  "verified": true,
+  "confirmationToken": null,
+  "userLevel": 0,
+  "createdAt": "2022-01-28T11:51:04+08:00",
+  "updatedAt": "2022-01-28T11:56:09+08:00"
+},
+{
+  "email": "shirlyn@nexea.co",
+  "password": "$2b$10$/zwuvA5J3bboVVzfMweBr.dfh7gRWoCyxBVh1Nba9PcTXgBpbYbuO",
+  "name": "Shirlyn",
+  "position": "Accelerator Lead",
+  "verified": true,
+  "confirmationToken": null,
+  "userLevel": 0,
+  "createdAt": "2022-03-09T11:19:19+08:00",
+  "updatedAt": "2022-03-09T11:20:36+08:00"
+},
+{
+  "email": "zeming@nexea.co",
+  "password": "$2b$10$SPuZCBOzJEwDLzZ4RHVZue.yTlgzySWOSxUf5no3mjZJl4kzBx4kO",
+  "name": "Zeming",
+  "position": "Intern",
+  "verified": true,
+  "confirmationToken": "a84fa024ffd562b88caefeccbea05025f522ea82",
+  "userLevel": 0,
+  "createdAt": "2022-03-23T10:48:57+08:00",
+  "updatedAt": "2022-04-11T08:57:02+08:00"
+},
+{
+  "email": "hairul@m.nexea.co",
+  "password": "$2b$10$rYWfRY8sQUZJO3dFp5.R0uaONhD/83Lx.9rYj3Scz5FWOEIayPzuq",
+  "name": "Hairul",
+  "position": "IT Intern",
+  "verified": true,
+  "confirmationToken": "0cc7b2632cd6a8f204d8316105d5b930b9fcd285",
+  "userLevel": 99,
+  "createdAt": "2022-03-23T21:11:53+08:00",
+  "updatedAt": "2022-07-26T22:45:25+08:00"
+},
+{
+  "email": "mikhail@m.nexea.co",
+  "password": "$2b$10$7Blv8aqkUW83cxAMur17Z.eSbsLAi7U78v1ZvjVCYuGhfIpMYomjO",
+  "name": "Mikhail Krestinine",
+  "position": "investment analyst",
+  "verified": true,
+  "confirmationToken": "null",
+  "userLevel": 0,
+  "createdAt": "2022-06-15T15:30:26+08:00",
+  "updatedAt": "2022-06-15T15:30:26+08:00"
+},
+{
+  "email": "manvir@m.nexea.co",
+  "password": "$2b$10$bXSvqTsW/JrzKIFTdZzNuuQ1xcJCFHE8kXO2.kI/IBgGXLEpQr4k2",
+  "name": "Manvir",
+  "position": "Investment Analyst",
+  "verified": true,
+  "confirmationToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hbnZpckBtLm5leGVhLmNvIiwidmVyaWZpZWQiOmZhbHNlLCJpYXQiOjE2NTcyNjE0OTJ9.AsQMGKGPR17C-tJPZKrIN_ZnVSlnEJJNOYKBOSUT8dU",
+  "userLevel": 0,
+  "createdAt": "2022-07-08T14:24:52+08:00",
+  "updatedAt": "2022-07-08T14:24:52+08:00"
+},
+{
+  "email": "daniel@m.nexea.co",
+  "password": "$2b$10$iq3gQFdQH8Oe.VbLKQBk2u/q7xz7pySrB0byLf7teB7j5ZtwhTZiq",
+  "name": "Daniel Hakim",
+  "position": "Investment Intern",
+  "verified": true,
+  "confirmationToken": null,
+  "userLevel": 0,
+  "createdAt": "2022-07-13T17:05:17+08:00",
+  "updatedAt": "2022-08-29T14:42:41+08:00"
+},
+{
+  "email": "cherylle@nexea.co",
+  "password": "$2b$10$xqZm/QTfqQLV6iZuF.VNPuhBoHIS5PJiaQvHxjZR/Ff0upWjWABAC",
+  "name": "Cherylle",
+  "position": "Marketing",
+  "verified": false,
+  "confirmationToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImNoZXJ5bGxlQG5leGVhLmNvIiwidmVyaWZpZWQiOmZhbHNlLCJpYXQiOjE2NTgxMTAzMjR9.QOg3M6RBvxpJy0RDlxBWcn0bwY5BU-I1fQNfrqEt4l4",
+  "userLevel": 0,
+  "createdAt": "2022-07-18T10:12:04+08:00",
+  "updatedAt": "2022-07-18T10:12:04+08:00"
+},
+{
+  "email": "justin@nexea.co",
+  "password": "$2b$10$MKixKghl8ABP2Dshykz9tOBpJ2onkFuCPgoVIC7hQe707gMmEjAu6",
+  "name": "Justin",
+  "position": "Principal",
+  "verified": false,
+  "confirmationToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imp1c3RpbkBuZXhlYS5jbyIsInZlcmlmaWVkIjpmYWxzZSwiaWF0IjoxNjU4MjIzMTkwfQ.hkx_OpWOwCpWXw65Ks8q9q6WTPABkfb2IBYu6ggq_Lg",
+  "userLevel": 0,
+  "createdAt": "2022-07-19T17:33:10+08:00",
+  "updatedAt": "2022-07-19T17:33:10+08:00"
+},
+{
+  "email": "gordon@m.nexea.co",
+  "password": "$2b$10$k2IpKeE6vvZ82DZf2wA7duPV7/NXtcJXHvjfc2CAsKWaT0R5hAN5.",
+  "name": "Gordon",
+  "position": "Intern",
+  "verified": true,
+  "confirmationToken": null,
+  "userLevel": 0,
+  "createdAt": "2022-08-20T11:57:07+08:00",
+  "updatedAt": "2022-08-20T11:57:39+08:00"
+},
+{
+  "email": "celina@m.nexea.co",
+  "password": "$2b$10$0Fxf5VBAmUJvsJgtM5N8nudlD3bVH7Lideg9wZlcbFL1g8NBoW2ZG",
+  "name": "Celina",
+  "position": "Management Intern",
+  "verified": true,
+  "confirmationToken": null,
+  "userLevel": 0,
+  "createdAt": "2022-08-25T10:56:06+08:00",
+  "updatedAt": "2022-08-25T10:57:14+08:00"
+},
+{
+  "email": "celina@m.nexea.co",
+  "password": "$2b$10$BqdkneOuu/tmg3vNDdaq1.VXTL1dSUjyZiaRUhzfEB5v/bkeNCyJ2",
+  "name": "Celina",
+  "position": "Management Intern",
+  "verified": false,
+  "confirmationToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImNlbGluYUBtLm5leGVhLmNvIiwidmVyaWZpZWQiOmZhbHNlLCJpYXQiOjE2NjEzOTYxNjh9.wwjh3beqxmGpLdT3GF9sJF-qjfhgSgggOSuYf-OtHsk",
+  "userLevel": 0,
+  "createdAt": "2022-08-25T10:56:08+08:00",
+  "updatedAt": "2022-08-25T10:56:08+08:00"
+},
+{
+  "email": "zain@m.nexea.co",
+  "password": "$2b$10$AIB9/caMrXXVL3xCqmAtRebMOabrKHckRuO3pnmhfrNOphuRpNVre",
+  "name": "Wail Zainuddin",
+  "position": "Intern",
+  "verified": true,
+  "confirmationToken": "370271fc8d4694dfbc6d73a01e0558a9e9de0553",
+  "userLevel": 0,
+  "createdAt": "2022-09-27T12:02:42+08:00",
+  "updatedAt": "2022-10-06T16:11:57+08:00"
+},
+{
+  "email": "ananya@m.nexea.co",
+  "password": "$2b$10$GgJjMSrkdSC1ZV230rG4i.GiZmSstO/ETCeardcTwRS3IJG4NNx9e",
+  "name": "Ananya Sudarsan",
+  "position": "IT Intern",
+  "verified": true,
+  "confirmationToken": null,
+  "userLevel": 0,
+  "createdAt": "2022-12-23T15:10:44+08:00",
+  "updatedAt": "2022-12-23T15:11:01+08:00"
+},
+{
+  "email": "yikhuei@m.nexea.co",
+  "password": "$2b$10$BY5cjwf0IXx5zrH77jHp8u9wU.Me9VXagtdZLYLZKSszSQTbQ4V.u",
+  "name": "Yik Huei",
+  "position": "Investment Intern",
+  "verified": true,
+  "confirmationToken": null,
+  "userLevel": 0,
+  "createdAt": "2023-02-10T14:47:59+08:00",
+  "updatedAt": "2023-02-10T14:48:20+08:00"
+},
+{
+  "email": "ivana@m.nexea.co",
+  "password": "$2b$10$CfGb3vJt3tTSUymlO5C4yOcCsjagCr0C2Qq.4gpXROU0afZS8fUiS",
+  "name": "Ivana",
+  "position": "Intern",
+  "verified": true,
+  "confirmationToken": null,
+  "userLevel": 0,
+  "createdAt": "2023-02-17T13:51:14+08:00",
+  "updatedAt": "2023-02-17T13:52:48+08:00"
+},
+{
+  "email": "afiqdanial@m.nexea.co",
+  "password": "$2b$10$YXzv6uYC63MO6foeJ4GFKu1w//TEh3x01UHdUEth8Q1mwh6oqzUFu",
+  "name": "Afiq",
+  "position": "IT Intern",
+  "verified": true,
+  "confirmationToken": null,
+  "userLevel": 0,
+  "createdAt": "2023-03-14T11:11:49+08:00",
+  "updatedAt": "2023-03-14T11:23:42+08:00"
+},
+{
+  "email": "thines@m.nexea.co",
+  "password": "$2b$10$25qcvyHWA20MajoGLMh7y.b4tmUSpdn8heAEtjE2TEL.GXTG1cDBa",
+  "name": "Thines",
+  "position": "Intern",
+  "verified": true,
+  "confirmationToken": null,
+  "userLevel": 0,
+  "createdAt": "2023-06-16T17:45:38+08:00",
+  "updatedAt": "2023-06-16T17:45:50+08:00"
+},
+{
+  "email": "rezel@m.nexea.co",
+  "password": "$2b$10$2Vo.2ZR/m1TMdzyDLDBTqeJOrtLvl.DMBnSlCOnFDg/Yz0gSxOqse",
+  "name": "Christopher Rezel",
+  "position": "-",
+  "verified": true,
+  "confirmationToken": null,
+  "userLevel": 0,
+  "createdAt": "2023-06-19T11:40:30+08:00",
+  "updatedAt": "2023-06-19T11:40:57+08:00"
+},
+{
+  "email": "hongwinkit@m.nexea.co",
+  "password": "$2b$10$aG.ehIZelPmJFgZ2QzCqQOcjgJE39nYS6701TBHmUHd6KpcpkQsCC",
+  "name": "Hong Win Kit",
+  "position": "-",
+  "verified": true,
+  "confirmationToken": null,
+  "userLevel": 0,
+  "createdAt": "2023-06-20T12:14:31+08:00",
+  "updatedAt": "2023-06-20T13:38:40+08:00"
+},
+{
+  "email": "liyuan@m.nexea.co",
+  "password": "$2b$10$0f57V8zMPVVJJkWiFKZsQO0D7KVaGa1xXAn4of3Qk1gslDFeFKiTW",
+  "name": "Ong Li Yuan",
+  "position": "Startup Corporate Accelerator Intern",
+  "verified": true,
+  "confirmationToken": null,
+  "userLevel": 0,
+  "createdAt": "2023-06-26T15:03:20+08:00",
+  "updatedAt": "2023-06-26T15:05:07+08:00"
+},
+{
+  "email": "shahidah@m.nexea.co",
+  "password": "$2b$10$ux24fu7/Rf7dUFX3grbxyO5ZMYK..0HPjqmTAyv38096sw2S3FJly",
+  "name": "Shahidah",
+  "position": "Corporate Accelerator",
+  "verified": true,
+  "confirmationToken": null,
+  "userLevel": 0,
+  "createdAt": "2023-06-28T11:54:49+08:00",
+  "updatedAt": "2023-06-28T11:55:17+08:00"
+},
+{
+  "email": "katrina@nexea.co",
+  "password": "$2b$10$wzK4dG5GCdBL.xKyUTAwNuiMbHGBHV4UPpVb.bO4caBW6gGuIBf2e",
+  "name": "Katrina",
+  "position": "Programme Manager",
+  "verified": true,
+  "confirmationToken": "03e74b51e45ea5e90329fd3e943951f1483b49ec",
+  "userLevel": 0,
+  "createdAt": "2023-06-28T13:53:46+08:00",
+  "updatedAt": "2023-06-28T14:01:32+08:00"
+},
+{
+  "email": "saif@m.nexea.co",
+  "password": "$2b$10$/BQmSI2Zgp1gncghpecd..hYtYC2W/N0adcZPZDEplg.7rp27SBx.",
+  "name": "Saif ",
+  "position": "Intern ",
+  "verified": true,
+  "confirmationToken": null,
+  "userLevel": 0,
+  "createdAt": "2023-06-30T16:02:18+08:00",
+  "updatedAt": "2023-06-30T16:02:34+08:00"
+},
+{
+  "email": "prasad@m.nexea.co",
+  "password": "$2b$10$4kLLns2DVZKDhUyAFiSHluRBBHqYSnBipfiL7Cs7pVZII2C2bntMi",
+  "name": "Prasad Ravindran",
+  "position": "Intern",
+  "verified": true,
+  "confirmationToken": null,
+  "userLevel": 0,
+  "createdAt": "2023-06-30T16:12:29+08:00",
+  "updatedAt": "2023-06-30T16:12:38+08:00"
+},
+{
+  "email": "maximillian@m.nexea.co",
+  "password": "$2b$10$.WFE.aCCFkvdhGZdbiJqwu/WnAwx4C.9F37cqzp54LkebmBn8mGca",
+  "name": "Maximillian Leonard",
+  "position": "IT Intern",
+  "verified": true,
+  "confirmationToken": "6bc5b6c7c3da0e38ca97019001f37f1a22f42df4",
+  "userLevel": 0,
+  "createdAt": "2023-08-14T15:07:13+08:00",
+  "updatedAt": "2023-08-30T11:23:43+08:00"
+},
+{
+  "email": "hong@m.nexea.co",
+  "password": "$2b$10$S1WROianriHjAYsaKaZ9de94czvTvl5ivEQlkNzJJ44pIin8Ellpa",
+  "name": "Ng Zhe Hong",
+  "position": "Tech Intern",
+  "verified": true,
+  "confirmationToken": null,
+  "userLevel": 0,
+  "createdAt": "2023-08-14T15:18:08+08:00",
+  "updatedAt": "2023-08-14T15:18:22+08:00"
+},
+{
+  "email": "shailla@m.nexea.co",
+  "password": "$2b$10$c.Vhv86.VABFDzaXp6IYvuuCR2Cck.fOlVg10dfR6TOXCYNBb2hAy",
+  "name": "Shailla",
+  "position": "IT Intern",
+  "verified": true,
+  "confirmationToken": null,
+  "userLevel": 0,
+  "createdAt": "2023-08-14T19:34:34+08:00",
+  "updatedAt": "2023-08-14T19:35:57+08:00"
+},
+{
+  "email": "zawad@m.nexea.co",
+  "password": "$2b$10$1rKzTbBCHC7edWAKbISWBO0PCGweJ5cgOXEb7v2fa0J4pQ.aa426u",
+  "name": "Zawad",
+  "position": "Intern",
+  "verified": true,
+  "confirmationToken": null,
+  "userLevel": 0,
+  "createdAt": "2023-08-16T09:48:08+08:00",
+  "updatedAt": "2023-08-16T09:50:15+08:00"
+},
+{
+  "email": "dinesh@m.nexea.co",
+  "password": "$2b$10$h791HgPq6Mnd1OJYIKgPnewsAhxLg7w78GkV6ABfjhqUg.9nJWPuq",
+  "name": "Dinesh",
+  "position": "IP Intern",
+  "verified": true,
+  "confirmationToken": null,
+  "userLevel": 0,
+  "createdAt": "2023-10-26T08:54:03+08:00",
+  "updatedAt": "2023-10-26T08:54:53+08:00"
+},
+{
+  "email": "hailey@nexea.co",
+  "password": "$2b$10$jAa8fyW6WxZue9CqwmEY5eMliqGxivK6xmHSfmttdBNbBJJ6fnZci",
+  "name": "Hailey",
+  "position": "Investment Analyst",
+  "verified": true,
+  "confirmationToken": "edc1fc9c6b1fe0d3b5335260293a0a689a9b9d2f",
+  "userLevel": 0,
+  "createdAt": "2023-10-30T15:43:02+08:00",
+  "updatedAt": "2023-10-30T15:45:55+08:00"
+},
+{
+  "email": "liew@m.nexea.co",
+  "password": "$2b$10$rv.gAAOH7GTIcN5keSCB8.BiUdkudYlE194EBzw/c7XCOiE93742y",
+  "name": "Liew Xiao Ying",
+  "position": "Intern",
+  "verified": true,
+  "confirmationToken": null,
+  "userLevel": 0,
+  "createdAt": "2023-11-22T10:38:32+08:00",
+  "updatedAt": "2023-11-22T10:38:48+08:00"
+}]
