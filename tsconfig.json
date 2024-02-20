@@ -18,8 +18,8 @@
 // }
 {
     "compilerOptions": {
-      "lib": ["es2018", "dom"], // Specify a list of libraries the project will use
-      "target": "es2018", // Set the JavaScript version for output files
+      "lib": ["ES6", "dom"], // Specify a list of libraries the project will use
+      "target": "ES6", // Set the JavaScript version for output files
       "module": "commonjs", // Set the module system (Node.js uses CommonJS)
       "strict": true, // Enable all strict type-checking options
       "baseUrl": ".", // Base directory to resolve non-relative module names
@@ -47,11 +47,12 @@
       "noFallthroughCasesInSwitch": true // Report errors for fallthrough cases in switch statement
     },
     "include": [
-      "src/**/*" // Include all files in the src directory
-    ],
+      "src/**/*", // Include all files in the src directory
+      "../**/*.test.ts"
+, "src/test"    ],
     "exclude": [
       "node_modules", // Exclude the node_modules directory
       "**/*.spec.ts",
-      "**/*.test.ts" // Exclude test files
+      // "**/*.test.ts" // Exclude test files
     ]
   }

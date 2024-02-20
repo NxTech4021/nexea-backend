@@ -1,1 +1,1 @@
-export { getUserFromDatabase } from '../services/userServices';
+export { getUserFromDatabase } from './userServices';
