@@ -27,7 +27,13 @@
       "rootDir": "src", // Specify the root directory of source files
       "paths": {
         "@controllers/*": ["./src/controllers/*"],
-        "@routes/*": ["./src/routes/*"]
+        "@routes/*": ["./src/routes/*"],
+        "@constants/*": ["./src/constants/*"],
+        "@configs/*": ["./src/configs/*"],
+        "@middlewares/*": ["./src/middlewares/*"],
+        "@models/*": ["./src/models/*"],
+        "@services/*": ["./src/services/*"],
+        "@utils/*": ["./src/utils/*"]
       },
       "skipLibCheck": true, // Skip type checking of all declaration files (*.d.ts)
       "esModuleInterop": true, // Enables compatibility with default imports from modules
