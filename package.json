@@ -6,14 +6,14 @@
   "license": "MIT",
   "type": "commonjs",
   "scripts": {
-    "build": "tsc -p tsconfig.build.json",
+    "build": "tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json",
     "build_watch": "tsc --watch",
     "dev": "npx nodemon",
     "lint": "npx eslint . --ext .ts",
     "format": "npx eslint . --ext .ts --fix",
     "test": "jest",
     "migrate": "nxp prisma migrate dev",
-    "prod:preview": "node dist/app"
+    "prod:prev": "node dist/app.js"
   },
   "dependencies": {
     "@prisma/client": "^5.9.1",
@@ -46,6 +46,7 @@
     "prisma": "^5.9.1",
     "ts-jest": "^29.1.2",
     "ts-node": "^10.9.2",
+    "tsc-alias": "^1.8.8",
     "tsconfig-paths": "^4.2.0",
     "typescript": "*"
   }
