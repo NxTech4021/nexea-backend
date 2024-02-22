@@ -20,14 +20,18 @@
     "compilerOptions": {
       "lib": ["ES6", "dom"], // Specify a list of libraries the project will use
       "target": "ES6", // Set the JavaScript version for output files
-      "module": "commonjs", // Set the module system (Node.js uses CommonJS)
+      "module": "NodeNext", // Set the module system (Node.js uses CommonJS)
       "strict": true, // Enable all strict type-checking options
       "baseUrl": ".", // Base directory to resolve non-relative module names
       "outDir": "dist", // Redirect output structure to the 'dist' folder
       "rootDir": "src", // Specify the root directory of source files
+      "paths": {
+        "@controllers/*": ["./src/controllers/*"],
+        "@routes/*": ["./src/routes/*"]
+      },
       "skipLibCheck": true, // Skip type checking of all declaration files (*.d.ts)
       "esModuleInterop": true, // Enables compatibility with default imports from modules
-      "moduleResolution": "node", // Choose a module resolution strategy
+      "moduleResolution": "NodeNext", // Choose a module resolution strategy
       "resolveJsonModule": true,
       "removeComments": true,
   
@@ -48,8 +52,8 @@
     },
     "include": [
       "src/**/*", // Include all files in the src directory
-      "../**/*.test.ts"
-, "src/test"    ],
+      "../**/*.test.ts", "src/test",
+    ],
     "exclude": [
       "node_modules", // Exclude the node_modules directory
       "**/*.spec.ts",
