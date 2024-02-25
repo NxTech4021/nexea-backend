@@ -12,7 +12,7 @@
     "lint": "npx eslint . --ext .ts",
     "format": "npx eslint . --ext .ts --fix",
     "test": "jest",
-    "migrate": "nxp prisma migrate dev",
+    "migrate": "npx prisma migrate dev",
     "prod:prev": "node dist/app.js"
   },
   "dependencies": {
@@ -28,6 +28,7 @@
     "passport-jwt": "^4.0.1"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
     "@types/jest": "^29.5.12",

@@ -64,5 +64,8 @@
       "node_modules", // Exclude the node_modules directory
       "**/*.spec.ts",
       // "**/*.test.ts" // Exclude test files
-    ]
+    ],
+    "ts-node": {
+      "require": ["tsconfig-paths/register"]
+    }
   }
