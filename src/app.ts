@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import morgan from 'morgan';
 import { routes } from '@routes/index';
+import session from 'express-session';
 
 dotenv.config();
 
@@ -15,6 +16,8 @@ app.use(
 );
 app.use(cors());
 app.use(morgan('combined'));
+
+app.use(session({ secret: 'nexeaeventapp', saveUninitialized: true, resave: false }));
 
 app.use('/api', routes);
 
