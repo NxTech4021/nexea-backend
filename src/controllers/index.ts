@@ -1,2 +1,2 @@
-export { getUser } from './userController';
-export { login } from './loginController';
+//export { getUser } from './userController';
+//export { login } from './loginController';

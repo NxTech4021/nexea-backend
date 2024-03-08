@@ -4,6 +4,7 @@ import cors from 'cors';
 import morgan from 'morgan';
 import { routes } from '@routes/index';
 import session from 'express-session';
+import cookieParser from 'cookie-parser';
 
 dotenv.config();
 
@@ -16,7 +17,7 @@ app.use(
 );
 app.use(cors());
 app.use(morgan('combined'));
-
+app.use(cookieParser());
 app.use(session({ secret: 'nexeaeventapp', saveUninitialized: true, resave: false }));
 
 app.use('/api', routes);
@@ -28,4 +29,5 @@ app.get('/', async (_req: Request, res: Response) => {
 app.listen(process.env.PORT, () => {
   // eslint-disable-next-line no-console
   console.log(`Listening to port ${process.env.PORT}...`);
+  console.log('hello world');
 });
