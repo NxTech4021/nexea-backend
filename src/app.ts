@@ -4,7 +4,11 @@ import cors from 'cors';
 import morgan from 'morgan';
 import { routes } from '@routes/index';
 import session from 'express-session';
+import multer from 'multer';
+import { prisma } from '@configs/prisma';
+import { uploadAttendees } from '@controllers/attendeeController';
 import cookieParser from 'cookie-parser';
+
 
 dotenv.config();
 
@@ -25,6 +29,49 @@ app.use('/api', routes);
 app.get('/', async (_req: Request, res: Response) => {
   res.send('Server is running');
 });
+
+//get all users
+app.get('/users', async (_req, res) => {
+  try {
+    const users = await prisma.user.findMany();
+    res.status(200).json(users);
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(500).json({ message: error.message });
+    } else {
+      res.status(500).json({ message: 'An unknown error occurred.' });
+    }
+  }
+});
+
+//get all attendees
+app.get('/attendees', async (_req, res) => {
+  try {
+    const attendee = await prisma.attendee.findMany();
+    res.status(200).json(attendee);
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(500).json({ message: error.message });
+    } else {
+      res.status(500).json({ message: 'An unknown error occurred.' });
+    }
+  }
+});
+
+// Set up multer for file upload
+const storage = multer.diskStorage({
+  destination: (_req, _file, cb) => {
+    cb(null, 'uploads/');
+  },
+  filename: (_req, file, cb) => {
+    cb(null, `${Date.now()}-${file.originalname}`);
+  },
+});
+
+const upload = multer({ storage });
+
+// Route for file upload
+app.post('/api/upload', upload.single('file'), uploadAttendees);
 
 app.listen(process.env.PORT, () => {
   // eslint-disable-next-line no-console
