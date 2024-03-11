@@ -1,28 +1,28 @@
 //const { sign, verify } = require("jsonwebtoken");
-import { Request, Response, NextFunction } from 'express';
-
+import { Response, NextFunction } from 'express';
+import dotenv from 'dotenv';
 import { sign, verify } from 'jsonwebtoken';
 
-// Create a new type the add authenticated inside Request type
-interface ReqAuthenticated extends Request {
-  authenticated: Boolean;
-}
+dotenv.config();
 
-const SECRET_KEY = 'helloafiqqq';
+//const SECRET_KEY = 'helloafiqqq';
 
-export const createTokens = (user: any) => {
-  const accessToken = sign({ username: user.username, id: user.id }, SECRET_KEY);
+export const accessTokens = (userId : number ) : string => {
+
+  const accessToken = sign({ userId }, process.env.SECRET_KEY as string , { expiresIn: '1h' });
 
   return accessToken;
 };
 
-export const validateToken = (req: ReqAuthenticated, res: Response, next: NextFunction) => {
-  const accessToken = req.cookies['access-token'];
 
-  if (!accessToken) return res.status(400).json({ error: 'User not Authenticated!' });
+export const validateToken = (req: any, res: Response, next: NextFunction) => {
+  const accessToken = req.cookies["access-token"];
+
+  if (!accessToken)
+    return res.status(400).json({ error: "User not Authenticated!" });
 
   try {
-    const validToken = verify(accessToken, SECRET_KEY);
+    const validToken = verify(accessToken, process.env.SECRET_KEY as string );
     if (validToken) {
       req.authenticated = true;
       return next();
@@ -31,3 +31,4 @@ export const validateToken = (req: ReqAuthenticated, res: Response, next: NextFu
     return res.status(400).json({ error: err });
   }
 };
+
