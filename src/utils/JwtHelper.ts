@@ -9,17 +9,17 @@ dotenv.config();
 
 export const accessTokens = (userId : number ) : string => {
 
-  const accessToken = sign({ userId }, process.env.SECRET_KEY_ACCESS as string , { expiresIn: '15m' });
+  const accessToken = sign({ userId }, process.env.SECRET_KEY as string , { expiresIn: '15m' });
 
   return accessToken;
 };
 
-export const refreshTokens = (userId : number ) : string => {
+// export const refreshTokens = (userId : number ) : string => {
 
-  const refeshToken = sign({ userId }, process.env.SECRET_KEY_REFESH as string , { expiresIn: '7d' });
+//   const refeshToken = sign({ userId }, process.env.SECRET_KEY_REFESH as string , { expiresIn: '7d' });
 
-  return refeshToken;
-};
+//   return refeshToken;
+// };
 
 
 export const validateToken = (req: any, res: Response, next: NextFunction) => {

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { accessTokens, refreshTokens } from '../utils/JwtHelper';
+import { accessTokens } from '../utils/JwtHelper';
 
 import bcrypt from 'bcrypt';
 import { registerService, getLoginUser } from '@services/authServices';
