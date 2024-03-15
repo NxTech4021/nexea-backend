@@ -17,7 +17,6 @@ export const uploadAttendees = async (req: Request, res: Response) => {
     return res.json({
       message: 'CSV data has been processed and stored in the database',
       results,
-
     });
   } catch (error) {
     console.error('An error occurred while uploading and processing CSV file:', error);
@@ -29,12 +28,8 @@ export const uploadAttendees = async (req: Request, res: Response) => {
 export const Attendance = (id: any, name: any, email: any, attendance: any) => {
   const csv = `${id},${name},${email},${attendance}\n`;
   try {
-    appendFileSync("./csvdownloads/attendance.csv", csv);
+    appendFileSync('./csvdownloads/attendance.csv', csv);
   } catch (error) {
     console.log(error);
   }
 };
-
-
-
-

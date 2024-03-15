@@ -10,7 +10,6 @@ import { uploadAttendees } from '@controllers/attendeeController';
 import cookieParser from 'cookie-parser';
 import { extractCSVData } from '@services/attendeeServices';
 
-
 dotenv.config();
 
 const app: Application = express();
@@ -61,10 +60,10 @@ app.get('/attendees', async (_req, res) => {
 
 // Set up multer for file upload
 const storage = multer.diskStorage({
-  destination: (_req, _file, cb) => {
+  destination: (_req: Request, _file: any, cb: any) => {
     cb(null, 'csvuploads/');
   },
-  filename: (_req, file, cb) => {
+  filename: (_req: Request, file: any, cb: any) => {
     cb(null, `${Date.now()}-${file.originalname}`);
   },
 });
@@ -75,7 +74,7 @@ const upload = multer({ storage });
 app.post('/api/upload', upload.single('file'), uploadAttendees);
 
 // Route for file download
-app.get('/api/download', extractCSVData );
+app.get('/api/download', extractCSVData);
 
 app.listen(process.env.PORT, () => {
   // eslint-disable-next-line no-console
