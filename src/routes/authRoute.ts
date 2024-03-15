@@ -1,6 +1,7 @@
 
-import { registerUser,  getlogin, getUser } from '@controllers/authController';
+import { registerUser,  getlogin, getprofile } from '@controllers/authController';
 import { Router } from 'express';
+import { validateToken } from '@utils/JwtHelper';
 // import { login } from '../controllers/index';
 
 export const authRouter = Router();
@@ -16,5 +17,15 @@ authRouter.route('/login').post(getlogin);
 
 
 //Profile
-authRouter.route('/').get(getUser);
+
+authRouter.route('/profile').get( validateToken, getprofile);
+
+// authRouter.get('/profile', validateToken, (req: Request, res: Response) => {
+//     res.json("profile");
+//   });;
+
+  
+
+  
+
 

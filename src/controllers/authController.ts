@@ -36,17 +36,22 @@ import { registerService, getLoginUser } from '@services/authServices';
       return res.status(500).json({ error: "Internal server error: User ID is null or undefined" });
      }
      // If password matches, create a token
+    
      const token = accessTokens(user.id);
+     //const refreshtoken = refreshTokens (user.id)
+     
      
      res.cookie("access-token", token, {
       maxAge: 60 * 60 * 24 * 30 * 1000,
       httpOnly: true,
     });
     
-     //res.json ("Logged in!");
-     // Send token in response
 
-     return res.json({ token });
+     return res.json ("Logged in!");
+     
+     
+    // Send token in response
+     //return res.json({ token });
 
      
 
@@ -73,13 +78,22 @@ import { registerService, getLoginUser } from '@services/authServices';
   }
 };
 
-// export const getUser = async () => {
-//   try {
-//   }
-//   catch{
+export const getprofile = async (_req: Request, res: Response) => {
+  try {
 
-//   }
-// }
+     return res.json("registered")
+  }
+  catch (error) {
+    return res.status(404).json({
+      error: (error as any).message,
+    });
+
+  }
+}
+
+
+
+
 
 
 

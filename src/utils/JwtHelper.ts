@@ -9,14 +9,22 @@ dotenv.config();
 
 export const accessTokens = (userId : number ) : string => {
 
-  const accessToken = sign({ userId }, process.env.SECRET_KEY as string , { expiresIn: '1h' });
+  const accessToken = sign({ userId }, process.env.SECRET_KEY as string , { expiresIn: '15m' });
 
   return accessToken;
 };
 
+// export const refreshTokens = (userId : number ) : string => {
+
+//   const refeshToken = sign({ userId }, process.env.SECRET_KEY_REFESH as string , { expiresIn: '7d' });
+
+//   return refeshToken;
+// };
+
 
 export const validateToken = (req: any, res: Response, next: NextFunction) => {
   const accessToken = req.cookies["access-token"];
+  //const refeshToken = req.cookies["token"]
 
   if (!accessToken)
     return res.status(400).json({ error: "User not Authenticated!" });
