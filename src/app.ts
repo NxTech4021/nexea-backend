@@ -8,6 +8,7 @@ import multer from 'multer';
 import { prisma } from '@configs/prisma';
 import { uploadAttendees } from '@controllers/attendeeController';
 import cookieParser from 'cookie-parser';
+import { extractCSVData } from '@services/attendeeServices';
 
 
 dotenv.config();
@@ -61,7 +62,7 @@ app.get('/attendees', async (_req, res) => {
 // Set up multer for file upload
 const storage = multer.diskStorage({
   destination: (_req, _file, cb) => {
-    cb(null, 'uploads/');
+    cb(null, 'csvuploads/');
   },
   filename: (_req, file, cb) => {
     cb(null, `${Date.now()}-${file.originalname}`);
@@ -73,8 +74,11 @@ const upload = multer({ storage });
 // Route for file upload
 app.post('/api/upload', upload.single('file'), uploadAttendees);
 
+// Route for file download
+app.get('/api/download', extractCSVData );
+
 app.listen(process.env.PORT, () => {
   // eslint-disable-next-line no-console
   console.log(`Listening to port ${process.env.PORT}...`);
-  console.log('hello world');
+  console.log('Test on extracting data for new CSV file');
 });
