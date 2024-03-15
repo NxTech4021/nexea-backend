@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { processCSVData } from '@services/attendeeServices';
-// import { convertCSVToJSON } from '@utils/converter';
+import { appendFileSync } from 'fs';
 
 // Function to handle file upload and processing
 export const uploadAttendees = async (req: Request, res: Response) => {
@@ -24,3 +24,17 @@ export const uploadAttendees = async (req: Request, res: Response) => {
     return res.status(500).json({ error: 'An error occurred while processing CSV file' });
   }
 };
+
+// Function to store into CSV
+export const Attendance = (id: any, name: any, email: any, attendance: any) => {
+  const csv = `${id},${name},${email},${attendance}\n`;
+  try {
+    appendFileSync("./csvdownloads/attendance.csv", csv);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
+
+
