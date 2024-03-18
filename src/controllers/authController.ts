@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
 import { accessTokens } from '../utils/JwtHelper';
 import { prisma } from '@configs/prisma';
-import crypto from 'crypto'
+//import crypto from 'crypto'
 import bcrypt from 'bcrypt';
-import { registerService, getLoginUser } from '@services/authServices';
+import { registerService, getLoginUser, forgetpassService } from '@services/authServices';
 import { sendResetEmail } from '@utils/nodemailer.config';
 
 // Login function
@@ -99,31 +99,10 @@ export const forgetPassword = async (req: Request, res: Response) => {
           return res.status(400).json({ error: "User Doesn't Exist" });
         }
 
-    
-        // Generate and set password reset token
-        const resetToken = crypto.randomBytes(20).toString("hex");
-        const resetPasswordToken = crypto
-            .createHash("sha256")
-            .update(resetToken)
-            .digest("hex");
-        console.log("Generated resetPasswordToken:", resetPasswordToken);     
-        const resetPasswordExpires = new Date (Date.now() + 60 * (60 * 1000)); // 1 hour from now
-        
-        
-        await prisma.user.update({
-          where: { email: user.email },
-          data: {
-            resetPasswordToken: resetPasswordToken,
-            resetPasswordExpires: resetPasswordExpires,
-          },
-        });
-
-
-       // Send the password reset email
-
+    await forgetpassService(email)
        try {
       
-    await sendResetEmail(email, user.name, resetPasswordToken);
+    await sendResetEmail(user.email, user.name, user.resetPasswordToken);
       return res.json({ message: 'Password reset email has been sent.' });
 
       } catch (error) {

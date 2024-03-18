@@ -47,8 +47,8 @@ export const forgetpassService = async (email: string): Promise<any | null> => {
        .createHash("sha256")
        .update(resetToken)
        .digest("hex");
+   console.log ( "Reset Token", resetPasswordToken)    
    const resetPasswordExpires = new Date (Date.now() + 60 * (60 * 1000)); // 1 hour from now
-   
    
    const forgetpass = await prisma.user.update({
      where: { email: email },
@@ -60,3 +60,4 @@ export const forgetpassService = async (email: string): Promise<any | null> => {
 
    return forgetpass;
 };
+
