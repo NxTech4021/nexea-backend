@@ -9,7 +9,7 @@ dotenv.config();
 
 export const accessTokens = (userId : number ) : string => {
 
-  const accessToken = sign({ userId }, process.env.SECRET_KEY as string , { expiresIn: '15m' });
+  const accessToken = sign({ userId }, process.env.SECRET_KEY as string , { expiresIn: '1d' });
 
   return accessToken;
 };
