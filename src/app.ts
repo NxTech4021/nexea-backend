@@ -19,6 +19,7 @@ app.use(
     extended: false,
   }),
 );
+
 app.use(cors());
 app.use(morgan('combined'));
 app.use(cookieParser());
@@ -31,7 +32,7 @@ app.get('/', async (_req: Request, res: Response) => {
 });
 
 //get all users
-app.get('/users', async (_req, res) => {
+app.get('/users', async (_req: Request, res: Response) => {
   try {
     const users = await prisma.user.findMany();
     res.status(200).json(users);
@@ -45,7 +46,7 @@ app.get('/users', async (_req, res) => {
 });
 
 //get all attendees
-app.get('/attendees', async (_req, res) => {
+app.get('/attendees', async (_req : Request, res: Response) => {
   try {
     const attendee = await prisma.attendee.findMany();
     res.status(200).json(attendee);

@@ -18,6 +18,8 @@ model User {
   createdAt         DateTime  @default(now())
   updatedAt         DateTime? @updatedAt
   userLevel         Int?
+  resetPasswordToken String?   @unique
+  resetPasswordExpires DateTime?
 }
 
 model Attendee {
