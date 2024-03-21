@@ -7,9 +7,8 @@ dotenv.config();
 
 //const SECRET_KEY = 'helloafiqqq';
 
-export const accessTokens = (userId : number ) : string => {
-
-  const accessToken = sign({ userId }, process.env.SECRET_KEY as string , { expiresIn: '1d' });
+export const accessTokens = (userId: number): string => {
+  const accessToken = sign({ userId }, process.env.SECRET_KEY as string, { expiresIn: '1d' });
 
   return accessToken;
 };
@@ -21,16 +20,14 @@ export const accessTokens = (userId : number ) : string => {
 //   return refeshToken;
 // };
 
-
 export const validateToken = (req: any, res: Response, next: NextFunction) => {
-  const accessToken = req.cookies["access-token"];
+  const accessToken = req.cookies['access-token'];
   //const refeshToken = req.cookies["token"]
 
-  if (!accessToken)
-    return res.status(400).json({ error: "User not Authenticated!" });
+  if (!accessToken) return res.status(400).json({ error: 'User not Authenticated!' });
 
   try {
-    const validToken = verify(accessToken, process.env.SECRET_KEY as string );
+    const validToken = verify(accessToken, process.env.SECRET_KEY as string);
     if (validToken) {
       req.authenticated = true;
       return next();
@@ -39,4 +36,3 @@ export const validateToken = (req: any, res: Response, next: NextFunction) => {
     return res.status(400).json({ error: err });
   }
 };
-

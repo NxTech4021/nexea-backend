@@ -46,7 +46,7 @@ app.get('/users', async (_req: Request, res: Response) => {
 });
 
 //get all attendees
-app.get('/attendees', async (_req : Request, res: Response) => {
+app.get('/attendees', async (_req: Request, res: Response) => {
   try {
     const attendee = await prisma.attendee.findMany();
     res.status(200).json(attendee);
