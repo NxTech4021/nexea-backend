@@ -1,6 +1,5 @@
 import { Router } from 'express';
 
-
 import { attendeesRouter } from './attendeeRoute';
 import { authRouter } from './authRoute';
 

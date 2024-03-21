@@ -1,34 +1,32 @@
-import nodemailer from 'nodemailer'
+import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
-
 
 dotenv.config();
 
-
-// user and pass for nodemailer 
-  //const user = "afiq@nexea.co";
+// user and pass for nodemailer
+//const user = "afiq@nexea.co";
 
 // Uses google's app specific password
-  //const pass = "bpnolahgcqzqxlmj";
+//const pass = "bpnolahgcqzqxlmj";
 
 const user = process.env.SMTP_USER;
 const pass = process.env.SMTP_PASS;
 
-const transport = nodemailer.createTransport ({
-    host: "smtp.gmail.com",
-    auth: {
-        user: user,
-        pass: pass
-    }
-})
+const transport = nodemailer.createTransport({
+  host: 'smtp.gmail.com',
+  auth: {
+    user: user,
+    pass: pass,
+  },
+});
 
-export const sendResetEmail = (email : any, name : any, resetPasswordToken: any) => {
-    transport
-      .sendMail({
-        from: user,
-        to: email,
-        subject: "[NEXEA EVENT APP] Password Reset Request",
-        html: `
+export const sendResetEmail = (email: any, name: any, resetPasswordToken: any) => {
+  transport
+    .sendMail({
+      from: user,
+      to: email,
+      subject: '[NEXEA EVENT APP] Password Reset Request',
+      html: `
         <table border="0" cellpadding="0" cellspacing="0" style="border-collapse:separate;width:100%;">
           <tbody>
             <tr>
@@ -58,11 +56,10 @@ export const sendResetEmail = (email : any, name : any, resetPasswordToken: any)
           </tbody>
         </table>
       `,
-      })
-      .catch((err) => {
-        return err;
-      });
-  };
-
+    })
+    .catch((err) => {
+      return err;
+    });
+};
 
 //   <a href=http://localhost/reset-password/${resetPasswordToken}

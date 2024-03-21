@@ -1,14 +1,13 @@
-
-import { registerUser,  getlogin, getprofile, forgetPassword, resetPassword } from '@controllers/authController';
+import { registerUser, getlogin, getprofile, forgetPassword, resetPassword } from '@controllers/authController';
 import { Router } from 'express';
 import { validateToken } from '@utils/JwtHelper';
 // import { login } from '../controllers/index';
 
 export const authRouter = Router();
 
-//Register 
+//Register
 
-authRouter.route('/register').post(registerUser)
+authRouter.route('/register').post(registerUser);
 
 //login + logout
 
@@ -17,14 +16,9 @@ authRouter.route('/login').post(getlogin);
 
 //Profile
 
-authRouter.route('/profile').get( validateToken, getprofile);
+authRouter.route('/profile').get(validateToken, getprofile);
 
-// Password 
+// Password
 
-authRouter.route('/forget-password').post(forgetPassword); 
+authRouter.route('/forget-password').post(forgetPassword);
 authRouter.route('/reset-password').post(resetPassword);
-  
-
-  
-
-
