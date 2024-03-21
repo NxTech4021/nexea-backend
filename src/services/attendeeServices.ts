@@ -1,5 +1,5 @@
 import fs from 'fs';
-import csvParser from 'csv-parser';
+import { parse } from 'csv-parse';
 import { prisma } from '@configs/prisma';
 import { Attendance } from '@controllers/attendeeController';
 import { Request, Response } from 'express';
@@ -12,14 +12,14 @@ interface Attendee {
 
 export const processCSVData = async (filePath: string) => {
   const results: Attendee[] = [];
-  let isFirstLine = true; // Flag to track if it's the first line
   return new Promise((resolve, reject) => {
     fs.createReadStream(filePath)
-      .pipe(csvParser(['name', 'email', 'attendance']))
-      .on('data', async (data: Attendee) => {
+      .pipe(parse({
+        columns: ['name', 'email', 'attendance'],
+        from_line: 2,
+      }))
+      .on('data', async (data) => {
         try {
-          if (!isFirstLine) {
-            // Skip the first line
             // Extract from CSV data
             const { name, email, attendance } = data;
             // Store data in database using Prisma
@@ -31,8 +31,6 @@ export const processCSVData = async (filePath: string) => {
               },
             });
             results.push(data);
-          }
-          isFirstLine = false; // Set the flag to false after processing the first line
         } catch (error) {
           console.error('Error processing CSV data:', error);
         }
