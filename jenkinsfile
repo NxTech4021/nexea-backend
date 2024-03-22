@@ -12,7 +12,7 @@ pipeline {
         stage("Build"){
             steps{
                 echo "Building..."
-                sh "yarn dev"
+                sh "ls -l"
                 echo "Doing build stuff..."
             }
         }
