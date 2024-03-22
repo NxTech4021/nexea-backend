@@ -1,0 +1,20 @@
+pipeline {
+    agent{
+        node{
+            label "jenkins-agent-alpine"
+        }
+    }
+    triggers{
+        pollSCM "*/5 * * * *"
+    }
+
+    stages{
+        stage("Build"){
+            steps{
+                echo "Building..."
+
+                echo "Doing build stuff..."
+            }
+        }
+    }
+}
