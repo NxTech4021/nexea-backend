@@ -11,9 +11,16 @@ pipeline {
     stages{
         stage("Build"){
             steps{
-                echo "Building..."
-                sh "ls -l"
-                echo "Doing build stuff..."
+                echo "Installing node..."
+                sh "pip install 'nodejs-bin[cmd]"
+                echo "Done install node"
+            }
+        }
+        stage("Test"){
+            steps{
+                echo "Testing..."
+                sh "cd src"
+                sh "npm run dev"
             }
         }
     }
