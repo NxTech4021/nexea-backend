@@ -12,7 +12,7 @@ pipeline {
         stage("Build"){
             steps{
                 echo "Installing node..."
-                sh "pip install 'nodejs-bin[cmd]"
+                sh "pip install nodejs-bin[cmd]"
                 echo "Done install node"
             }
         }
