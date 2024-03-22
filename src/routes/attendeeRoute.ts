@@ -1,11 +1,12 @@
 import express from 'express';
 import { uploadAttendees } from '@controllers/attendeeController';
 import { extractCSVData } from '@services/attendeeServices';
+import { upload } from '@controllers/attendeeController';
 
 export const attendeesRouter = express.Router();
 
-// Route for file upload
-attendeesRouter.post('/upload', uploadAttendees);
+// Upload CSV to store data
+attendeesRouter.post('/upload', upload.single('file'), uploadAttendees);
 
-// DB to CSV
+// Extract data into CSV
 attendeesRouter.get('/download', extractCSVData);

@@ -4,11 +4,8 @@ import cors from 'cors';
 import morgan from 'morgan';
 import { routes } from '@routes/index';
 import session from 'express-session';
-import multer from 'multer';
 import { prisma } from '@configs/prisma';
-import { uploadAttendees } from '@controllers/attendeeController';
 import cookieParser from 'cookie-parser';
-import { extractCSVData } from '@services/attendeeServices';
 
 dotenv.config();
 
@@ -58,24 +55,6 @@ app.get('/attendees', async (_req: Request, res: Response) => {
     }
   }
 });
-
-// Set up multer for file upload
-const storage = multer.diskStorage({
-  destination: (_req: Request, _file: any, cb: any) => {
-    cb(null, 'csvuploads/');
-  },
-  filename: (_req: Request, file: any, cb: any) => {
-    cb(null, `${Date.now()}-${file.originalname}`);
-  },
-});
-
-const upload = multer({ storage });
-
-// Route for file upload
-app.post('/api/upload', upload.single('file'), uploadAttendees);
-
-// Route for file download
-app.get('/api/download', extractCSVData);
 
 app.listen(process.env.PORT, () => {
   // eslint-disable-next-line no-console

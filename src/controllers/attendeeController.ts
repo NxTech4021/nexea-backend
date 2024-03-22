@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { processCSVData } from '@services/attendeeServices';
 import { appendFileSync } from 'fs';
+import multer from 'multer';
 
 // Function to handle file upload and processing
 export const uploadAttendees = async (req: Request, res: Response) => {
@@ -33,3 +34,15 @@ export const Attendance = (id: any, name: any, email: any, attendance: any) => {
     console.log(error);
   }
 };
+
+// Set up multer for file upload
+const storage = multer.diskStorage({
+  destination: (_req: Request, _file: any, cb: any) => {
+    cb(null, 'csvuploads/');
+  },
+  filename: (_req: Request, file: any, cb: any) => {
+    cb(null, `${Date.now()}-${file.originalname}`);
+  },
+});
+
+export const upload = multer({ storage });
