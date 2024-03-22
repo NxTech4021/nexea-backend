@@ -25,7 +25,7 @@ app.use(morgan('combined'));
 app.use(cookieParser());
 app.use(session({ secret: 'nexeaeventapp', saveUninitialized: true, resave: false }));
 
-app.use('/api', routes);
+app.use(routes);
 
 app.get('/', async (_req: Request, res: Response) => {
   res.send('Server is running');

@@ -14,10 +14,9 @@ export const getlogin = async (req: Request, res: Response) => {
     // Find user by email
     //const user = await prisma.user.findUnique({ where: { email } });
     const user = await getLoginUser(email);
-    console.log('user', user);
 
     if (!user) {
-      return res.status(400).json({ error: "User doesn't exist" });
+      return res.status(404).json({ message: "User doesn't exist" });
     }
 
     // Compare passwords
@@ -27,11 +26,11 @@ export const getlogin = async (req: Request, res: Response) => {
       match = await bcrypt.compare(password, user.password);
     }
     if (!match) {
-      return res.status(400).json({ error: 'Wrong email or password' });
+      return res.status(400).json({ message: 'Wrong email or password' });
     }
 
     if (!user.email) {
-      return res.status(500).json({ error: 'Internal server error: User ID is null or undefined' });
+      return res.status(500).json({ message: 'Internal server error: User ID is null or undefined' });
     }
     // If password matches, create a token
 
@@ -43,13 +42,12 @@ export const getlogin = async (req: Request, res: Response) => {
       httpOnly: true,
     });
 
-    return res.json('Logged in!');
+    return res.status(200).json({ accessToken: token, user: { id: user.id, name: user.name } });
 
     //Send token in response
     //return res.json({ token });
   } catch (error) {
-    console.log(error);
-    return res.status(500).json({ error: 'Something went wrong' });
+    return res.status(500).json({ message: 'Something went wrong' });
   }
 };
 
