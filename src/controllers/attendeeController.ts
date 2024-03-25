@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { processCSVData } from '@services/attendeeServices';
+import { processCSVData, userService } from '@services/attendeeServices';
 import { appendFileSync } from 'fs';
 import multer from 'multer';
 
@@ -46,3 +46,15 @@ const storage = multer.diskStorage({
 });
 
 export const upload = multer({ storage });
+
+// Function for user to store single input data of attendance into database
+export const insertUser = async (req: Request, res: Response) => {
+  try {
+      const userData = req.body;
+      console.log(userData);
+      const newUser = await userService(userData);
+      return res.status(201).json(newUser);
+  } catch (error) {
+      return res.status(500).json({error: 'Error'});
+  }
+}
