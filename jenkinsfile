@@ -1,0 +1,27 @@
+pipeline {
+    agent{
+        node{
+            label "docker-agent-alpine"
+        }
+    }
+    triggers{
+        pollSCM "* * * * *"
+    }
+
+    stages{
+        stage("Build"){
+            steps{
+                echo "Installing node..."
+                sh "pip install nodejs-bin[cmd]"
+                echo "Done install node"
+            }
+        }
+        stage("Test"){
+            steps{
+                echo "Testing..."
+                sh "cd src"
+                sh "npm run dev"
+            }
+        }
+    }
+}

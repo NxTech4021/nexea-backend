@@ -25,7 +25,7 @@ app.use(session({ secret: 'nexeaeventapp', saveUninitialized: true, resave: fals
 app.use(routes);
 
 app.get('/', async (_req: Request, res: Response) => {
-  res.send('Server is running');
+  res.send('Server is running...');
 });
 
 //get all users
