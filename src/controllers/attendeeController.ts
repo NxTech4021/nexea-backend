@@ -26,8 +26,8 @@ export const uploadAttendees = async (req: Request, res: Response) => {
 };
 
 // Function to store into CSV
-export const Attendance = (id: any, name: any, email: any, attendance: any) => {
-  const csv = `${id},${name},${email},${attendance}\n`;
+export const Attendance = (id: any, firstName: any, lastName: any, name: any, orderNumber: any, ticketTotal: any, discountCode: any, ticketCode: any, ticketID: any, ticketType: any, buyerFirstName: any, buyerLastName: any, buyerEmail: any, phoneNumber: any, companyName: any) => {
+  const csv = `${id},${firstName},${lastName},${name},${orderNumber},${ticketTotal},${discountCode},${ticketCode},${ticketID},${ticketType},${buyerFirstName},${buyerLastName},${buyerEmail},${phoneNumber},${companyName}\n`;
   try {
     appendFileSync('./csvdownloads/attendance.csv', csv);
   } catch (error) {

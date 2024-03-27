@@ -1,7 +1,2 @@
-﻿name,email,attendance
-johndoe,johndoe@example.com,presence
-sam,sam@example.com,not presence
-bob,bob@example.com,presence
-michael,michael@example.com,not presence
-alice,alice@example.com,presence
-irfan,irfan@example.com,not presence
+﻿firstName,lastName,name,orderNumber,ticketTotal,discountCode,ticketCode,ticketID,ticketType,buyerFirstName,buyerLastName,buyerEmail,phoneNumber,companyName
+Irfan,Nizam,Irfan Nizam,ORD123,100.55,DISC123,TICKET123,12345,VIP,Irfan,Nizam,irfanizam@example.com,1234567890,Example Inc.
