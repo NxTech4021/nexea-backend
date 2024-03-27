@@ -1,8 +1,8 @@
 import fs from 'fs';
 import { parse } from 'csv-parse';
-import { prisma } from '@configs/prisma';
 import { Attendance } from '@controllers/attendeeController';
 import { Request, Response } from 'express';
+import { prisma } from '@configs/prisma';
 
 interface Attendee {
   name: string;
@@ -64,3 +64,22 @@ export const extractCSVData = async (_req: Request, res: Response) => {
     return res.status(500).json({ error: 'An error occurred while fetching or processing data' });
   }
 };
+
+// Function for handling inserting single manually data into database
+
+export const userService = async (userData: { name: any; email: any; attendance: any; }) => {
+    try {
+        const newUser = await prisma.attendee.create({
+            data: {
+                name: userData.name,
+                email: userData.email,
+                attendance: userData.attendance,
+            },
+        });
+        return newUser;
+    } catch (error) {
+        throw new Error(`Error creating user:`);
+    }
+};
+
+// ${error.message}
