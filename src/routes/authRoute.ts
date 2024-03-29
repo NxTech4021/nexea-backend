@@ -1,4 +1,4 @@
-import { registerUser, getlogin, getprofile, forgetPassword, resetPassword } from '@controllers/authController';
+import { registerUser, getlogin, getprofile, forgetPassword, resetPassword, verifyUser } from '@controllers/authController';
 import { Router } from 'express';
 import { validateToken } from '@utils/JwtHelper';
 // import { login } from '../controllers/index';
@@ -22,3 +22,7 @@ authRouter.route('/profile').get(validateToken, getprofile);
 
 authRouter.route('/forget-password').post(forgetPassword);
 authRouter.route('/reset-password').post(resetPassword);
+
+//Verify 
+authRouter.route('/verify/:token').get(verifyUser); 
+

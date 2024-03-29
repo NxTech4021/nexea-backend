@@ -13,6 +13,12 @@ export const accessTokens = (userId: number): string => {
   return accessToken;
 };
 
+
+export const verificationToken = (email: string) => {
+  const verifyToken = sign({ email }, process.env.SECRET_KEY as string, { expiresIn: '1d' });
+  return verifyToken;
+ };
+
 // export const refreshTokens = (userId : number ) : string => {
 
 //   const refeshToken = sign({ userId }, process.env.SECRET_KEY_REFESH as string , { expiresIn: '7d' });
@@ -36,3 +42,5 @@ export const validateToken = (req: any, res: Response, next: NextFunction) => {
     return res.status(400).json({ error: err });
   }
 };
+
+

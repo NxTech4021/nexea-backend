@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
 import { accessTokens } from '../utils/JwtHelper';
 import { prisma } from '@configs/prisma';
-//import crypto from 'crypto'
 import bcrypt from 'bcrypt';
 import { registerService, getLoginUser, forgetpassService } from '@services/authServices';
-import { sendResetEmail } from '@utils/nodemailer.config';
+import { sendConfirmationEmail, sendResetEmail } from '@utils/nodemailer.config';
+import { verificationToken } from '../utils/JwtHelper';
 
 // Login function
 export const getlogin = async (req: Request, res: Response) => {
@@ -20,7 +20,7 @@ export const getlogin = async (req: Request, res: Response) => {
     }
 
     // Compare passwords
-
+    
     let match;
     if (password && user.password) {
       match = await bcrypt.compare(password, user.password);
@@ -52,20 +52,100 @@ export const getlogin = async (req: Request, res: Response) => {
 };
 
 // Register
-
 export const registerUser = async (req: Request, res: Response) => {
   try {
-    await registerService(req.body);
-
-    return res.json({
-      message: `${req.body.name} account has been created`,
-    });
+     const { name, email, password } = req.body; 
+ 
+     if (!email || !password) {
+       return res.send('Please add email and password');
+     }
+ 
+     const user = await registerService({ name, email, password }); 
+ 
+     try {
+       await sendConfirmationEmail(user.email, user.name, user.confirmationToken);
+       return res.json({ message: 'Password reset email has been sent.' });
+     } catch (error) {
+       console.error('Error sending reset email:', error);
+       return res.status(500).json({ error: 'An error occurred while sending the password reset email' });
+     }
   } catch (error) {
-    return res.status(404).json({
-      error: (error as any).message,
-    });
+     return res.status(404).json({
+       error: (error as any).message,
+     });
   }
-};
+ };
+ 
+
+ //Token verification
+ export const verifyUser = async (req: Request, res : Response) => {
+  const { token } = req.params;
+ 
+  try {
+     // Find the user by the verification token
+     const user = await prisma.user.findUnique({
+       where: {
+         confirmationToken: token,
+       },
+     });
+ 
+     if (!user) {
+       return res.status(404).json({ message: 'User not found' });
+     }
+     // Update the user's verified status
+     const updatedUser = await prisma.user.update({
+       where: {
+         id: user.id,
+       },
+       data: {
+         verified: true,
+       },
+     });
+ 
+     return res.status(200).json({ message: 'User verified successfully', user: updatedUser });
+  } catch (error) {
+     console.error('Error verifying user:', error);
+     return res.status(500).json({ error: 'An error occurred while verifying the user' });
+  }
+ };
+
+ export const resendConfirmationEmail = async (req:Request, res: Response) => {
+  const { email } = req.body;
+ 
+  try {
+     // Find the user by email
+     const user = await prisma.user.findUnique({
+       where: {
+         email: email,
+       },
+     });
+ 
+     if (!user) {
+       return res.status(404).json({ message: 'User not found' });
+     }
+ 
+     // Generate a new verification token
+     const newVerifyToken = verificationToken(email); 
+ 
+     const updatedUser = await prisma.user.update({
+       where: {
+         id: user.id,
+       },
+       data: {
+         confirmationToken: newVerifyToken,
+       },
+     });
+ 
+     // Send the confirmation email with the new verification token
+     await sendConfirmationEmail(updatedUser.email, updatedUser.name, newVerifyToken);
+ 
+     return res.status(200).json({ message: 'A new verification email has been sent to ' + email });
+  } catch (error) {
+     console.error('Error resending confirmation email:', error);
+     return res.status(404).json({ message: 'An error occurred while resending the confirmation email' });
+  }
+ };
+
 
 export const getprofile = async (_req: Request, res: Response) => {
   try {
