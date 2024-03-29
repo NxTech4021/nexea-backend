@@ -26,3 +26,9 @@ export const validateToken = (req: Request, res: Response, next: NextFunction) =
     return res.status(400).json({ error: err });
   }
 };
+
+// export const verificationToken = (email: string) => {
+//   const verifyToken = sign({ email }, process.env.SECRET_KEY as string, { expiresIn: '1d' });
+//   return verifyToken;
+//  };
+

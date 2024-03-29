@@ -20,6 +20,8 @@ const transport = nodemailer.createTransport({
   },
 });
 
+// Remove auth/ if it doesnt work 
+
 export const sendResetEmail = (email: any, name: any, resetPasswordToken: any) => {
   transport
     .sendMail({
@@ -40,7 +42,8 @@ export const sendResetEmail = (email: any, name: any, resetPasswordToken: any) =
                     <h2 style="font-weight:400;">Hello ${name}, </h2>
                     <p> You're receiving this email because you requested a password reset for your account.
   
-                    <p> To reset your password, click here: <a href=http://localhost/reset-password/${resetPasswordToken} style="box-sizing:border-box;text-decoration:none;background-color:#0d6efd;border:solid 1px #007bff;border-radius:4px;color:#ffffff;font-size:16px;font-weight:bold;margin:0;padding:9px 25px;display:inline-block;letter-spacing:1px"> Link to be updated  </a> </p>
+                    <p> To reset your password, click here: </p>
+                    <a href=http://localhost/auth/reset-password/${resetPasswordToken} style="box-sizing:border-box;text-decoration:none;background-color:#0d6efd;border:solid 1px #007bff;border-radius:4px;color:#ffffff;font-size:16px;font-weight:bold;margin:0;padding:9px 25px;display:inline-block;letter-spacing:1px"> CLick Here!  </a> 
           
                     <p> If you didn't request this, please ignore this message or contact us at [Customer Support Email Address] immediately. </p>
                         
@@ -57,9 +60,55 @@ export const sendResetEmail = (email: any, name: any, resetPasswordToken: any) =
         </table>
       `,
     })
-    .catch((err) => {
-      return err;
+    .then(() => {
+      console.log('Reset email sent successfully');
+    })
+    .catch((err: any) => {
+      console.error('Error sending password reset email:', err);
     });
 };
 
-//   <a href=http://localhost/reset-password/${resetPasswordToken}
+
+// Remove auth/ if it doesnt work 
+
+export const sendConfirmationEmail = (email: any, name: any, verifyToken: any) => {
+  transport
+    .sendMail({
+      from: user,
+      to: email,
+      subject: 'Account Verification',
+      html: `
+        <table border="0" cellpadding="0" cellspacing="0" style="border-collapse:separate;width:100%;">
+          <tbody>
+            <tr>
+              <td style="display:block;margin:0;">
+                <table align="center" border="0" cellpadding="0" cellspacing="0" style="border-collapse:separate;width:55%;">
+                  <tbody>
+                    <tr>
+                      <td>
+                    <h1>Email confirmation</h1>
+                        
+                    <h2 style="font-weight:400;"> Hello ${name}, </h2>
+                    <p> Thank you for registering an account with us. Please confirm your email to activate your account by clicking the button below. <p>
+                    <a href=http://localhost/auth/verify/${verifyToken} style="box-sizing:border-box;text-decoration:none;background-color:#0d6efd;border:solid 1px #007bff;border-radius:4px;color:#ffffff;font-size:16px;font-weight:bold;margin:0;padding:9px 25px;display:inline-block;letter-spacing:1px"> CLick Here!  </a>
+                 
+                        
+                    <p> Nexea, Techteam </p>
+                        
+                       </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      `,
+    })
+    .then(() => {
+      console.log('Confirmation email sent successfully');
+    })
+    .catch((err: any) => {
+      console.error('Error sending confirmation email:', err);
+    });
+};
