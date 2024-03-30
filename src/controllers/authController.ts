@@ -54,16 +54,23 @@ export const registerUser = async (req: Request, res: Response) => {
     const { firstName, lastName, email, password } = req.body;
     const name = firstName + ' ' + lastName;
     const newUser = await registerService({ name, email, password });
-  
-    const token = accessTokens(newUser.id);
-    //const refreshtoken = refreshTokens (user.id) //Only using accesstoken to authenticate
+    try {
+      await sendConfirmationEmail(newUser.email, newUser.name, newUser.confirmationToken);
+      return res.json({ message: 'Password reset email has been sent.' });
+    } catch (error) {
+      console.error('Error sending reset email:', error);
+      return res.status(500).json({ error: 'An error occurred while sending the password reset email' });
+    }
 
-    res.cookie('accessToken', token, {
-      maxAge: 60 * 60 * 24 * 1000, // 1 Day
-      httpOnly: true,
-    });
+    // const token = accessTokens(newUser.id);
+    // //const refreshtoken = refreshTokens (user.id) //Only using accesstoken to authenticate
 
-    return res.status(200).json({ accessToken: token, user: { id: newUser.id, name: newUser.name } });
+    // res.cookie('accessToken', token, {
+    //   maxAge: 60 * 60 * 24 * 1000, // 1 Day
+    //   httpOnly: true,
+    
+
+    //return res.status(200).json({ accessToken: token, user: { id: newUser.id, name: newUser.name } });
     // return res.json({
     //   message: `${req.body.name} account has been created`,
     // });
@@ -73,14 +80,6 @@ export const registerUser = async (req: Request, res: Response) => {
     });
   }
 };
-
-// try {
-//   await sendConfirmationEmail(newUser.email, newUser.name, newUser.confirmationToken);
-//   return res.json({ message: 'Password reset email has been sent.' });
-// } catch (error) {
-//   console.error('Error sending reset email:', error);
-//   return res.status(500).json({ error: 'An error occurred while sending the password reset email' });
-// }
 
 
 //Token verification
@@ -115,42 +114,6 @@ export const verifyUser = async (req: Request, res : Response) => {
   }
  };
 
- export const resendConfirmationEmail = async (req:Request, res: Response) => {
-  const { email } = req.body;
- 
-  try {
-     // Find the user by email
-     const user = await prisma.user.findUnique({
-       where: {
-         email: email,
-       },
-     });
- 
-     if (!user) {
-       return res.status(404).json({ message: 'User not found' });
-     }
- 
-     // Generate a new verification token
-     const newVerifyToken = verificationToken(email); 
- 
-     const updatedUser = await prisma.user.update({
-       where: {
-         id: user.id,
-       },
-       data: {
-         confirmationToken: newVerifyToken,
-       },
-     });
- 
-     // Send the confirmation email with the new verification token
-     await sendConfirmationEmail(updatedUser.email, updatedUser.name, newVerifyToken);
- 
-     return res.status(200).json({ message: 'A new verification email has been sent to ' + email });
-  } catch (error) {
-     console.error('Error resending confirmation email:', error);
-     return res.status(404).json({ message: 'An error occurred while resending the confirmation email' });
-  }
- };
 
 
 
