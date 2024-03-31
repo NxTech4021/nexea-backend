@@ -9,10 +9,6 @@ export const getLoginUser = async (email: string): Promise<any | null> => {
     where: {
       email,
     },
-    select: {
-      email: true,
-      password: true,
-    },
   });
 
   if (!existUser) {

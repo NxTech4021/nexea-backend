@@ -7,4 +7,13 @@ const getUserFromDatabase = async (): Promise<object> => {
   return user;
 };
 
-export { getUserFromDatabase };
+const getUser = async (id: number) => {
+  const user = await prisma.user.findUnique({
+    where: {
+      id: id,
+    },
+  });
+  return user;
+};
+
+export { getUserFromDatabase, getUser };
