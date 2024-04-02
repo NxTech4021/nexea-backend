@@ -1,8 +1,11 @@
+import { updateInfo } from '@controllers/userController';
 import { Router } from 'express';
 
-export const userRoute = Router();
+export const userRouter = Router();
 
-userRoute.get('/', (req, res) => {
+userRouter.get('/', (req, res) => {
   const a = req.headers['cookie'];
   res.send(a);
 });
+
+userRouter.put('/update/:id', updateInfo);
