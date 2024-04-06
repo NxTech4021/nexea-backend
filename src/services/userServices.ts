@@ -18,16 +18,17 @@ const getUser = async (id: number) => {
 };
 
 // Function for updating data 
-const userUpdateService = async (userNewData: {id: any; name: any; email: any; password: any; address: any; department: any;}) => {
+const userUpdateService = async (req: any, _res: any, userNewData: {id: any; name: any; email: any; password: any; address: any; department: any;}) => {
   
     // Hash the password
     const saltRounds = 10; // You can adjust the salt rounds as needed
     const hashedPassword = await bcrypt.hash(userNewData.password, saltRounds);
+    const id = parseInt(req.params.id);
 
   try {
       const updateUser = await prisma.user.update({
         where: {
-          id: userNewData.id,
+          id: id,
         },
         data: {
           name: userNewData.name,

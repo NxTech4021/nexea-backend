@@ -17,9 +17,12 @@ export const updateInfo = async (req: Request, res: Response) => {
     try {
         const userUpdateData = req.body;
         console.log(userUpdateData);
-        const newInfo = await userUpdateService(userUpdateData);
+        const newInfo = await userUpdateService(req, res, userUpdateData);
         return res.status(201).json(newInfo);
     } catch (error) {
+        console.log(error)
         return res.status(500).json({error: 'Error'});
     }
   }
+
+

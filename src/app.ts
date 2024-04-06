@@ -8,6 +8,7 @@ import { prisma } from '@configs/prisma';
 import cookieParser from 'cookie-parser';
 import fileUpload from 'express-fileupload';
 import { Storage } from '@google-cloud/storage';
+import bcrypt from 'bcrypt';
 
 dotenv.config();
 
@@ -74,38 +75,71 @@ app.get('/attendees', async (_req: Request, res: Response) => {
 
 // This feature is to upload image in google cloud and receive the public url and store it in database
 // eslint-disable-next-line no-unused-vars
-app.post('/upload', (req, res) => {
-  if (!req.files) {
-    res.send('Takdo');
-  }
 
-  const { id } = req.body;
-  const { image } = req.files as any;
+app.patch('/update', async (req: any, res: any) => {
+  try {
+    const { id, name, address, email, department, password } = req.body;
+    const { files } = req;
+    const saltRounds = 10; 
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+    
+    if (files && files.image) {
+      const { image } = files as any;
 
-  bucket.upload(image.tempFilePath, { destination: `profile/${image.name}` }, (err, file) => {
-    if (err) {
-      console.error(`Error uploading image image_to_upload.jpeg: ${err}`);
-    } else {
-      file?.makePublic(async (err) => {
+      bucket.upload(image.tempFilePath, { destination: `profile/${image.name}` }, (err, file) => {
         if (err) {
-          console.error(`Error making file public: ${err}`);
+          console.error(`Error uploading image ${image.name}: ${err}`);
+          res.status(500).send('Error uploading image.');
         } else {
-          console.log(`File ${file.name} is now public.`);
-          const publicUrl = file.publicUrl();
-          res.send(publicUrl);
+          file?.makePublic(async (err) => {
+            if (err) {
+              console.error(`Error making file public: ${err}`);
+              res.status(500).send('Error making file public.');
+            } else {
+              console.log(`File ${file.name} is now public.`);
+              const publicUrl = file.publicUrl();
 
-          await prisma.user.update({
-            where: {
-              id: Number(id),
-            },
-            data: {
-              photoURL: publicUrl,
-            },
+              await prisma.user.update({
+                where: {
+                  id: Number(id),
+                },
+                data: {
+                  photoURL: publicUrl,
+                  name,
+                  address,
+                  email,
+                  department,
+                },
+              });
+
+              res.send(publicUrl);
+            }
           });
         }
       });
+    } else {
+      await prisma.user.update({
+        where: {
+          id: Number(id),
+        },
+        data: {
+          name,
+          address,
+          email,
+          department,
+          password: hashedPassword,
+        },
+      });
+
+      return res.send('User information updated.');
     }
-  });
+
+
+
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).send('An error occurred.');
+  }
 });
 
 app.listen(process.env.PORT, () => {

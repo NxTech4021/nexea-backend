@@ -1,4 +1,4 @@
-import { updateInfo } from '@controllers/userController';
+import { updateInfo} from '@controllers/userController';
 import { Router } from 'express';
 
 export const userRouter = Router();
@@ -8,4 +8,5 @@ userRouter.get('/', (req, res) => {
   res.send(a);
 });
 
-userRouter.put('/update/:id', updateInfo);
+
+userRouter.patch('/update/:id', updateInfo);
