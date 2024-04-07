@@ -6,14 +6,30 @@ import { routes } from '@routes/index';
 import session from 'express-session';
 import { prisma } from '@configs/prisma';
 import cookieParser from 'cookie-parser';
+import fileUpload from 'express-fileupload';
+import { Storage } from '@google-cloud/storage';
 
 dotenv.config();
+
+const storage = new Storage({
+  keyFilename: `src/configs/nexea-service.json`,
+});
+
+const bucket = storage.bucket('nexea');
 
 const app: Application = express();
 app.use(express.json());
 app.use(
   express.urlencoded({
     extended: false,
+  }),
+);
+// app.use(fileUpload());
+app.use(
+  fileUpload({
+    limits: { fileSize: 50 * 1024 * 1024 },
+    useTempFiles: true,
+    tempFileDir: '/tmp/',
   }),
 );
 
@@ -56,8 +72,42 @@ app.get('/attendees', async (_req: Request, res: Response) => {
   }
 });
 
+// This feature is to upload image in google cloud and receive the public url and store it in database
+// eslint-disable-next-line no-unused-vars
+app.post('/upload', (req, res) => {
+  if (!req.files) {
+    res.send('Takdo');
+  }
+
+  const { id } = req.body;
+  const { image } = req.files as any;
+
+  bucket.upload(image.tempFilePath, { destination: `profile/${image.name}` }, (err, file) => {
+    if (err) {
+      console.error(`Error uploading image image_to_upload.jpeg: ${err}`);
+    } else {
+      file?.makePublic(async (err) => {
+        if (err) {
+          console.error(`Error making file public: ${err}`);
+        } else {
+          console.log(`File ${file.name} is now public.`);
+          const publicUrl = file.publicUrl();
+          res.send(publicUrl);
+
+          await prisma.user.update({
+            where: {
+              id: Number(id),
+            },
+            data: {
+              photoURL: publicUrl,
+            },
+          });
+        }
+      });
+    }
+  });
+});
+
 app.listen(process.env.PORT, () => {
-  // eslint-disable-next-line no-console
   console.log(`Listening to port ${process.env.PORT}...`);
-  console.log('Test on extracting data for new CSV file');
 });

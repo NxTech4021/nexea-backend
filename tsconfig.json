@@ -67,5 +67,6 @@
     ],
     "ts-node": {
       "require": ["tsconfig-paths/register"]
-    }
+    },
+    "files":["src/index.d.ts"]
   }

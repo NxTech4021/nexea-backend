@@ -5,6 +5,7 @@ import { prisma } from '@configs/prisma';
 import bcrypt from 'bcrypt';
 import { registerService, getLoginUser, forgetpassService } from '@services/authServices';
 import { sendResetEmail } from '@utils/nodemailer.config';
+import { getUser } from '@services/userServices';
 
 // Login function
 export const getlogin = async (req: Request, res: Response) => {
@@ -37,12 +38,12 @@ export const getlogin = async (req: Request, res: Response) => {
     const token = accessTokens(user.id);
     //const refreshtoken = refreshTokens (user.id) //Only using accesstoken to authenticate
 
-    res.cookie('access-token', token, {
+    res.cookie('accessToken', token, {
       maxAge: 60 * 60 * 24 * 1000, // 1 Day
       httpOnly: true,
     });
 
-    return res.status(200).json({ accessToken: token, user: { id: user.id, name: user.name } });
+    return res.status(200).json({ accessToken: token, user });
 
     //Send token in response
     //return res.json({ token });
@@ -55,21 +56,35 @@ export const getlogin = async (req: Request, res: Response) => {
 
 export const registerUser = async (req: Request, res: Response) => {
   try {
-    await registerService(req.body);
+    const { firstName, lastName, email, password } = req.body;
+    const name = firstName + ' ' + lastName;
+    const newUser = await registerService({ name, email, password });
 
-    return res.json({
-      message: `${req.body.name} account has been created`,
+    const token = accessTokens(newUser.id);
+    //const refreshtoken = refreshTokens (user.id) //Only using accesstoken to authenticate
+
+    res.cookie('accessToken', token, {
+      maxAge: 60 * 60 * 24 * 1000, // 1 Day
+      httpOnly: true,
     });
+
+    return res.status(200).json({ accessToken: token, user: { id: newUser.id, name: newUser.name } });
+    // return res.json({
+    //   message: `${req.body.name} account has been created`,
+    // });
   } catch (error) {
     return res.status(404).json({
-      error: (error as any).message,
+      message: (error as any).message,
     });
   }
 };
 
-export const getprofile = async (_req: Request, res: Response) => {
+export const getprofile = async (req: Request, res: Response) => {
   try {
-    return res.json('registered');
+    const { userId } = req.user as any;
+    console.log(userId);
+    const user = await getUser(userId);
+    return res.status(200).json({ user });
   } catch (error) {
     return res.status(404).json({
       error: (error as any).message,
@@ -80,12 +95,10 @@ export const getprofile = async (_req: Request, res: Response) => {
 export const forgetPassword = async (req: Request, res: Response) => {
   try {
     const { email } = req.body;
-    console.log(req.body);
 
     if (!email) {
       return res.send('Please add email');
     }
-    console.log(email);
 
     const user = await prisma.user.findUnique({
       where: { email: email },
@@ -140,14 +153,16 @@ export const resetPassword = async (_req: Request, res: Response) => {
   return res.status(200).json({ message: 'Password reset successful' });
 };
 
-// // export const logout = (req: Request, res: Response): void => {
-// //   // Destroy the user's session
-// //   req.session.destroy((error) => {
-// //     if (error) {
-// //       console.error(error);
-// //       return res.sendStatus(500);
-// //     }
-// //     // Redirect the user to the home page or login page
-// //     return res.redirect('/');
-// //   });
-// // };
+export const logout = (req: Request, res: Response): void => {
+  // Destroy the user's session
+
+  req.session.destroy((error) => {
+    if (error) {
+      return res.sendStatus(500);
+    }
+    // Redirect the user to the home page or login page
+    res.clearCookie('accessToken');
+    res.clearCookie('jwt', { httpOnly: true, secure: true, sameSite: false });
+    return res.status(200).json({ message: 'Successfully Logout' });
+  });
+};
