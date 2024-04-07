@@ -1,4 +1,4 @@
-import { registerUser, getlogin, getprofile, forgetPassword, resetPassword, logout } from '@controllers/authController';
+import { registerUser, getlogin, getprofile, forgetPassword, resetPassword, logout, verifyUser } from '@controllers/authController';
 import { Router } from 'express';
 import { validateToken } from '@utils/JwtHelper';
 // import jwt from 'jsonwebtoken';
@@ -24,3 +24,7 @@ authRouter.route('/me').get(validateToken, getprofile);
 
 authRouter.route('/forget-password').post(forgetPassword);
 authRouter.route('/reset-password').post(resetPassword);
+
+//Verify 
+
+authRouter.route('/verify/:token').get(verifyUser)
