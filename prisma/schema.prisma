@@ -12,6 +12,8 @@ model User {
   email                String    @unique
   password             String?
   name                 String?   @db.VarChar(100)
+  address              String?   @db.VarChar(100)
+  department           String?   @db.VarChar(100)
   position             String?   @db.VarChar(50)
   verified             Boolean?
   confirmationToken    String?
