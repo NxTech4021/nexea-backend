@@ -80,9 +80,9 @@ app.patch('/update', async (req: any, res: any) => {
   try {
     const { id, name, address, email, department, password } = req.body;
     const { files } = req;
-    const saltRounds = 10; 
+    const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
-    
+
     if (files && files.image) {
       const { image } = files as any;
 
@@ -133,9 +133,6 @@ app.patch('/update', async (req: any, res: any) => {
 
       return res.send('User information updated.');
     }
-
-
-
   } catch (error) {
     console.error('Error:', error);
     res.status(500).send('An error occurred.');

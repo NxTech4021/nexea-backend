@@ -27,9 +27,8 @@ export const validateToken = (req: Request, res: Response, next: NextFunction) =
   }
 };
 
-//For email verification 
+//For email verification
 export const verificationToken = (email: string) => {
   const verifyToken = sign({ email }, process.env.SECRET_KEY as string, { expiresIn: '1d' });
   return verifyToken;
- };
-
+};

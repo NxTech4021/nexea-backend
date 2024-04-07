@@ -20,7 +20,7 @@ const transport = nodemailer.createTransport({
   },
 });
 
-// Remove auth/ if it doesnt work 
+// Remove auth/ if it doesnt work
 
 export const sendResetEmail = (email: any, name: any, resetPasswordToken: any) => {
   transport
@@ -68,8 +68,7 @@ export const sendResetEmail = (email: any, name: any, resetPasswordToken: any) =
     });
 };
 
-
-// Remove auth/ if it doesnt work 
+// Remove auth/ if it doesnt work
 
 export const sendConfirmationEmail = (email: any, name: any, verifyToken: any) => {
   transport

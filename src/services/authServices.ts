@@ -19,7 +19,7 @@ export const getLoginUser = async (email: string): Promise<any | null> => {
 };
 
 export const registerService = async ({ name, email, password }: any) => {
-  const saltRounds = 10; 
+  const saltRounds = 10;
   const hashedPassword = await bcrypt.hash(password, saltRounds);
 
   const verifyToken = verificationToken(email);
@@ -29,7 +29,7 @@ export const registerService = async ({ name, email, password }: any) => {
     data: {
       name,
       email,
-      password: hashedPassword, 
+      password: hashedPassword,
       confirmationToken: verifyToken,
       verified: false,
     },

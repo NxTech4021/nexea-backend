@@ -26,7 +26,23 @@ export const uploadAttendees = async (req: Request, res: Response) => {
 };
 
 // Function to store into CSV
-export const Attendance = (id: any, firstName: any, lastName: any, name: any, orderNumber: any, ticketTotal: any, discountCode: any, ticketCode: any, ticketID: any, ticketType: any, buyerFirstName: any, buyerLastName: any, buyerEmail: any, phoneNumber: any, companyName: any) => {
+export const Attendance = (
+  id: any,
+  firstName: any,
+  lastName: any,
+  name: any,
+  orderNumber: any,
+  ticketTotal: any,
+  discountCode: any,
+  ticketCode: any,
+  ticketID: any,
+  ticketType: any,
+  buyerFirstName: any,
+  buyerLastName: any,
+  buyerEmail: any,
+  phoneNumber: any,
+  companyName: any,
+) => {
   const csv = `${id},${firstName},${lastName},${name},${orderNumber},${ticketTotal},${discountCode},${ticketCode},${ticketID},${ticketType},${buyerFirstName},${buyerLastName},${buyerEmail},${phoneNumber},${companyName}\n`;
   try {
     appendFileSync('./csvdownloads/attendance.csv', csv);
@@ -50,11 +66,10 @@ export const upload = multer({ storage });
 // Function for user to store single input data of attendance into database
 export const insertUser = async (req: Request, res: Response) => {
   try {
-      const userData = req.body;
-      console.log(userData);
-      const newUser = await userService(userData);
-      return res.status(201).json(newUser);
+    const userData = req.body;
+    const newUser = await userService(userData);
+    return res.status(201).json(newUser);
   } catch (error) {
-      return res.status(500).json({error: 'Error'});
+    return res.status(500).json({ error: 'Error' });
   }
-}
+};
