@@ -53,6 +53,7 @@ model Event {
   name           String
   personInCharge User        @relation(fields: [pic_id], references: [id])
   pic_id         Int         @unique
+  description    String?     @db.VarChar(255)
   date           DateTime
   status         EventStatus
   created_at     DateTime    @default(now())
