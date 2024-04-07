@@ -23,22 +23,36 @@ model User {
   resetPasswordToken   String?   @unique
   resetPasswordExpires DateTime?
   photoURL             String?   @db.VarChar(100)
+  Event                Event?
 }
 
 model Attendee {
-  id                Int       @id @default(autoincrement())
-  firstName         String?
-  lastName          String?
-  name              String?
-  orderNumber       String?
-  ticketTotal       String?
-  discountCode      String?
-  ticketCode        String?
-  ticketID          String?
-  ticketType        String?
-  buyerFirstName    String?
-  buyerLastName     String?
-  buyerEmail        String?
-  phoneNumber       String?    
-  companyName       String?    
+  id             Int     @id @default(autoincrement())
+  firstName      String?
+  lastName       String?
+  name           String?
+  orderNumber    String?
+  ticketTotal    String?
+  discountCode   String?
+  ticketCode     String?
+  ticketID       String?
+  ticketType     String?
+  buyerFirstName String?
+  buyerLastName  String?
+  buyerEmail     String?
+  phoneNumber    String?
+  companyName    String?
+}
+
+model Event {
+  id             Int         @id @default(autoincrement())
+  name           String
+  personInCharge User        @relation(fields: [pic_id], references: [id])
+  pic_id         Int         @unique
+  status         EventStatus
+}
+
+enum EventStatus {
+  live
+  done
 }
