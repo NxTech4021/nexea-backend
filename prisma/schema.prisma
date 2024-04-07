@@ -24,10 +24,12 @@ model User {
   resetPasswordExpires DateTime?
   photoURL             String?   @db.VarChar(100)
   Event                Event?
+  created_at           DateTime  @default(now())
+  update_at            DateTime  @updatedAt
 }
 
 model Attendee {
-  id             Int     @id @default(autoincrement())
+  id             Int      @id @default(autoincrement())
   firstName      String?
   lastName       String?
   name           String?
@@ -42,6 +44,8 @@ model Attendee {
   buyerEmail     String?
   phoneNumber    String?
   companyName    String?
+  created_at     DateTime @default(now())
+  update_at      DateTime @updatedAt
 }
 
 model Event {
@@ -49,7 +53,10 @@ model Event {
   name           String
   personInCharge User        @relation(fields: [pic_id], references: [id])
   pic_id         Int         @unique
+  date           DateTime
   status         EventStatus
+  created_at     DateTime    @default(now())
+  update_at      DateTime    @updatedAt
 }
 
 enum EventStatus {
