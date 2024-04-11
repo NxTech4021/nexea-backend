@@ -45,6 +45,11 @@ app.get('/', async (_req: Request, res: Response) => {
   res.send('Server is running...');
 });
 
+// Testing. later delete for production
+app.get('/cookie', (req, res) => {
+  res.send(req.cookies);
+});
+
 //get all users
 app.get('/users', async (_req: Request, res: Response) => {
   try {

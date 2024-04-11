@@ -23,7 +23,7 @@ export const verificationToken = (email: string) => {
 // };
 
 export const validateToken = (req: any, res: Response, next: NextFunction) => {
-  const accessToken = req.cookies['access-token'];
+  const accessToken = req.cookies['accessToken'];
   //const refeshToken = req.cookies["token"]
 
   if (!accessToken) return res.status(400).json({ error: 'User not Authenticated!' });

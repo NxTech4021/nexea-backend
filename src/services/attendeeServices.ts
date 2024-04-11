@@ -171,20 +171,21 @@ export const extractCSVData = async (_req: Request, res: Response) => {
 
 // Function for handling inserting single manually data into database
 export const userService = async (userData: {
-  firstName: any;
-  lastName: any;
-  name: any;
-  orderNumber: any;
-  ticketTotal: any;
-  discountCode: any;
-  ticketCode: any;
-  ticketID: any;
-  ticketType: any;
-  buyerFirstName: any;
-  buyerLastName: any;
-  buyerEmail: any;
-  phoneNumber: any;
-  companyName: any;
+  id: string;
+  firstName: string;
+  lastName: string;
+  name: string;
+  orderNumber: string;
+  ticketTotal: string;
+  discountCode: string;
+  ticketCode: string;
+  ticketID: string;
+  ticketType: string;
+  buyerFirstName: string;
+  buyerLastName: string;
+  email: string;
+  phoneNumber: string;
+  companyName: string;
 }) => {
   try {
     const newUser = await prisma.attendee.create({
@@ -200,7 +201,7 @@ export const userService = async (userData: {
         ticketType: userData.ticketType,
         buyerFirstName: userData.buyerFirstName,
         buyerLastName: userData.buyerLastName,
-        buyerEmail: userData.buyerEmail,
+        buyerEmail: userData.email,
         phoneNumber: userData.phoneNumber,
         companyName: userData.companyName,
       },

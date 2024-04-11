@@ -27,21 +27,21 @@ export const uploadAttendees = async (req: Request, res: Response) => {
 
 // Function to store into CSV
 export const Attendance = (
-  id: any,
-  firstName: any,
-  lastName: any,
-  name: any,
-  orderNumber: any,
-  ticketTotal: any,
-  discountCode: any,
-  ticketCode: any,
-  ticketID: any,
-  ticketType: any,
-  buyerFirstName: any,
-  buyerLastName: any,
-  buyerEmail: any,
-  phoneNumber: any,
-  companyName: any,
+  id: string,
+  firstName: string,
+  lastName: string,
+  name: string,
+  orderNumber: string,
+  ticketTotal: string,
+  discountCode: string,
+  ticketCode: string,
+  ticketID: string,
+  ticketType: string,
+  buyerFirstName: string,
+  buyerLastName: string,
+  buyerEmail: string,
+  phoneNumber: string,
+  companyName: string,
 ) => {
   const csv = `${id},${firstName},${lastName},${name},${orderNumber},${ticketTotal},${discountCode},${ticketCode},${ticketID},${ticketType},${buyerFirstName},${buyerLastName},${buyerEmail},${phoneNumber},${companyName}\n`;
   try {
@@ -67,6 +67,7 @@ export const upload = multer({ storage });
 export const insertUser = async (req: Request, res: Response) => {
   try {
     const userData = req.body;
+
     const newUser = await userService(userData);
     return res.status(201).json(newUser);
   } catch (error) {

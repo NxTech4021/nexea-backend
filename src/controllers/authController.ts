@@ -204,7 +204,6 @@ export const resendConfirmationEmail = async (req: Request, res: Response) => {
 export const getprofile = async (req: Request, res: Response) => {
   try {
     const { userId } = req.user as any;
-    console.log(userId);
     const user = await getUser(userId);
     return res.status(200).json({ user });
   } catch (error) {
