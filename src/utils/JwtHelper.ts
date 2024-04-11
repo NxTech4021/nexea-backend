@@ -1,4 +1,4 @@
-import { Response, NextFunction, Request } from 'express';
+import { Response, NextFunction } from 'express';
 import dotenv from 'dotenv';
 import { sign, verify } from 'jsonwebtoken';
 
@@ -10,11 +10,10 @@ export const accessTokens = (userId: number): string => {
   return accessToken;
 };
 
-
 export const verificationToken = (email: string) => {
   const verifyToken = sign({ email }, process.env.SECRET_KEY as string, { expiresIn: '1d' });
   return verifyToken;
- };
+};
 
 // export const refreshTokens = (userId : number ) : string => {
 
@@ -41,12 +40,8 @@ export const validateToken = (req: any, res: Response, next: NextFunction) => {
   }
 };
 
-
-
-
 //For email verification
 // export const verificationToken = (email: string) => {
 //   const verifyToken = sign({ email }, process.env.SECRET_KEY as string, { expiresIn: '1d' });
 //   return verifyToken;
 // };
-
