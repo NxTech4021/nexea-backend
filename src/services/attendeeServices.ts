@@ -1,13 +1,24 @@
 import fs from 'fs';
 import { parse } from 'csv-parse';
-import { prisma } from '@configs/prisma';
 import { Attendance } from '@controllers/attendeeController';
 import { Request, Response } from 'express';
+import { prisma } from '@configs/prisma';
 
 interface Attendee {
+  firstName: string;
+  lastName: string;
   name: string;
-  email: string;
-  attendance: string;
+  orderNumber: string;
+  ticketTotal: number;
+  discountCode: string;
+  ticketCode: string;
+  ticketID: string;
+  ticketType: string;
+  buyerFirstName: string;
+  buyerLastName: string;
+  buyerEmail: string;
+  phoneNumber: string;
+  companyName: string;
 }
 
 export const processCSVData = async (filePath: string) => {
@@ -16,22 +27,65 @@ export const processCSVData = async (filePath: string) => {
     fs.createReadStream(filePath)
       .pipe(
         parse({
-          columns: ['name', 'email', 'attendance'],
+          columns: [
+            'firstName',
+            'lastName',
+            'name',
+            'orderNumber',
+            'ticketTotal',
+            'discountCode',
+            'ticketCode',
+            'ticketID',
+            'ticketType',
+            'buyerFirstName',
+            'buyerLastName',
+            'buyerEmail',
+            'phoneNumber',
+            'companyName',
+          ],
           from_line: 2,
         }),
       )
       .on('data', async (data: any) => {
         try {
           // Extract from CSV data
-          const { name, email, attendance } = data;
+          const {
+            firstName,
+            lastName,
+            name,
+            orderNumber,
+            ticketTotal,
+            discountCode,
+            ticketCode,
+            ticketID,
+            ticketType,
+            buyerFirstName,
+            buyerLastName,
+            buyerEmail,
+            phoneNumber,
+            companyName,
+          } = data;
+
           // Store data in database using Prisma
           await prisma.attendee.create({
             data: {
+              firstName,
+              lastName,
               name,
-              email,
-              attendance,
+              orderNumber,
+              ticketTotal,
+              discountCode,
+              ticketCode,
+              ticketID,
+              ticketType,
+              buyerFirstName,
+              buyerLastName,
+              buyerEmail,
+              phoneNumber,
+              companyName,
             },
           });
+
           results.push(data);
         } catch (error) {
           console.error('Error processing CSV data:', error);
@@ -51,10 +105,60 @@ export const processCSVData = async (filePath: string) => {
 export const extractCSVData = async (_req: Request, res: Response) => {
   try {
     const jsonData = await prisma.attendee.findMany();
-    jsonData.forEach((attrecord: { id: any; name: any; email: any; attendance: any }) => {
-      const { id, name, email, attendance } = attrecord;
-      Attendance(id, name, email, attendance);
-    });
+    jsonData.forEach(
+      (attrecord: {
+        id: any;
+        firstName: any;
+        lastName: any;
+        name: any;
+        orderNumber: any;
+        ticketTotal: any;
+        discountCode: any;
+        ticketCode: any;
+        ticketID: any;
+        ticketType: any;
+        buyerFirstName: any;
+        buyerLastName: any;
+        buyerEmail: any;
+        phoneNumber: any;
+        companyName: any;
+      }) => {
+        const {
+          id,
+          firstName,
+          lastName,
+          name,
+          orderNumber,
+          ticketTotal,
+          discountCode,
+          ticketCode,
+          ticketID,
+          ticketType,
+          buyerFirstName,
+          buyerLastName,
+          buyerEmail,
+          phoneNumber,
+          companyName,
+        } = attrecord;
+        Attendance(
+          id,
+          firstName,
+          lastName,
+          name,
+          orderNumber,
+          ticketTotal,
+          discountCode,
+          ticketCode,
+          ticketID,
+          ticketType,
+          buyerFirstName,
+          buyerLastName,
+          buyerEmail,
+          phoneNumber,
+          companyName,
+        );
+      },
+    );
     return res.json({
       message: 'Data has been extracted into CSV file and file is downloaded',
       jsonData: [],
@@ -62,5 +166,47 @@ export const extractCSVData = async (_req: Request, res: Response) => {
   } catch (error) {
     console.log('Error fetching or processing data:', error);
     return res.status(500).json({ error: 'An error occurred while fetching or processing data' });
+  }
+};
+
+// Function for handling inserting single manually data into database
+export const userService = async (userData: {
+  firstName: any;
+  lastName: any;
+  name: any;
+  orderNumber: any;
+  ticketTotal: any;
+  discountCode: any;
+  ticketCode: any;
+  ticketID: any;
+  ticketType: any;
+  buyerFirstName: any;
+  buyerLastName: any;
+  buyerEmail: any;
+  phoneNumber: any;
+  companyName: any;
+}) => {
+  try {
+    const newUser = await prisma.attendee.create({
+      data: {
+        firstName: userData.firstName,
+        lastName: userData.lastName,
+        name: userData.name,
+        orderNumber: userData.orderNumber,
+        ticketTotal: userData.ticketTotal,
+        discountCode: userData.discountCode,
+        ticketCode: userData.ticketCode,
+        ticketID: userData.ticketID,
+        ticketType: userData.ticketType,
+        buyerFirstName: userData.buyerFirstName,
+        buyerLastName: userData.buyerLastName,
+        buyerEmail: userData.buyerEmail,
+        phoneNumber: userData.phoneNumber,
+        companyName: userData.companyName,
+      },
+    });
+    return newUser;
+  } catch (error) {
+    throw new Error(`Error creating user: ${error}`);
   }
 };

@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
-import { processCSVData } from '@services/attendeeServices';
+import { processCSVData, userService } from '@services/attendeeServices';
 import { appendFileSync } from 'fs';
+import multer from 'multer';
 
 // Function to handle file upload and processing
 export const uploadAttendees = async (req: Request, res: Response) => {
@@ -25,11 +26,50 @@ export const uploadAttendees = async (req: Request, res: Response) => {
 };
 
 // Function to store into CSV
-export const Attendance = (id: any, name: any, email: any, attendance: any) => {
-  const csv = `${id},${name},${email},${attendance}\n`;
+export const Attendance = (
+  id: any,
+  firstName: any,
+  lastName: any,
+  name: any,
+  orderNumber: any,
+  ticketTotal: any,
+  discountCode: any,
+  ticketCode: any,
+  ticketID: any,
+  ticketType: any,
+  buyerFirstName: any,
+  buyerLastName: any,
+  buyerEmail: any,
+  phoneNumber: any,
+  companyName: any,
+) => {
+  const csv = `${id},${firstName},${lastName},${name},${orderNumber},${ticketTotal},${discountCode},${ticketCode},${ticketID},${ticketType},${buyerFirstName},${buyerLastName},${buyerEmail},${phoneNumber},${companyName}\n`;
   try {
     appendFileSync('./csvdownloads/attendance.csv', csv);
   } catch (error) {
     console.log(error);
+  }
+};
+
+// Set up multer for file upload
+const storage = multer.diskStorage({
+  destination: (_req: Request, _file: any, cb: any) => {
+    cb(null, 'csvuploads/');
+  },
+  filename: (_req: Request, file: any, cb: any) => {
+    cb(null, `${Date.now()}-${file.originalname}`);
+  },
+});
+
+export const upload = multer({ storage });
+
+// Function for user to store single input data of attendance into database
+export const insertUser = async (req: Request, res: Response) => {
+  try {
+    const userData = req.body;
+    const newUser = await userService(userData);
+    return res.status(201).json(newUser);
+  } catch (error) {
+    return res.status(500).json({ error: 'Error' });
   }
 };

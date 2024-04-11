@@ -4,19 +4,33 @@ import cors from 'cors';
 import morgan from 'morgan';
 import { routes } from '@routes/index';
 import session from 'express-session';
-import multer from 'multer';
 import { prisma } from '@configs/prisma';
-import { uploadAttendees } from '@controllers/attendeeController';
 import cookieParser from 'cookie-parser';
-import { extractCSVData } from '@services/attendeeServices';
+import fileUpload from 'express-fileupload';
+import { Storage } from '@google-cloud/storage';
+import bcrypt from 'bcrypt';
 
 dotenv.config();
+
+const storage = new Storage({
+  keyFilename: `src/configs/nexea-service.json`,
+});
+
+const bucket = storage.bucket('nexea');
 
 const app: Application = express();
 app.use(express.json());
 app.use(
   express.urlencoded({
     extended: false,
+  }),
+);
+// app.use(fileUpload());
+app.use(
+  fileUpload({
+    limits: { fileSize: 50 * 1024 * 1024 },
+    useTempFiles: true,
+    tempFileDir: '/tmp/',
   }),
 );
 
@@ -59,26 +73,76 @@ app.get('/attendees', async (_req: Request, res: Response) => {
   }
 });
 
-// Set up multer for file upload
-const storage = multer.diskStorage({
-  destination: (_req: Request, _file: any, cb: any) => {
-    cb(null, 'csvuploads/');
-  },
-  filename: (_req: Request, file: any, cb: any) => {
-    cb(null, `${Date.now()}-${file.originalname}`);
-  },
+// This feature is to upload image in google cloud and receive the public url and store it in database
+// eslint-disable-next-line no-unused-vars
+
+app.patch('/update', async (req: any, res: any) => {
+  try {
+    const { id, name, address, email, department, password } = req.body;
+    const { files } = req;
+    const saltRounds = 10;
+
+    let hashedPassword;
+    if (password) {
+      hashedPassword = await bcrypt.hash(password, saltRounds);
+    }
+
+    if (files && files.image) {
+      const { image } = files as any;
+
+      bucket.upload(image.tempFilePath, { destination: `profile/${image.name}` }, (err, file) => {
+        if (err) {
+          console.error(`Error uploading image ${image.name}: ${err}`);
+          res.status(500).send('Error uploading image.');
+        } else {
+          file?.makePublic(async (err) => {
+            if (err) {
+              console.error(`Error making file public: ${err}`);
+              res.status(500).send('Error making file public.');
+            } else {
+              console.log(`File ${file.name} is now public.`);
+              const publicUrl = file.publicUrl();
+
+              await prisma.user.update({
+                where: {
+                  id: Number(id),
+                },
+                data: {
+                  photoURL: publicUrl,
+                  name,
+                  address,
+                  email,
+                  department,
+                },
+              });
+
+              res.send(publicUrl);
+            }
+          });
+        }
+      });
+    } else {
+      await prisma.user.update({
+        where: {
+          id: Number(id),
+        },
+        data: {
+          name,
+          address,
+          email,
+          department,
+          password: hashedPassword,
+        },
+      });
+
+      return res.send('User information updated.');
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).send('An error occurred.');
+  }
 });
 
-const upload = multer({ storage });
-
-// Route for file upload
-app.post('/api/upload', upload.single('file'), uploadAttendees);
-
-// Route for file download
-app.get('/api/download', extractCSVData);
-
 app.listen(process.env.PORT, () => {
-  // eslint-disable-next-line no-console
   console.log(`Listening to port ${process.env.PORT}...`);
-  console.log('Test on extracting data for new CSV file');
 });
