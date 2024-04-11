@@ -22,7 +22,7 @@ model User {
   resetPasswordToken   String?   @unique
   resetPasswordExpires DateTime?
   department           String?   @db.VarChar(100)
-  photoURL             String?   @db.VarChar(100)
+  photoURL             String?   @db.VarChar(255)
   Event                Event?
   created_at           DateTime  @default(now())
   update_at            DateTime  @updatedAt
