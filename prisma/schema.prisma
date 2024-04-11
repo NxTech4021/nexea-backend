@@ -8,19 +8,17 @@ datasource db {
 }
 
 model User {
-  id                   Int       @id @default(autoincrement())
-  email                String    @unique
-  password             String?
-  name                 String?   @db.VarChar(100)
-  address              String?   @db.VarChar(100)
-  department           String?   @db.VarChar(100)
-  position             String?   @db.VarChar(50)
-  verified             Boolean?
-  confirmationToken    String?
-  createdAt            DateTime  @default(now())
-  updatedAt            DateTime? @updatedAt
-  userLevel            Int?
-  resetPasswordToken   String?   @unique
+  id                Int       @id @default(autoincrement())
+  email             String    @unique
+  password          String?
+  name              String?   @db.VarChar(100)
+  position          String?   @db.VarChar(50)
+  verified          Boolean?
+  confirmationToken String?   @unique
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime? @updatedAt
+  userLevel         Int?
+  resetPasswordToken String?   @unique
   resetPasswordExpires DateTime?
   photoURL             String?   @db.VarChar(100)
   Event                Event?

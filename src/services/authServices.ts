@@ -2,7 +2,9 @@ import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import crypto from 'crypto';
 import { verificationToken } from '@utils/JwtHelper';
+
 const prisma = new PrismaClient();
+
 
 export const getLoginUser = async (email: string): Promise<any | null> => {
   const existUser = await prisma.user.findUnique({
@@ -19,10 +21,12 @@ export const getLoginUser = async (email: string): Promise<any | null> => {
 };
 
 export const registerService = async ({ name, email, password }: any) => {
-  const saltRounds = 10;
+
+  const saltRounds = 10; 
   const hashedPassword = await bcrypt.hash(password, saltRounds);
 
   const verifyToken = verificationToken(email);
+  console.log('Verification Token:', verifyToken);
 
   // Create the new user with the hashed password
   const newUser = await prisma.user.create({
@@ -34,6 +38,7 @@ export const registerService = async ({ name, email, password }: any) => {
       verified: false,
     },
   });
+
   return newUser;
 };
 
