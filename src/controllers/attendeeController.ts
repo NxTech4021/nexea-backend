@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { processCSVData, userService } from '@services/attendeeServices';
+import { processCSVData, updateAttendeesService, userService } from '@services/attendeeServices';
 import { appendFileSync } from 'fs';
 import multer from 'multer';
 
@@ -72,5 +72,19 @@ export const insertUser = async (req: Request, res: Response) => {
     return res.status(201).json(newUser);
   } catch (error) {
     return res.status(500).json({ error: 'Error' });
+  }
+};
+
+// eslint-disable-next-line no-unused-vars
+export const updateAttendees = async (req: Request, res: Response) => {
+  const data = req.body;
+  const { id } = req.params;
+  try {
+    const response = await updateAttendeesService(data, id);
+    res.status(200).json({ message: 'Successfully update' });
+    console.log(response);
+  } catch (error) {
+    res.status(404).send('Failed');
+    console.log(error);
   }
 };

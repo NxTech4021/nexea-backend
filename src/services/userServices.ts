@@ -8,7 +8,7 @@ const getUserFromDatabase = async (): Promise<object> => {
   return user;
 };
 
-const getUser = async (id: number) => {
+const getUser = async (id: string) => {
   const user = await prisma.user.findUnique({
     where: {
       id: id,
@@ -19,19 +19,18 @@ const getUser = async (id: number) => {
 
 // Function for updating data
 const userUpdateService = async (
-  req: any,
+  _req: any,
   _res: any,
-  userNewData: { id: any; name: any; email: any; password: any; address: any; department: any },
+  userNewData: { id: string; name: string; email: string; password: string; address: string; department: string },
 ) => {
   // Hash the password
   const saltRounds = 10; // You can adjust the salt rounds as needed
   const hashedPassword = await bcrypt.hash(userNewData.password, saltRounds);
-  const id = parseInt(req.params.id);
 
   try {
     const updateUser = await prisma.user.update({
       where: {
-        id: id,
+        id: userNewData.id,
       },
       data: {
         name: userNewData.name,

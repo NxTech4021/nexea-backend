@@ -8,7 +8,7 @@ datasource db {
 }
 
 model User {
-  id                   Int       @id @default(autoincrement())
+  id                   String    @id @default(uuid())
   email                String    @unique
   password             String?
   name                 String?   @db.VarChar(100)
@@ -29,7 +29,7 @@ model User {
 }
 
 model Attendee {
-  id             Int      @id @default(autoincrement())
+  id             String   @id @default(uuid())
   firstName      String?
   lastName       String?
   name           String?
@@ -49,10 +49,10 @@ model Attendee {
 }
 
 model Event {
-  id             Int         @id @default(autoincrement())
+  id             String      @id @default(uuid())
   name           String
   personInCharge User        @relation(fields: [pic_id], references: [id])
-  pic_id         Int         @unique
+  pic_id         String      @unique
   description    String?     @db.VarChar(255)
   date           DateTime
   status         EventStatus

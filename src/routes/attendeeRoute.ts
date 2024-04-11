@@ -1,5 +1,5 @@
 import express from 'express';
-import { insertUser, uploadAttendees } from '@controllers/attendeeController';
+import { insertUser, updateAttendees, uploadAttendees } from '@controllers/attendeeController';
 import { extractCSVData } from '@services/attendeeServices';
 import { upload } from '@controllers/attendeeController';
 
@@ -13,3 +13,6 @@ attendeesRouter.get('/download', extractCSVData);
 
 // Handle single inserted data
 attendeesRouter.post('/create', insertUser);
+
+// Update
+attendeesRouter.patch('/update/:id', updateAttendees);

@@ -5,7 +5,6 @@ import { verificationToken } from '@utils/JwtHelper';
 
 const prisma = new PrismaClient();
 
-
 export const getLoginUser = async (email: string): Promise<any | null> => {
   const existUser = await prisma.user.findUnique({
     where: {
@@ -21,8 +20,7 @@ export const getLoginUser = async (email: string): Promise<any | null> => {
 };
 
 export const registerService = async ({ name, email, password }: any) => {
-
-  const saltRounds = 10; 
+  const saltRounds = 10;
   const hashedPassword = await bcrypt.hash(password, saltRounds);
 
   const verifyToken = verificationToken(email);

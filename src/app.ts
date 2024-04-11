@@ -110,7 +110,7 @@ app.patch('/update', async (req: any, res: any) => {
 
               await prisma.user.update({
                 where: {
-                  id: Number(id),
+                  id: id,
                 },
                 data: {
                   photoURL: publicUrl,
@@ -129,7 +129,7 @@ app.patch('/update', async (req: any, res: any) => {
     } else {
       await prisma.user.update({
         where: {
-          id: Number(id),
+          id: id,
         },
         data: {
           name,

@@ -211,3 +211,32 @@ export const userService = async (userData: {
     throw new Error(`Error creating user: ${error}`);
   }
 };
+
+export const updateAttendeesService = async (data: any, id: string) => {
+  try {
+    await prisma.attendee.update({
+      where: {
+        id: id,
+      },
+      data: {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        name: data.name,
+        orderNumber: data.orderNumber,
+        ticketTotal: data.ticketTotal,
+        discountCode: data.discountCode,
+        ticketCode: data.ticketCode,
+        ticketID: data.ticketID,
+        ticketType: data.ticketType,
+        buyerFirstName: data.buyerFirstName,
+        buyerLastName: data.buyerLastName,
+        buyerEmail: data.buyerEmail,
+        phoneNumber: data.phoneNumber,
+        companyName: data.companyName,
+      },
+    });
+    return;
+  } catch (error) {
+    console.log(error);
+  }
+};
