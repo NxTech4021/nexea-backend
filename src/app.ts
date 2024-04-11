@@ -81,7 +81,11 @@ app.patch('/update', async (req: any, res: any) => {
     const { id, name, address, email, department, password } = req.body;
     const { files } = req;
     const saltRounds = 10;
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+    let hashedPassword;
+    if (password) {
+      hashedPassword = await bcrypt.hash(password, saltRounds);
+    }
 
     if (files && files.image) {
       const { image } = files as any;
