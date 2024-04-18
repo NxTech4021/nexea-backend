@@ -23,7 +23,7 @@ model User {
   resetPasswordExpires DateTime?
   department           String?   @db.VarChar(100)
   photoURL             String?   @db.VarChar(255)
-  Event                Event?
+  Event                Event[]
   created_at           DateTime  @default(now())
   update_at            DateTime  @updatedAt
 }
@@ -46,21 +46,28 @@ model Attendee {
   companyName    String?
   created_at     DateTime @default(now())
   update_at      DateTime @updatedAt
+  eventId        String?
+  event          Event?    @relation(fields: [eventId], references: [id])
 }
 
 model Event {
   id             String      @id @default(uuid())
   name           String
   personInCharge User        @relation(fields: [pic_id], references: [id])
-  pic_id         String      @unique
+  pic_id         String      
   description    String?     @db.VarChar(255)
+  tickera_api    String?     @db.VarChar(255)
   date           DateTime
   status         EventStatus
   created_at     DateTime    @default(now())
   update_at      DateTime    @updatedAt
+  attendees      Attendee[]
 }
 
 enum EventStatus {
   live
+  scheduled
+  completed
+  postponed
   done
 }

@@ -21,7 +21,7 @@ interface Attendee {
   companyName: string;
 }
 
-export const processCSVData = async (filePath: string) => {
+export const processCSVData = async (filePath: string, eventId: string) => {
   const results: Attendee[] = [];
   return new Promise((resolve, reject) => {
     fs.createReadStream(filePath)
@@ -83,6 +83,7 @@ export const processCSVData = async (filePath: string) => {
               buyerEmail,
               phoneNumber,
               companyName,
+              eventId,
             },
           });
 
@@ -212,7 +213,7 @@ export const userService = async (userData: {
   }
 };
 
-export const updateAttendeesService = async (data: any, id: string) => {
+export const updateAttendeesService = async (data: any, id: any) => {
   try {
     await prisma.attendee.update({
       where: {
