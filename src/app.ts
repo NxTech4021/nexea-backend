@@ -6,7 +6,7 @@ import { routes } from '@routes/index';
 import session from 'express-session';
 import { prisma } from '@configs/prisma';
 import cookieParser from 'cookie-parser';
-import fileUpload from 'express-fileupload';
+//  import fileUpload from 'express-fileupload';
 import { Storage } from '@google-cloud/storage';
 import bcrypt from 'bcrypt';
 
@@ -26,13 +26,13 @@ app.use(
   }),
 );
 // app.use(fileUpload());
-app.use(
-  fileUpload({
-    limits: { fileSize: 50 * 1024 * 1024 },
-    useTempFiles: true,
-    tempFileDir: '/tmp/',
-  }),
-);
+// app.use(
+//   fileUpload({
+//     limits: { fileSize: 50 * 1024 * 1024 },
+//     useTempFiles: true,
+//     tempFileDir: '/tmp/',
+//   }),
+// );
 
 app.use(cors());
 app.use(morgan('combined'));
