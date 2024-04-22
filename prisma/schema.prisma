@@ -48,6 +48,7 @@ model Attendee {
   update_at      DateTime @updatedAt
   eventId        String?
   event          Event?    @relation(fields: [eventId], references: [id])
+  attendance     String?
 }
 
 model Event {
