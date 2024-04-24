@@ -187,6 +187,7 @@ export const userService = async (userData: {
   email: string;
   phoneNumber: string;
   companyName: string;
+  eventId: string;
 }) => {
   try {
     const newUser = await prisma.attendee.create({
@@ -205,6 +206,7 @@ export const userService = async (userData: {
         buyerEmail: userData.email,
         phoneNumber: userData.phoneNumber,
         companyName: userData.companyName,
+        eventId: userData.eventId,
       },
     });
     return newUser;
