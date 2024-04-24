@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import express, { Request, Response, Application } from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
@@ -6,7 +7,8 @@ import { routes } from '@routes/index';
 import session from 'express-session';
 import { prisma } from '@configs/prisma';
 import cookieParser from 'cookie-parser';
-//  import fileUpload from 'express-fileupload';
+import fileUpload from 'express-fileupload';
+
 import { Storage } from '@google-cloud/storage';
 import bcrypt from 'bcrypt';
 
@@ -25,14 +27,15 @@ app.use(
     extended: false,
   }),
 );
+
 // app.use(fileUpload());
-// app.use(
-//   fileUpload({
-//     limits: { fileSize: 50 * 1024 * 1024 },
-//     useTempFiles: true,
-//     tempFileDir: '/tmp/',
-//   }),
-// );
+app.use(
+  fileUpload({
+    limits: { fileSize: 50 * 1024 * 1024 },
+    useTempFiles: true,
+    tempFileDir: '/tmp/',
+  }),
+);
 
 app.use(cors());
 app.use(morgan('combined'));
@@ -85,16 +88,14 @@ app.patch('/update', async (req: any, res: any) => {
   try {
     const { id, name, address, email, department, password } = req.body;
     const { files } = req;
-    const saltRounds = 10;
 
+    const saltRounds = 10;
     let hashedPassword;
     if (password) {
       hashedPassword = await bcrypt.hash(password, saltRounds);
     }
-
     if (files && files.image) {
       const { image } = files as any;
-
       bucket.upload(image.tempFilePath, { destination: `profile/${image.name}` }, (err, file) => {
         if (err) {
           console.error(`Error uploading image ${image.name}: ${err}`);
@@ -107,7 +108,6 @@ app.patch('/update', async (req: any, res: any) => {
             } else {
               console.log(`File ${file.name} is now public.`);
               const publicUrl = file.publicUrl();
-
               await prisma.user.update({
                 where: {
                   id: id,
@@ -120,7 +120,6 @@ app.patch('/update', async (req: any, res: any) => {
                   department,
                 },
               });
-
               res.send(publicUrl);
             }
           });
@@ -139,7 +138,6 @@ app.patch('/update', async (req: any, res: any) => {
           password: hashedPassword,
         },
       });
-
       return res.send('User information updated.');
     }
   } catch (error) {

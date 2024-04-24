@@ -238,7 +238,6 @@ export const forgetPassword = async (req: Request, res: Response) => {
       return res.status(500).json({ error: 'An error occurred while sending the password reset email' });
     }
   } catch (error) {
-    console.error('Error processing forget password request:', error);
     return res.status(500).json({ error: 'An error occurred while processing your request' });
   }
 };
