@@ -38,8 +38,9 @@ export const getlogin = async (req: Request, res: Response) => {
     //const refreshtoken = refreshTokens (user.id) //Only using accesstoken to authenticate
 
     res.cookie('accessToken', token, {
-      maxAge: 60 * 60 * 24 * 1000, // 1 Day
+      secure: false,
       httpOnly: true,
+      maxAge: 60 * 60 * 24 * 1000, // 1 Day
     });
 
     return res.status(200).json({ accessToken: token, user });
@@ -282,7 +283,8 @@ export const logout = (req: Request, res: Response): void => {
     }
     // Redirect the user to the home page or login page
     res.clearCookie('accessToken');
-    res.clearCookie('jwt', { httpOnly: true, secure: true, sameSite: false });
+    res.clearCookie('userid');
+    res.clearCookie('jwt', { httpOnly: true, secure: false, sameSite: false });
     return res.status(200).json({ message: 'Successfully Logout' });
   });
 };
