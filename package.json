@@ -6,6 +6,7 @@
   "license": "MIT",
   "type": "commonjs",
   "scripts": {
+    "start": "node app",
     "build": "tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json",
     "build_watch": "tsc --watch",
     "dev": "npx nodemon",

@@ -1,0 +1,15 @@
+FROM node:16.17.0-bullseye-slim
+
+ENV NODE_ENV production
+
+WORKDIR /app
+
+COPY . /app
+
+COPY --chown=node:node . /app
+
+RUN yarn install --production
+
+USER node
+
+CMD [ "node", "app.js" ]
