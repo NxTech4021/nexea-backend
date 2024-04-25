@@ -1,18 +1,22 @@
 import { Response, NextFunction } from 'express';
 import dotenv from 'dotenv';
 import { sign, verify } from 'jsonwebtoken';
+// import { v4 as uuidv4 } from 'uuid';
 
 dotenv.config();
 
-export const accessTokens = (userId: number): string => {
+export const accessTokens = (userId: string): string => {
   const accessToken = sign({ userId }, process.env.SECRET_KEY as string, { expiresIn: '1d' });
 
   return accessToken;
 };
 
-export const verificationToken = (email: string) => {
-  const verifyToken = sign({ email }, process.env.SECRET_KEY as string, { expiresIn: '1d' });
-  return verifyToken;
+export const verificationCode = () => {
+  // const code = uuidv4().slice(0, 6).toUpperCase();
+
+  const code = Math.floor(100000 + Math.random() * 900000);
+  console.log(code);
+  return code;
 };
 
 // export const refreshTokens = (userId : number ) : string => {

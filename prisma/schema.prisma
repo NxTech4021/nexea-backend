@@ -14,7 +14,7 @@ model User {
   name                 String?   @db.VarChar(100)
   position             String?   @db.VarChar(50)
   verified             Boolean?
-  confirmationToken    String?   @unique
+  confirmationCode     Int?      @unique @db.Integer()
   createdAt            DateTime  @default(now())
   updatedAt            DateTime? @updatedAt
   userLevel            Int?
@@ -47,14 +47,14 @@ model Attendee {
   created_at     DateTime @default(now())
   update_at      DateTime @updatedAt
   eventId        String?
-  event          Event?    @relation(fields: [eventId], references: [id])
+  event          Event?   @relation(fields: [eventId], references: [id])
 }
 
 model Event {
   id             String      @id @default(uuid())
   name           String
   personInCharge User        @relation(fields: [pic_id], references: [id])
-  pic_id         String      
+  pic_id         String
   description    String?     @db.VarChar(255)
   tickera_api    String?     @db.VarChar(255)
   date           DateTime

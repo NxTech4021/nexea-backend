@@ -34,4 +34,4 @@ authRouter.route('/forget-password').post(forgetPassword);
 authRouter.route('/reset-password').post(resetPassword);
 
 //Verify
-authRouter.route('/verify/:token').get(verifyUser);
+authRouter.route('/verify').post(verifyUser);

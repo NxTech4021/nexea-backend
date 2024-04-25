@@ -74,31 +74,27 @@ export const sendConfirmationEmail = (email: any, name: any, verifyToken: any) =
       to: email,
       subject: 'Account Verification',
       html: `
-        <table border="0" cellpadding="0" cellspacing="0" style="border-collapse:separate;width:100%;">
-          <tbody>
-            <tr>
-              <td style="display:block;margin:0;">
-                <table align="center" border="0" cellpadding="0" cellspacing="0" style="border-collapse:separate;width:55%;">
-                  <tbody>
-                    <tr>
-                      <td>
-                    <h1>Email confirmation</h1>
-                        
-                    <h2 style="font-weight:400;"> Hello ${name}, </h2>
-                    <p> Thank you for registering an account with us. Please confirm your email to activate your account by clicking the button below. <p>
-                    <a href=http://localhost/auth/verify/${verifyToken} style="box-sizing:border-box;text-decoration:none;background-color:#0d6efd;border:solid 1px #007bff;border-radius:4px;color:#ffffff;font-size:16px;font-weight:bold;margin:0;padding:9px 25px;display:inline-block;letter-spacing:1px"> CLick Here!  </a>
-                 
-                        
-                    <p> Nexea, Techteam </p>
-                        
-                       </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+      <body>
+      <table cellpadding="0" cellspacing="0" width="100%" style="font-family: Arial, sans-serif">
+        <tr>
+          <td>
+            <h2 style="margin-bottom: 20px">Your Email Confirmation Code</h2>
+            <p>Dear ${name},</p>
+            <p>Thank you for registering with Nexea Event App.</p>
+            <p>To complete your registration, please use the following confirmation code:</p>
+            <p><strong>Confirmation Code:</strong> ${verifyToken}</p>
+            <p>
+              Please enter this code on our website to confirm your email address and activate your
+              account.
+            </p>
+            <p>
+              If you have any questions or need further assistance, please don't hesitate to contact us.
+            </p>
+            <p>Best regards,<br />Danny<br />Nexea Event App</p>
+          </td>
+        </tr>
+      </table>
+    </body>
       `,
     })
     .then(() => {
