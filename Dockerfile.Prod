@@ -1,15 +1,33 @@
-FROM node:16.17.0-bullseye-slim
+FROM node:16.17.0-bullseye-slim AS development
 
 ENV NODE_ENV production
 
 WORKDIR /app
 
+COPY ./package.json .
+
+RUN yarn install --production
+
 COPY . /app
 
 COPY --chown=node:node . /app
 
-RUN yarn install --production
+RUN yarn build
 
 USER node
 
 CMD [ "node", "./dist/app.js" ]
+
+# FROM node:16.17.0-bullseye-slim AS staging
+
+# WORKDIR /app
+
+# RUN yarn install --production
+
+# COPY --from=development /app/node_modules ./node_modules
+
+# COPY --from=development /app ./
+
+# EXPOSE 3001
+
+# CMD [ "node", "app.js" ]
