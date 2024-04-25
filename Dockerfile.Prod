@@ -10,11 +10,11 @@ RUN yarn install --production
 
 COPY . /app
 
-COPY --chown=node:node . /app
+# COPY --chown=node:node . /app
 
 RUN yarn build
 
-USER node
+# USER node
 
 CMD [ "node", "./dist/app.js" ]
 
