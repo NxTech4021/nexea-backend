@@ -12,9 +12,7 @@ RUN yarn build
 
 # USER node
 
-RUN ls -l
-
-CMD [ "node", "./dist/app.js" ]
+CMD [ "node", "app.js" ]
 
 # FROM node:16.17.0-bullseye-slim AS staging
 
