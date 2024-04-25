@@ -6,14 +6,15 @@ COPY ./package.json .
 
 RUN yarn install 
 
-COPY . /app
+COPY . .
 
 RUN yarn build
 
+EXPOSE 3001
+
 # USER node
 
-# CMD [ "node", "app.js" ]
-CMD [ "ls", "-l" ]
+CMD [ "node", "dist/app.js" ]
 
 # FROM node:16.17.0-bullseye-slim AS staging
 
