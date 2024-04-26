@@ -15,7 +15,7 @@ import bcrypt from 'bcrypt';
 dotenv.config();
 
 const storage = new Storage({
-  keyFilename: `src/configs/nexea-service.json`,
+  keyFilename: `./configs/nexea-service.json`,
 });
 
 const bucket = storage.bucket('nexea');
@@ -28,7 +28,6 @@ app.use(
   }),
 );
 
-// app.use(fileUpload());
 app.use(
   fileUpload({
     limits: { fileSize: 50 * 1024 * 1024 },
