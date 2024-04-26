@@ -12,7 +12,7 @@ RUN npx prisma generate
 
 RUN yarn build
 
-FROM node:16.17.0-bullseye-slim AS staging
+FROM node:18.18.0-bullseye-slim AS staging
 
 WORKDIR /app
 
