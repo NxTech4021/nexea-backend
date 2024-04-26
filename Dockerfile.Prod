@@ -20,6 +20,8 @@ COPY ./package.json .
 
 RUN yarn install --production
 
+RUN npx prisma generate
+
 COPY --from=development /app/dist .
 
 EXPOSE 3001
