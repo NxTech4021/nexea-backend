@@ -14,11 +14,11 @@ RUN yarn build
 
 FROM node:18.18.0-bullseye-slim AS staging
 
-# WORKDIR /app
+WORKDIR /app
 
-# COPY ./package.json .
+COPY ./package.json .
 
-# RUN yarn install --production
+RUN yarn install --production
 
 COPY --from=development /app/dist .
 
