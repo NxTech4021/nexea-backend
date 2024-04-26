@@ -4,30 +4,25 @@ WORKDIR /app
 
 COPY ./package.json .
 
-RUN yarn install 
-
 COPY . .
+
+RUN yarn install 
 
 RUN npx prisma generate
 
 RUN yarn build
 
+FROM node:16.17.0-bullseye-slim AS staging
+
+WORKDIR /app
+
+COPY ./package.json .
+
+RUN yarn install --production
+
+COPY --from=development /app/dist ./
+
 EXPOSE 3001
 
-# USER node
+CMD [ "node", "app.js" ]
 
-CMD [ "node", "dist/app.js" ]
-
-# FROM node:16.17.0-bullseye-slim AS staging
-
-# WORKDIR /app
-
-# RUN yarn install --production
-
-# COPY --from=development /app/node_modules ./node_modules
-
-# COPY --from=development /app ./
-
-# EXPOSE 3001
-
-# CMD [ "node", "app.js" ]

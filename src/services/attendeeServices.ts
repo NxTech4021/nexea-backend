@@ -243,3 +243,7 @@ export const updateAttendeesService = async (data: any, id: any) => {
     console.log(error);
   }
 };
+
+export const sayHello = () => {
+  console.log('Hello');
+};

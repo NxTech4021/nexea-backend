@@ -1,21 +1,3 @@
-// {
-//     "compilerOptions": {
-//         "target": "ES6",                          
-//         "module": "CommonJS",                                        
-//         "moduleResolution": "Node",                
-//         "allowJs": true,
-//         "outDir": "dist",                          
-//         "rootDir": "src",
-//         "strict": true,         
-//         "noImplicitAny": true,
-//         "esModuleInterop": true,
-//         "resolveJsonModule": true,
-//         "baseUrl": "./",
-
-//     },
-//     "include": ["src/**/*.ts"],
-//     "exclude": ["node_modules"]
-// }
 {
     "compilerOptions": {
       "types": ["babel__core"],
@@ -41,7 +23,6 @@
       "moduleResolution": "NodeNext", // Choose a module resolution strategy
       "resolveJsonModule": true,
       "removeComments": true,
-  
       "strictNullChecks": true, // Enable strict null checks
       "strictFunctionTypes": true, // Enable strict checking of function types
       "strictPropertyInitialization": true, // Ensure non-undefined class properties are initialized in the constructor
