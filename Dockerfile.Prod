@@ -21,6 +21,7 @@ COPY ./package.json .
 RUN yarn install --production
 
 COPY --from=development /app/dist .
+COPY --from=development /app/prisma .
 
 RUN npx prisma generate
 
