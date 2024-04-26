@@ -22,6 +22,7 @@ RUN yarn install --production
 
 COPY --from=development /app/dist .
 COPY --from=development /app/prisma .
+COPY --from=development /app/configs/nexea-service.json ./configs
 
 RUN npx prisma generate
 
