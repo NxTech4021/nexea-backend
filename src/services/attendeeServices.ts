@@ -19,6 +19,7 @@ interface Attendee {
   buyerEmail: string;
   phoneNumber: string;
   companyName: string;
+  attendance: string;
 }
 
 export const processCSVData = async (filePath: string, eventId: string) => {
@@ -64,6 +65,7 @@ export const processCSVData = async (filePath: string, eventId: string) => {
             buyerEmail,
             phoneNumber,
             companyName,
+            attendance,
           } = data;
 
           // Store data in database using Prisma
@@ -84,6 +86,7 @@ export const processCSVData = async (filePath: string, eventId: string) => {
               phoneNumber,
               companyName,
               eventId,
+              attendance,
             },
           });
 
@@ -188,6 +191,7 @@ export const userService = async (userData: {
   phoneNumber: string;
   companyName: string;
   eventId: string;
+  attendance: string;
 }) => {
   try {
     const newUser = await prisma.attendee.create({
@@ -207,6 +211,7 @@ export const userService = async (userData: {
         phoneNumber: userData.phoneNumber,
         companyName: userData.companyName,
         eventId: userData.eventId,
+        attendance: userData.attendance,
       },
     });
     return newUser;
