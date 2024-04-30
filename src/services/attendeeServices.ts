@@ -216,6 +216,7 @@ export const userService = async (userData: {
     });
     return newUser;
   } catch (error) {
+    console.log(error);
     throw new Error(`Error creating user: ${error}`);
   }
 };
