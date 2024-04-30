@@ -72,6 +72,7 @@ export const insertUser = async (req: Request, res: Response) => {
     const newUser = await userService(userData);
     return res.status(201).json(newUser);
   } catch (error) {
+    console.log(error);
     return res.status(500).json({ error: 'Error' });
   }
 };
