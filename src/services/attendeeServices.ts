@@ -65,7 +65,7 @@ export const processCSVData = async (filePath: string, eventId: string) => {
             buyerEmail,
             phoneNumber,
             companyName,
-            attendance,
+            // attendance,
           } = data;
 
           // Store data in database using Prisma
@@ -86,7 +86,7 @@ export const processCSVData = async (filePath: string, eventId: string) => {
               phoneNumber,
               companyName,
               eventId,
-              attendance,
+              // attendance,
             },
           });
 
@@ -211,7 +211,7 @@ export const userService = async (userData: {
         phoneNumber: userData.phoneNumber,
         companyName: userData.companyName,
         eventId: userData.eventId,
-        attendance: userData.attendance,
+        // attendance: userData.attendance,
       },
     });
     return newUser;
