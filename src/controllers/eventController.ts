@@ -1,6 +1,23 @@
 import { Request, Response } from 'express';
 import { prisma } from '@configs/prisma';
 
+// Get event by ID
+
+export const getEvent = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    const event = await prisma.event.findUnique({
+      where: {
+        id: id,
+      },
+    });
+
+    return res.status(200).json(event);
+  } catch (error) {
+    return res.status(400).json(error);
+  }
+};
+
 export const createEvent = async (req: Request, res: Response) => {
   try {
     // Extract data from request body

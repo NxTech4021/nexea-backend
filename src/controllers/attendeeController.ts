@@ -68,7 +68,7 @@ export const upload = multer({ storage });
 export const insertUser = async (req: Request, res: Response) => {
   try {
     const userData = req.body;
-    console.log(userData);
+
     const newUser = await userService(userData);
     return res.status(201).json(newUser);
   } catch (error) {
