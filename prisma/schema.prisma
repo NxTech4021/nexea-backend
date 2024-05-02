@@ -29,11 +29,12 @@ model User {
 }
 
 model Attendee {
-  id             String   @id @default(uuid())
+  id             String    @id @default(uuid())
   firstName      String?
   lastName       String?
   name           String?
   orderNumber    String?
+  email          String?
   ticketTotal    String?
   discountCode   String?
   ticketCode     String?
@@ -41,13 +42,15 @@ model Attendee {
   ticketType     String?
   buyerFirstName String?
   buyerLastName  String?
+  buyerName      String?
   buyerEmail     String?
   phoneNumber    String?
   companyName    String?
-  created_at     DateTime @default(now())
-  update_at      DateTime @updatedAt
+  checkedIn      CheckIns?
+  created_at     DateTime  @default(now())
+  update_at      DateTime  @updatedAt
   eventId        String?
-  event          Event?   @relation(fields: [eventId], references: [id])
+  event          Event?    @relation(fields: [eventId], references: [id])
 }
 
 model Event {
@@ -70,4 +73,9 @@ enum EventStatus {
   completed
   postponed
   done
+}
+
+enum CheckIns {
+  Yes
+  No
 }

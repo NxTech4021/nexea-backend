@@ -32,6 +32,7 @@ export const processCSVData = async (filePath: string, eventId: string) => {
             'firstName',
             'lastName',
             'name',
+            'email',
             'orderNumber',
             'ticketTotal',
             'discountCode',
@@ -40,7 +41,10 @@ export const processCSVData = async (filePath: string, eventId: string) => {
             'ticketType',
             'buyerFirstName',
             'buyerLastName',
+            'buyerName',
             'buyerEmail',
+            'checkedIn',
+            'price',
             'phoneNumber',
             'companyName',
           ],
@@ -54,6 +58,7 @@ export const processCSVData = async (filePath: string, eventId: string) => {
             firstName,
             lastName,
             name,
+            email,
             orderNumber,
             ticketTotal,
             discountCode,
@@ -63,9 +68,10 @@ export const processCSVData = async (filePath: string, eventId: string) => {
             buyerFirstName,
             buyerLastName,
             buyerEmail,
+            buyerName,
             phoneNumber,
             companyName,
-            // attendance,
+            checkedIn,
           } = data;
 
           // Store data in database using Prisma
@@ -74,6 +80,7 @@ export const processCSVData = async (filePath: string, eventId: string) => {
               firstName,
               lastName,
               name,
+              email,
               orderNumber,
               ticketTotal,
               discountCode,
@@ -82,11 +89,12 @@ export const processCSVData = async (filePath: string, eventId: string) => {
               ticketType,
               buyerFirstName,
               buyerLastName,
+              buyerName,
               buyerEmail,
               phoneNumber,
               companyName,
               eventId,
-              // attendance,
+              checkedIn,
             },
           });
 
@@ -242,6 +250,7 @@ export const updateAttendeesService = async (data: any, id: any) => {
         buyerEmail: data.buyerEmail,
         phoneNumber: data.phoneNumber,
         companyName: data.companyName,
+        checkedIn: data.checkedIn,
       },
     });
     return;

@@ -2,15 +2,28 @@ import { Request, Response } from 'express';
 import { processCSVData, updateAttendeesService, userService } from '@services/attendeeServices';
 import { appendFileSync } from 'fs';
 import multer from 'multer';
+import { prisma } from '@configs/prisma';
+
+// Set up multer for file upload
+const storage = multer.diskStorage({
+  destination: (_req: Request, _file: any, cb: any) => {
+    cb(null, 'csvuploads/');
+  },
+  filename: (_req: Request, file: any, cb: any) => {
+    cb(null, `${Date.now()}-${file.originalname}`);
+  },
+});
+
+export const upload = multer({ storage });
 
 // Function to handle file upload and processing
 export const uploadAttendees = async (req: Request, res: Response) => {
   const { eventId } = req.body;
-  const filePath = req.file?.path;
+  const filePath = (req.files as any)?.file?.tempFilePath;
 
   try {
     // Check if a file was uploaded
-    if (!req.file) {
+    if (!filePath) {
       return res.status(400).json({ error: 'No file uploaded' });
     }
 
@@ -52,18 +65,6 @@ export const Attendance = (
   }
 };
 
-// Set up multer for file upload
-const storage = multer.diskStorage({
-  destination: (_req: Request, _file: any, cb: any) => {
-    cb(null, 'csvuploads/');
-  },
-  filename: (_req: Request, file: any, cb: any) => {
-    cb(null, `${Date.now()}-${file.originalname}`);
-  },
-});
-
-export const upload = multer({ storage });
-
 // Function for user to store single input data of attendance into database
 export const insertUser = async (req: Request, res: Response) => {
   try {
@@ -80,6 +81,7 @@ export const insertUser = async (req: Request, res: Response) => {
 // eslint-disable-next-line no-unused-vars
 export const updateAttendees = async (req: Request, res: Response) => {
   const data = req.body;
+
   const { id } = req.params;
   try {
     const response = await updateAttendeesService(data, id);
@@ -88,5 +90,22 @@ export const updateAttendees = async (req: Request, res: Response) => {
   } catch (error) {
     res.status(404).send('Failed');
     console.log(error);
+  }
+};
+
+// Get attendee by ticketCode
+export const getAttendee = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  try {
+    const attendee = await prisma.attendee.findFirst({
+      where: {
+        id: id,
+      },
+    });
+
+    return res.status(200).json(attendee);
+  } catch (error) {
+    return res.status(200).json(error);
   }
 };
