@@ -71,6 +71,26 @@ export const updateEvent = async (req: Request, res: Response) => {
   }
 };
 
+export const deleteEvent = async (req: Request, res: Response) => {
+  const { id } = req.params; // Extract the event ID from the request parameters
+
+  try {
+    // Delete the event from the database
+    await prisma.event.delete({
+      where: {
+        id: String(id),
+      },
+    });
+
+    // Return success response
+    res.status(200).json({ success: true, message: 'Event deleted successfully' });
+  } catch (error) {
+    // Handle errors
+    console.error('Error deleting event:', error);
+    res.status(500).json({ success: false, error: 'Internal server error' });
+  }
+};
+
 export const getAllEvents = async (_req: Request, res: Response) => {
   try {
     const events = await prisma.event.findMany({

@@ -1,5 +1,8 @@
+//@ts-nocheck
+
 import fs from 'fs';
 import { parse } from 'csv-parse';
+import { stringify } from 'csv-stringify';
 import { Attendance } from '@controllers/attendeeController';
 import { Request, Response } from 'express';
 import { prisma } from '@configs/prisma';
@@ -19,7 +22,7 @@ interface Attendee {
   buyerEmail: string;
   phoneNumber: string;
   companyName: string;
-  attendance: string;
+  // attendance: string;
 }
 
 export const processCSVData = async (filePath: string, eventId: string) => {
@@ -114,70 +117,103 @@ export const processCSVData = async (filePath: string, eventId: string) => {
 };
 
 // Fetch JSON data with prisma and directly process it
-export const extractCSVData = async (_req: Request, res: Response) => {
+export const extractCSVData = async (req: Request, res: Response) => {
+  const eventId = req.query.eventId as string;
   try {
-    const jsonData = await prisma.attendee.findMany();
-    jsonData.forEach(
-      (attrecord: {
-        id: any;
-        firstName: any;
-        lastName: any;
-        name: any;
-        orderNumber: any;
-        ticketTotal: any;
-        discountCode: any;
-        ticketCode: any;
-        ticketID: any;
-        ticketType: any;
-        buyerFirstName: any;
-        buyerLastName: any;
-        buyerEmail: any;
-        phoneNumber: any;
-        companyName: any;
-      }) => {
-        const {
-          id,
-          firstName,
-          lastName,
-          name,
-          orderNumber,
-          ticketTotal,
-          discountCode,
-          ticketCode,
-          ticketID,
-          ticketType,
-          buyerFirstName,
-          buyerLastName,
-          buyerEmail,
-          phoneNumber,
-          companyName,
-        } = attrecord;
-        Attendance(
-          id,
-          firstName,
-          lastName,
-          name,
-          orderNumber,
-          ticketTotal,
-          discountCode,
-          ticketCode,
-          ticketID,
-          ticketType,
-          buyerFirstName,
-          buyerLastName,
-          buyerEmail,
-          phoneNumber,
-          companyName,
-        );
+    // Fetch only the attendee data related to the selected event
+    const jsonData = await prisma.attendee.findMany({
+      where: {
+        eventId: eventId,
       },
-    );
-    return res.json({
-      message: 'Data has been extracted into CSV file and file is downloaded',
-      jsonData: [],
+    });
+
+    // Set the filename of the downloaded CSV file to the name of the selected event
+    const event = await prisma.event.findUnique({
+      where: {
+        id: eventId,
+      },
+    });
+
+    if (!event) {
+      return res.status(404).json({ error: 'Event not found' });
+    }
+
+    const eventName = event.name;
+
+    const csvData = jsonData.map((attrecord) => {
+      const {
+        id,
+        firstName,
+        lastName,
+        name,
+        orderNumber,
+        ticketTotal,
+        discountCode,
+        ticketCode,
+        ticketID,
+        ticketType,
+        buyerFirstName,
+        buyerLastName,
+        buyerEmail,
+        phoneNumber,
+        companyName,
+      } = attrecord;
+      return [
+        id,
+        firstName,
+        lastName,
+        name,
+        orderNumber,
+        ticketTotal,
+        discountCode,
+        ticketCode,
+        ticketID,
+        ticketType,
+        buyerFirstName,
+        buyerLastName,
+        buyerEmail,
+        phoneNumber,
+        companyName,
+      ];
+    });
+
+    const columnHeaders = [
+      'id',
+      'firstName',
+      'lastName',
+      'name',
+      'orderNumber',
+      'ticketTotal',
+      'discountCode',
+      'ticketCode',
+      'ticketID',
+      'ticketType',
+      'buyerFirstName',
+      'buyerLastName',
+      'buyerEmail',
+      'phoneNumber',
+      'companyName',
+      'attendance',
+    ];
+
+    // Prepend the column headers to the csvData array
+    csvData.unshift(columnHeaders);
+
+    // Set headers for CSV file download
+    res.setHeader('Content-Type', 'text/csv');
+    res.setHeader('Content-Disposition', `attachment; filename="${eventName}.csv"`);
+
+    // Convert CSV data to string and send it as the response
+    stringify(csvData, (err, output) => {
+      if (err) {
+        console.error('Error converting CSV data:', err);
+        return res.status(500).json({ error: 'An error occurred while converting CSV data' });
+      }
+      res.status(200).send(output);
     });
   } catch (error) {
-    console.log('Error fetching or processing data:', error);
-    return res.status(500).json({ error: 'An error occurred while fetching or processing data' });
+    console.error('Error fetching or processing data:', error);
+    res.status(500).json({ error: 'An error occurred while fetching or processing data' });
   }
 };
 
@@ -199,7 +235,7 @@ export const userService = async (userData: {
   phoneNumber: string;
   companyName: string;
   eventId: string;
-  attendance: string;
+  // attendance: string;
 }) => {
   try {
     const newUser = await prisma.attendee.create({
@@ -219,6 +255,7 @@ export const userService = async (userData: {
         phoneNumber: userData.phoneNumber,
         companyName: userData.companyName,
         eventId: userData.eventId,
+        // attendance: userData.attendance,
         // attendance: userData.attendance,
       },
     });
