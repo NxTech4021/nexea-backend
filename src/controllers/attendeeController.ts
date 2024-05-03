@@ -109,3 +109,17 @@ export const getAttendee = async (req: Request, res: Response) => {
     return res.status(200).json(error);
   }
 };
+
+export const getAttendeeByEventID = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    const attendee = await prisma.attendee.findMany({
+      where: {
+        eventId: id,
+      },
+    });
+    return res.status(200).json(attendee);
+  } catch (error) {
+    return res.status(400).json(error);
+  }
+};

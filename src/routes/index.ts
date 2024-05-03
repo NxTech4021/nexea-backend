@@ -1,9 +1,9 @@
 import { Router } from 'express';
 
-import { attendeesRouter } from './attendeeRoute';
 import { authRouter } from './authRoute';
 import { userRouter } from './userRoute';
 import { eventRouter } from './eventRoute';
+import { attendeesRouter } from './attendeeRoute';
 
 export const routes = Router();
 

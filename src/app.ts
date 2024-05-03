@@ -11,6 +11,7 @@ import cookieParser from 'cookie-parser';
 
 import { Storage } from '@google-cloud/storage';
 import bcrypt from 'bcrypt';
+import fileUpload from 'express-fileupload';
 
 dotenv.config();
 
@@ -29,21 +30,21 @@ app.use(
 );
 
 // Will Fix this issue after commit
- 
-// app.use(
-//   fileUpload({
-//     limits: { fileSize: 50 * 1024 * 1024 },
-//     useTempFiles: true,
-//     tempFileDir: '/tmp/',
-//   }),
-// );
+
+app.use(
+  fileUpload({
+    limits: { fileSize: 50 * 1024 * 1024 },
+    useTempFiles: true,
+    tempFileDir: '/tmp/',
+  }),
+);
 
 app.use(cors());
 app.use(morgan('combined'));
 app.use(cookieParser());
 app.use(session({ secret: 'nexeaeventapp', saveUninitialized: true, resave: false }));
 
-app.use('/api', routes);
+app.use(routes);
 
 app.get('/', async (_req: Request, res: Response) => {
   res.send('Server is running...');

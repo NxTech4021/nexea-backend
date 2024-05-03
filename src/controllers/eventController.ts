@@ -96,6 +96,7 @@ export const getAllEvents = async (_req: Request, res: Response) => {
     const events = await prisma.event.findMany({
       include: {
         personInCharge: true, // Include the personInCharge relation
+        attendees: true,
       },
     });
     // Return success response with the fetched events
