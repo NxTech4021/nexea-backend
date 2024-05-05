@@ -14,10 +14,8 @@ export async function main(): Promise<void> {
           password: elem.password,
           position: elem.position,
           verified: elem.verified,
-          // confirmationCode: elem.confirmationToken,
           createdAt: typeof elem.createdAt === 'object' ? Object.values(elem.createdAt)[0] : elem.createdAt,
           updatedAt: typeof elem.updatedAt === 'object' ? Object.values(elem.updatedAt)[0] : elem.updatedAt,
-          userLevel: elem.userLevel,
         },
       });
     } catch (error) {

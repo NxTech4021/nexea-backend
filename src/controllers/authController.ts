@@ -6,6 +6,7 @@ import { registerService, getLoginUser, forgetpassService } from '@services/auth
 import { sendConfirmationEmail, sendResetEmail } from '@utils/nodemailer.config';
 import { verificationCode } from '../utils/JwtHelper';
 import { getUser } from '@services/userServices';
+import { isAdmin } from '@utils/isAdmin';
 
 // Login function
 export const getlogin = async (req: Request, res: Response) => {
@@ -39,6 +40,11 @@ export const getlogin = async (req: Request, res: Response) => {
 
     const token = accessTokens(user.id);
     //const refreshtoken = refreshTokens (user.id) //Only using accesstoken to authenticate
+
+    const session = req.session;
+
+    session.userid = user.id;
+    session.userType = user.userType;
 
     res.cookie('accessToken', token, {
       secure: false,
@@ -137,6 +143,7 @@ export const verifyUser = async (req: Request, res: Response) => {
       data: {
         verified: true,
         confirmationCode: null,
+        userType: isAdmin(email) ? 'admin' : 'normal',
       },
     });
 

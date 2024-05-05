@@ -17,7 +17,7 @@ model User {
   confirmationCode     Int?      @unique @db.Integer()
   createdAt            DateTime  @default(now())
   updatedAt            DateTime? @updatedAt
-  userLevel            Int?
+  userType             Type?     @default(normal)
   address              String?   @db.VarChar(255)
   resetPasswordToken   String?   @unique
   resetPasswordExpires DateTime?
@@ -78,4 +78,9 @@ enum EventStatus {
 enum CheckIns {
   Yes
   No
+}
+
+enum Type {
+  admin
+  normal
 }

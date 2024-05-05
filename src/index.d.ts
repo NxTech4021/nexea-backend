@@ -10,3 +10,10 @@ declare global {
     }
   }
 }
+
+declare module 'express-session' {
+  interface SessionData {
+    userid: string;
+    userType: string;
+  }
+}
