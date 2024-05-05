@@ -224,6 +224,7 @@ export const userService = async (userData: {
   lastName: string;
   name: string;
   orderNumber: string;
+  email: string,
   ticketTotal: string;
   discountCode: string;
   ticketCode: string;
@@ -231,19 +232,23 @@ export const userService = async (userData: {
   ticketType: string;
   buyerFirstName: string;
   buyerLastName: string;
-  email: string;
+  buyerName: string;
+  buyerEmail: string;
   phoneNumber: string;
   companyName: string;
   eventId: string;
+  checkedIn: 'No'
   // attendance: string;
 }) => {
   try {
     const newUser = await prisma.attendee.create({
       data: {
+        id: userData.id,
         firstName: userData.firstName,
         lastName: userData.lastName,
         name: userData.name,
         orderNumber: userData.orderNumber,
+        email: userData.email,
         ticketTotal: userData.ticketTotal,
         discountCode: userData.discountCode,
         ticketCode: userData.ticketCode,
@@ -251,12 +256,12 @@ export const userService = async (userData: {
         ticketType: userData.ticketType,
         buyerFirstName: userData.buyerFirstName,
         buyerLastName: userData.buyerLastName,
-        buyerEmail: userData.email,
+        buyerName: userData.buyerName,
+        buyerEmail: userData.buyerEmail,
         phoneNumber: userData.phoneNumber,
         companyName: userData.companyName,
+        checkedIn: userData.checkedIn,
         eventId: userData.eventId,
-        // attendance: userData.attendance,
-        // attendance: userData.attendance,
       },
     });
     return newUser;
