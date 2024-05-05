@@ -267,27 +267,49 @@ export const userService = async (userData: {
 };
 
 export const updateAttendeesService = async (data: any, id: any) => {
+  const {
+    firstName,
+    lastName,
+    name,
+    email,
+    orderNumber,
+    ticketTotal,
+    discountCode,
+    ticketCode,
+    ticketID,
+    ticketType,
+    buyerFirstName,
+    buyerLastName,
+    buyerEmail,
+    buyerName,
+    phoneNumber,
+    companyName,
+    checkedIn,
+  } = data;
+
   try {
     await prisma.attendee.update({
       where: {
         id: id,
       },
       data: {
-        firstName: data.firstName,
-        lastName: data.lastName,
-        name: data.name,
-        orderNumber: data.orderNumber,
-        ticketTotal: data.ticketTotal,
-        discountCode: data.discountCode,
-        ticketCode: data.ticketCode,
-        ticketID: data.ticketID,
-        ticketType: data.ticketType,
-        buyerFirstName: data.buyerFirstName,
-        buyerLastName: data.buyerLastName,
-        buyerEmail: data.buyerEmail,
-        phoneNumber: data.phoneNumber,
-        companyName: data.companyName,
-        checkedIn: data.checkedIn,
+        firstName,
+        lastName,
+        name,
+        email,
+        orderNumber,
+        ticketTotal,
+        discountCode,
+        ticketCode,
+        ticketID,
+        ticketType,
+        buyerFirstName,
+        buyerLastName,
+        buyerEmail,
+        buyerName,
+        phoneNumber,
+        companyName,
+        checkedIn,
       },
     });
     return;

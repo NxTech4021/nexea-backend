@@ -81,7 +81,6 @@ export const insertUser = async (req: Request, res: Response) => {
 // eslint-disable-next-line no-unused-vars
 export const updateAttendees = async (req: Request, res: Response) => {
   const data = req.body;
-
   const { id } = req.params;
   try {
     const response = await updateAttendeesService(data, id);
