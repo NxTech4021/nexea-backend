@@ -3,7 +3,7 @@
 import fs from 'fs';
 import { parse } from 'csv-parse';
 import { stringify } from 'csv-stringify';
-import { Attendance } from '@controllers/attendeeController';
+// import { Attendance } from '@controllers/attendeeController';
 import { Request, Response } from 'express';
 import { prisma } from '@configs/prisma';
 
@@ -294,8 +294,4 @@ export const updateAttendeesService = async (data: any, id: any) => {
   } catch (error) {
     console.log(error);
   }
-};
-
-export const sayHello = () => {
-  console.log('Hello');
 };
