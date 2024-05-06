@@ -11,7 +11,7 @@ import { isAdmin } from '@utils/isAdmin';
 // Login function
 export const getlogin = async (req: Request, res: Response) => {
   try {
-    const { password, email } = req.body;
+    const { email, password } = req.body;
 
     // Find user by email
     const user = await getLoginUser(email);
@@ -26,9 +26,11 @@ export const getlogin = async (req: Request, res: Response) => {
 
     // Compare passwords
     let match;
+
     if (password && user.password) {
       match = await bcrypt.compare(password, user.password);
     }
+
     if (!match) {
       return res.status(400).json({ message: 'Wrong email or password' });
     }
@@ -49,7 +51,7 @@ export const getlogin = async (req: Request, res: Response) => {
     res.cookie('accessToken', token, {
       secure: false,
       httpOnly: true,
-      maxAge: 60 * 60 * 24 * 1000, // 1 Day
+      maxAge: 60 * 60 * 24 * 1000, // 1 Days
     });
 
     return res.status(200).json({ accessToken: token, user });
