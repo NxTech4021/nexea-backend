@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { prisma } from '@configs/prisma';
-
+import cron from 'node-cron';
+import { EventStatus } from '@prisma/client';
 // Get event by ID
 
 export const getEvent = async (req: Request, res: Response) => {
@@ -48,7 +49,7 @@ export const updateEvent = async (req: Request, res: Response) => {
     // Extract data from request body
     const { name, personInCharge, description, tickera_api, date, status } = req.body;
     const { id } = req.params; // Extract the event ID from the request parameters
-
+    
     // Update the event in the database
     const updatedEvent = await prisma.event.update({
       where: { id: String(id) }, // Ensure the ID is treated as a number
@@ -61,7 +62,7 @@ export const updateEvent = async (req: Request, res: Response) => {
         status,
       },
     });
-
+    
     // Return success response with the updated event
     res.status(200).json({ success: true, event: updatedEvent });
   } catch (error) {
@@ -107,3 +108,63 @@ export const getAllEvents = async (_req: Request, res: Response) => {
     res.status(500).json({ success: false, error: 'Internal server error' });
   }
 };
+
+export const updateEventStatus = () => {
+  try {
+    const cronSchedule = '0 0 * * *'; // run every 24 hour
+
+    const job = cron.schedule(cronSchedule, async () => {
+      try {
+        const currentDate = new Date();
+        const eventsToUpdate = await prisma.event.findMany();
+
+        await Promise.all(
+          eventsToUpdate.map(async (event) => {
+            const evDate = new Date(event.date);
+            evDate.setHours(evDate.getHours() + 8);
+            const eventDate = new Date(evDate.toDateString());
+
+            console.log(currentDate.toLocaleDateString(), eventDate.toLocaleDateString());
+
+            let newStatus;
+            if (eventDate.toDateString() === currentDate.toDateString()) {
+              newStatus = EventStatus.live;
+            } else if (eventDate < currentDate) {
+              newStatus = EventStatus.completed;
+            } else {
+              newStatus = EventStatus.scheduled;
+            }
+
+            if (event.status !== newStatus) {
+              const updatedEventStatus = await prisma.event.update({
+                where: { id: event.id },
+                data: {
+                  status: newStatus,
+                  pic_id: event.pic_id,
+                },
+              });
+
+              console.log(updatedEventStatus);
+            }
+          })
+        );
+      } catch (error) {
+        console.error('Error updating event status:', error);
+      }
+    });
+
+    job.start(); // Start the cron job
+
+  } catch (error) {
+    console.error('Error scheduling cron job:', error);
+  }
+};
+
+(async () => {
+  try {
+    updateEventStatus();
+    console.log('Event status update started.');
+  } catch (error) {
+    console.error('Error updating event status:', error);
+  }
+})();
