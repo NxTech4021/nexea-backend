@@ -49,7 +49,7 @@ export const updateEvent = async (req: Request, res: Response) => {
     // Extract data from request body
     const { name, personInCharge, description, tickera_api, date, status } = req.body;
     const { id } = req.params; // Extract the event ID from the request parameters
-    
+
     // Update the event in the database
     const updatedEvent = await prisma.event.update({
       where: { id: String(id) }, // Ensure the ID is treated as a number
@@ -62,7 +62,7 @@ export const updateEvent = async (req: Request, res: Response) => {
         status,
       },
     });
-    
+
     // Return success response with the updated event
     res.status(200).json({ success: true, event: updatedEvent });
   } catch (error) {
@@ -146,7 +146,7 @@ export const updateEventStatus = () => {
 
               console.log(updatedEventStatus);
             }
-          })
+          }),
         );
       } catch (error) {
         console.error('Error updating event status:', error);
@@ -154,7 +154,6 @@ export const updateEventStatus = () => {
     });
 
     job.start(); // Start the cron job
-
   } catch (error) {
     console.error('Error scheduling cron job:', error);
   }
