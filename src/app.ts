@@ -39,7 +39,7 @@ app.use(
   }),
 );
 
-app.use(cors());
+app.use(cors({ origin: 'https://event.nexeaangels.com/' }));
 app.use(morgan('combined'));
 app.use(cookieParser());
 app.use(
