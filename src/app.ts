@@ -39,11 +39,7 @@ app.use(
   }),
 );
 
-app.use(
-  cors({
-    origin: ['http://localhost/', 'https://event.nexeaangels.com/'],
-  }),
-);
+app.use(cors());
 app.use(morgan('combined'));
 app.use(cookieParser());
 app.use(
@@ -51,10 +47,10 @@ app.use(
     secret: 'nexeaeventapp',
     saveUninitialized: true,
     resave: false,
-    proxy: true,
-    cookie: {
-      secure: true,
-    },
+    // proxy: true,
+    // cookie: {
+    //   secure: true,
+    // },
   }),
 );
 
