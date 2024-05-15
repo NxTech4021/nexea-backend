@@ -42,7 +42,17 @@ app.use(
 app.use(cors());
 app.use(morgan('combined'));
 app.use(cookieParser());
-app.use(session({ secret: 'nexeaeventapp', saveUninitialized: true, resave: false }));
+app.use(
+  session({
+    secret: 'nexeaeventapp',
+    saveUninitialized: true,
+    resave: false,
+    proxy: true,
+    cookie: {
+      secure: true,
+    },
+  }),
+);
 
 app.use(routes);
 
