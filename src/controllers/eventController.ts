@@ -111,7 +111,7 @@ export const getAllEvents = async (_req: Request, res: Response) => {
 
 export const updateEventStatus = () => {
   try {
-    const cronSchedule = '*/30 * * * * *';
+    const cronSchedule = '0 0 * * *'; // run every 24 hour
 
     const job = cron.schedule(cronSchedule, async () => {
       try {
