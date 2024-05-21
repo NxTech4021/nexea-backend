@@ -1,4 +1,11 @@
-import { createEvent, deleteEvent, getAllEvents, getEvent, updateEvent, updateEventStatus } from '@controllers/eventController';
+import {
+  createEvent,
+  deleteEvent,
+  getAllEvents,
+  getEvent,
+  updateEvent,
+  updateEventStatus,
+} from '@controllers/eventController';
 import isAdmin from '@middlewares/isAdmin';
 import { Router } from 'express';
 

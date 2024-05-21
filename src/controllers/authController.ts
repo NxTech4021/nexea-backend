@@ -72,6 +72,16 @@ export const registerUser = async (req: Request, res: Response) => {
 
     name = firstName.concat(' ', lastName);
 
+    const isUserExist = await prisma.user.findFirst({
+      where: {
+        email: email,
+      },
+    });
+
+    if (isUserExist) {
+      return res.status(400).json({ message: 'User already exist' });
+    }
+
     const user = await registerService({ name, email, password });
 
     try {
