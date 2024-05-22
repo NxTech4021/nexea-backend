@@ -3,7 +3,7 @@ import { processCSVData, updateAttendeesService, userService } from '@services/a
 import { appendFileSync } from 'fs';
 import multer from 'multer';
 import { prisma } from '@configs/prisma';
-import https from 'https';
+// import https from 'https';
 
 // Set up multer for file upload
 const storage = multer.diskStorage({
@@ -84,12 +84,12 @@ export const updateAttendees = async (req: Request, res: Response) => {
   const data = req.body;
   const { id } = req.params;
   try {
-    const attendee = await updateAttendeesService(data, id);
+    await updateAttendeesService(data, id);
 
     // Update attendee in Tickera database
-    https.get(`${process.env.TICKERA_API_URL}${attendee?.ticketCode}`, (res) => {
-      console.log(res.statusCode);
-    });
+    // https.get(`${process.env.TICKERA_API_URL}${attendee?.ticketCode}`, (res) => {
+    //   console.log(res.statusCode);
+    // });
     res.status(200).json({ message: 'Successfully update' });
   } catch (error) {
     res.status(404).send('Failed');
