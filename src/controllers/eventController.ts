@@ -124,8 +124,6 @@ export const updateEventStatus = () => {
             evDate.setHours(evDate.getHours() + 8);
             const eventDate = new Date(evDate.toDateString());
 
-            console.log(currentDate.toLocaleDateString(), eventDate.toLocaleDateString());
-
             let newStatus;
             if (eventDate.toDateString() === currentDate.toDateString()) {
               newStatus = EventStatus.live;

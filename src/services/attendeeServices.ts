@@ -224,7 +224,7 @@ export const userService = async (userData: {
   lastName: string;
   name: string;
   orderNumber: string;
-  email: string,
+  email: string;
   ticketTotal: string;
   discountCode: string;
   ticketCode: string;
@@ -237,7 +237,7 @@ export const userService = async (userData: {
   phoneNumber: string;
   companyName: string;
   eventId: string;
-  checkedIn: 'No'
+  checkedIn: 'No';
   // attendance: string;
 }) => {
   try {
@@ -293,7 +293,7 @@ export const updateAttendeesService = async (data: any, id: any) => {
   } = data;
 
   try {
-    await prisma.attendee.update({
+    const attendee = await prisma.attendee.update({
       where: {
         id: id,
       },
@@ -317,7 +317,8 @@ export const updateAttendeesService = async (data: any, id: any) => {
         checkedIn,
       },
     });
-    return;
+
+    return attendee;
   } catch (error) {
     console.log(error);
   }
