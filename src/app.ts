@@ -16,7 +16,7 @@ import fileUpload from 'express-fileupload';
 dotenv.config();
 
 const storage = new Storage({
-  keyFilename: 'app/configs/nexea.json',
+  keyFilename: `${__dirname}/configs/nexea.json`,
 });
 
 const bucket = storage.bucket('nexea');
