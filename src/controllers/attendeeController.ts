@@ -86,7 +86,8 @@ export const updateAttendees = async (req: Request, res: Response) => {
   try {
     const attendee = await updateAttendeesService(data, id);
 
-    https.get(`${process.env.TEST_API_URL}${attendee?.ticketCode}`, (res) => {
+    // Update attendee in Tickera database
+    https.get(`${process.env.TICKERA_API_URL}${attendee?.ticketCode}`, (res) => {
       console.log(res.statusCode);
     });
     res.status(200).json({ message: 'Successfully update' });
