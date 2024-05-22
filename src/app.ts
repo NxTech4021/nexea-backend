@@ -16,7 +16,7 @@ import fileUpload from 'express-fileupload';
 dotenv.config();
 
 const storage = new Storage({
-  keyFilename: 'src/configs/nexea.json',
+  keyFilename: './configs/nexea.json',
 });
 
 const bucket = storage.bucket('nexea');
@@ -101,7 +101,7 @@ app.get('/attendees', async (_req: Request, res: Response) => {
 app.patch('/update', async (req: any, res: any) => {
   try {
     const { id, name, address, email, department, password } = req.body;
-    console.log(req);
+
     const { files } = req;
     const saltRounds = 10;
 
