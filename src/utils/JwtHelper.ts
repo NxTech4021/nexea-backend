@@ -15,16 +15,8 @@ export const verificationCode = () => {
   // const code = uuidv4().slice(0, 6).toUpperCase();
 
   const code = Math.floor(100000 + Math.random() * 900000);
-  console.log(code);
   return code;
 };
-
-// export const refreshTokens = (userId : number ) : string => {
-
-//   const refeshToken = sign({ userId }, process.env.SECRET_KEY_REFESH as string , { expiresIn: '7d' });
-
-//   return refeshToken;
-// };
 
 export const validateToken = (req: any, res: Response, next: NextFunction) => {
   const accessToken = req.cookies['accessToken'];

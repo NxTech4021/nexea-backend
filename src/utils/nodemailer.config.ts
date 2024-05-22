@@ -20,7 +20,7 @@ const transport = nodemailer.createTransport({
   },
 });
 
-export const sendResetEmail = (email: any, name: any, resetPasswordToken: any) => {
+export const sendResetEmail = (email: any, name: any, verifyToken: any) => {
   transport
     .sendMail({
       from: user,
@@ -39,15 +39,16 @@ export const sendResetEmail = (email: any, name: any, resetPasswordToken: any) =
                         
                     <h2 style="font-weight:400;">Hello ${name}, </h2>
                     <p> You're receiving this email because you requested a password reset for your account.
-  
-                    <p> To reset your password, click here: </p>
-                    <a href=http://localhost/auth/reset-password/${resetPasswordToken} style="box-sizing:border-box;text-decoration:none;background-color:#0d6efd;border:solid 1px #007bff;border-radius:4px;color:#ffffff;font-size:16px;font-weight:bold;margin:0;padding:9px 25px;display:inline-block;letter-spacing:1px"> CLick Here!  </a> 
+
+                    <p>To complete your registration, please use the following confirmation code:</p>
+                    <p><strong>Confirmation Code:</strong> ${verifyToken}</p>
+                    <p>
+                      Please enter this code on our website to confirm your request for a new password.
+                    </p> 
           
                     <p> If you didn't request this, please ignore this message or contact us at [Customer Support Email Address] immediately. </p>
                         
-                        
                     <p> Nexea, Techteam </p>
-                        
                        </td>
                     </tr>
                   </tbody>

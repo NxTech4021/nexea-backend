@@ -260,23 +260,23 @@ export const forgetPassword = async (req: Request, res: Response) => {
     const { email } = req.body;
 
     if (!email) {
-      return res.send('Please add email');
+      return res.status(404).json({ message: 'Email is required' });
     }
 
-    const user = await prisma.user.findUnique({
+    const existingUser = await prisma.user.findUnique({
       where: { email: email },
     });
 
-    if (!user) {
-      return res.status(400).json({ error: "User Doesn't Exist" });
+    if (!existingUser) {
+      return res.status(404).json({ message: "User doesn't exist" });
     }
 
-    await forgetpassService(email);
+    const user = await forgetpassService(email);
+
     try {
       await sendResetEmail(user.email, user.name, user.resetPasswordToken);
-      return res.json({ message: 'Password reset email has been sent.' });
+      return res.status(200).json({ message: 'Password reset email has been sent.', user: user });
     } catch (error) {
-      console.error('Error sending reset email:', error);
       return res.status(500).json({ error: 'An error occurred while sending the password reset email' });
     }
   } catch (error) {
@@ -284,27 +284,26 @@ export const forgetPassword = async (req: Request, res: Response) => {
   }
 };
 
-export const resetPassword = async (_req: Request, res: Response) => {
-  const { resetToken, newPassword, confirmPassword } = _req.body;
+// eslint-disable-next-line no-unused-vars
+export const resetPassword = async (req: Request, res: Response) => {
+  const { email, password, code } = req.body;
 
   // Validate the reset token and check if it's expired
-  const user = await prisma.user.findUnique({
-    where: { resetPasswordToken: resetToken },
+  const user = await prisma.user.findFirst({
+    where: { AND: { resetPasswordToken: code, email: email } },
   });
 
   if (!user || user.resetPasswordExpires === null || Date.now() > user.resetPasswordExpires.getTime()) {
     return res.status(400).json({ error: 'Invalid or expired reset token' });
   }
 
-  // Check if newPassword and confirmPassword match
-  if (newPassword !== confirmPassword) {
-    return res.status(400).json({ error: 'Passwords do not match' });
-  }
-
   // Hash the new password and update the user's record
-  const hashedPassword = await bcrypt.hash(newPassword, 12);
+  const hashedPassword = await bcrypt.hash(password, 10);
+
   await prisma.user.update({
-    where: { resetPasswordToken: resetToken },
+    where: {
+      id: user.id,
+    },
     data: {
       password: hashedPassword,
       resetPasswordToken: null,

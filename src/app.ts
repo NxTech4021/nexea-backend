@@ -16,7 +16,7 @@ import fileUpload from 'express-fileupload';
 dotenv.config();
 
 const storage = new Storage({
-  keyFilename: `./configs/nexea-service.json`,
+  keyFilename: 'src/configs/nexea.json',
 });
 
 const bucket = storage.bucket('nexea');
@@ -28,8 +28,6 @@ app.use(
     extended: false,
   }),
 );
-
-// Will Fix this issue after commit
 
 app.use(
   fileUpload({
@@ -103,13 +101,16 @@ app.get('/attendees', async (_req: Request, res: Response) => {
 app.patch('/update', async (req: any, res: any) => {
   try {
     const { id, name, address, email, department, password } = req.body;
+    console.log(req);
     const { files } = req;
-
     const saltRounds = 10;
+
     let hashedPassword;
+
     if (password) {
       hashedPassword = await bcrypt.hash(password, saltRounds);
     }
+
     if (files && files.image) {
       const { image } = files as any;
       bucket.upload(image.tempFilePath, { destination: `profile/${image.name}` }, (err, file) => {
