@@ -121,6 +121,7 @@ export const getAttendeeByEventID = async (req: Request, res: Response) => {
         eventId: id,
       },
     });
+    console.log(attendee);
     return res.status(200).json(attendee);
   } catch (error) {
     return res.status(400).json(error);

@@ -123,7 +123,7 @@ app.patch('/update', async (req: any, res: any) => {
               console.error(`Error making file public: ${err}`);
               res.status(500).send('Error making file public.');
             } else {
-              console.log(`File ${file.name} is now public.`);
+              // console.log(`File ${file.name} is now public.`);
               const publicUrl = file.publicUrl();
               await prisma.user.update({
                 where: {

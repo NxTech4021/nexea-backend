@@ -55,51 +55,58 @@ export const processCSVData = async (filePath: string, eventId: string) => {
         }),
       )
       .on('data', async (data: any) => {
+        const {
+          firstName,
+          lastName,
+          name,
+          email,
+          orderNumber,
+          ticketTotal,
+          discountCode,
+          ticketCode,
+          ticketID,
+          ticketType,
+          buyerFirstName,
+          buyerLastName,
+          buyerEmail,
+          buyerName,
+          phoneNumber,
+          companyName,
+          checkedIn,
+        } = data;
         try {
           // Extract from CSV data
-          const {
-            firstName,
-            lastName,
-            name,
-            email,
-            orderNumber,
-            ticketTotal,
-            discountCode,
-            ticketCode,
-            ticketID,
-            ticketType,
-            buyerFirstName,
-            buyerLastName,
-            buyerEmail,
-            buyerName,
-            phoneNumber,
-            companyName,
-            checkedIn,
-          } = data;
-
-          // Store data in database using Prisma
-          await prisma.attendee.create({
-            data: {
-              firstName,
-              lastName,
-              name,
-              email,
-              orderNumber,
-              ticketTotal,
-              discountCode,
-              ticketCode,
-              ticketID,
-              ticketType,
-              buyerFirstName,
-              buyerLastName,
-              buyerName,
-              buyerEmail,
-              phoneNumber,
-              companyName,
-              eventId,
-              checkedIn,
+          const attendee = await prisma.attendee.findUnique({
+            where: {
+              ticketCode: ticketCode,
             },
           });
+
+          if (!attendee) {
+            // Store data in database using Prisma
+            await prisma.attendee.create({
+              data: {
+                firstName,
+                lastName,
+                name,
+                email,
+                orderNumber,
+                ticketTotal,
+                discountCode,
+                ticketCode,
+                ticketID,
+                ticketType,
+                buyerFirstName,
+                buyerLastName,
+                buyerName,
+                buyerEmail,
+                phoneNumber,
+                companyName,
+                eventId,
+                checkedIn,
+              },
+            });
+          }
 
           results.push(data);
         } catch (error) {

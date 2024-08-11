@@ -8,7 +8,7 @@ datasource db {
 }
 
 model User {
-  id                   String    @id @default(uuid())
+  id                   String    @id @unique @default(uuid())
   email                String    @unique
   password             String?
   name                 String?   @db.VarChar(100)
@@ -29,7 +29,7 @@ model User {
 }
 
 model Attendee {
-  id             String    @id @default(uuid())
+  id             String              @id @default(uuid())
   firstName      String?
   lastName       String?
   name           String?
@@ -37,7 +37,7 @@ model Attendee {
   email          String?
   ticketTotal    String?
   discountCode   String?
-  ticketCode     String?
+  ticketCode     String?             @unique
   ticketID       String?
   ticketType     String?
   buyerFirstName String?
@@ -46,11 +46,14 @@ model Attendee {
   buyerEmail     String?
   phoneNumber    String?
   companyName    String?
+  templateOne    NotificationStatus? @default(Pending)
+  templateTwo    NotificationStatus? @default(Pending)
+  templateThree  NotificationStatus? @default(Pending)
   checkedIn      CheckIns?
-  created_at     DateTime  @default(now())
-  update_at      DateTime  @updatedAt
+  created_at     DateTime            @default(now())
+  update_at      DateTime            @updatedAt
   eventId        String?
-  event          Event?    @relation(fields: [eventId], references: [id])
+  event          Event?              @relation(fields: [eventId], references: [id])
 }
 
 model Event {
@@ -83,4 +86,9 @@ enum CheckIns {
 enum Type {
   admin
   normal
+}
+
+enum NotificationStatus {
+  Pending
+  Sent
 }
