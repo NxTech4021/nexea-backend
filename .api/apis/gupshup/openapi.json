@@ -1,0 +1,2703 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Send message API",
+    "contact": {},
+    "version": "2.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.gupshup.io/wa/api/v1"
+    }
+  ],
+  "paths": {
+    "/msg": {
+      "post": {
+        "tags": [
+          "Send message API"
+        ],
+        "summary": "",
+        "operationId": "",
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "enum": [
+                "application/x-www-form-urlencoded"
+              ],
+              "type": "string",
+              "example": "application/x-www-form-urlencoded"
+            }
+          },
+          {
+            "name": "apikey",
+            "in": "header",
+            "description": "",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "092707e8296649XXXX94c0fXXX818ad"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "encoding": {},
+              "schema": {
+                "required": [
+                  "channel",
+                  "source",
+                  "destination",
+                  "message",
+                  "src.name"
+                ],
+                "type": "object",
+                "properties": {
+                  "channel": {
+                    "type": "string",
+                    "example": "whatsapp",
+                    "description": "The channel for sending messages."
+                  },
+                  "source": {
+                    "type": "integer",
+                    "format": "int64",
+                    "example": 917472850482,
+                    "description": "Registered WhatsApp Business API phone number"
+                  },
+                  "destination": {
+                    "type": "integer",
+                    "format": "int64",
+                    "example": 918748133759,
+                    "description": "User's phone number"
+                  },
+                  "message": {
+                    "type": "object",
+                    "oneOf": [
+                      {
+                        "title": "Text",
+                        "required": [
+                          "type",
+                          "text"
+                        ],
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "type": "string"
+                          },
+                          "text": {
+                            "type": "string"
+                          }
+                        },
+                        "example": {
+                          "type": "text",
+                          "text": "Hello user, how are you?"
+                        }
+                      },
+                      {
+                        "title": "Image",
+                        "required": [
+                          "type",
+                          "originalUrl",
+                          "previewUrl",
+                          "caption"
+                        ],
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "type": "string"
+                          },
+                          "originalUrl": {
+                            "type": "string"
+                          },
+                          "previewUrl": {
+                            "type": "string"
+                          },
+                          "caption": {
+                            "type": "string"
+                          }
+                        },
+                        "example": {
+                          "type": "image",
+                          "originalUrl": "https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg",
+                          "previewUrl": "https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg",
+                          "caption": "Sample image"
+                        }
+                      },
+                      {
+                        "title": "Document",
+                        "required": [
+                          "type",
+                          "url",
+                          "filename"
+                        ],
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "type": "string"
+                          },
+                          "url": {
+                            "type": "string"
+                          },
+                          "filename": {
+                            "type": "string"
+                          }
+                        },
+                        "example": {
+                          "type": "file",
+                          "url": "https://www.buildquickbots.com/whatsapp/media/sample/pdf/sample01.pdf",
+                          "filename": "Sample file"
+                        }
+                      },
+                      {
+                        "title": "Video",
+                        "required": [
+                          "type",
+                          "url",
+                          "caption"
+                        ],
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "type": "string"
+                          },
+                          "url": {
+                            "type": "string"
+                          },
+                          "caption": {
+                            "type": "string"
+                          }
+                        },
+                        "example": {
+                          "type": "video",
+                          "url": "https://www.buildquickbots.com/whatsapp/media/sample/video/sample01.mp4",
+                          "caption": "Sample video"
+                        }
+                      },
+                      {
+                        "title": "Sticker",
+                        "required": [
+                          "type",
+                          "url"
+                        ],
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "type": "string"
+                          },
+                          "url": {
+                            "type": "string"
+                          }
+                        },
+                        "example": {
+                          "type": "sticker",
+                          "url": "http://www.buildquickbots.com/whatsapp/stickers/SampleSticker01.webp"
+                        }
+                      },
+                      {
+                        "title": "Interactive - List message",
+                        "required": [
+                          "type",
+                          "title",
+                          "body",
+                          "msgid",
+                          "globalButtons",
+                          "items"
+                        ],
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "type": "string"
+                          },
+                          "title": {
+                            "type": "string"
+                          },
+                          "body": {
+                            "type": "string"
+                          },
+                          "msgid": {
+                            "type": "string"
+                          },
+                          "globalButtons": {
+                            "type": "array",
+                            "items": {
+                              "title": "List message - GlobalButton object",
+                              "required": [
+                                "type",
+                                "title"
+                              ],
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string"
+                                },
+                                "title": {
+                                  "type": "string"
+                                }
+                              },
+                              "example": {
+                                "type": "text",
+                                "title": "Global button"
+                              }
+                            },
+                            "description": "Global buttons array description"
+                          },
+                          "items": {
+                            "type": "array",
+                            "items": {
+                              "title": "List message - Items object",
+                              "required": [
+                                "title",
+                                "subtitle",
+                                "options"
+                              ],
+                              "type": "object",
+                              "properties": {
+                                "title": {
+                                  "type": "string"
+                                },
+                                "subtitle": {
+                                  "type": "string"
+                                },
+                                "options": {
+                                  "type": "array",
+                                  "items": {
+                                    "title": "List message - Options object",
+                                    "required": [
+                                      "type",
+                                      "title",
+                                      "description",
+                                      "postbackText"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                      "type": {
+                                        "type": "string"
+                                      },
+                                      "title": {
+                                        "type": "string"
+                                      },
+                                      "description": {
+                                        "type": "string"
+                                      },
+                                      "postbackText": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "example": {
+                                      "type": "text",
+                                      "title": "section 1 row 1",
+                                      "description": "first row of first section description",
+                                      "postbackText": "section 1 row 1 postback payload"
+                                    }
+                                  },
+                                  "description": ""
+                                }
+                              },
+                              "example": {
+                                "title": "first Section",
+                                "subtitle": "first Subtitle",
+                                "options": [
+                                  {
+                                    "type": "text",
+                                    "title": "section 1 row 1",
+                                    "description": "first row of first section description",
+                                    "postbackText": "section 1 row 1 postback payload"
+                                  },
+                                  {
+                                    "type": "text",
+                                    "title": "section 1 row 2",
+                                    "description": "second row of first section description",
+                                    "postbackText": "section 1 row 2 postback payload"
+                                  },
+                                  {
+                                    "type": "text",
+                                    "title": "section 1 row 3",
+                                    "description": "third row of first section description",
+                                    "postbackText": "section 1 row 3 postback payload"
+                                  }
+                                ]
+                              }
+                            },
+                            "description": "Items array description"
+                          }
+                        },
+                        "example": {
+                          "type": "list",
+                          "title": "title text",
+                          "body": "body text",
+                          "msgid": "list1",
+                          "globalButtons": [
+                            {
+                              "type": "text",
+                              "title": "Global button"
+                            }
+                          ],
+                          "items": [
+                            {
+                              "title": "first Section",
+                              "subtitle": "first Subtitle",
+                              "options": [
+                                {
+                                  "type": "text",
+                                  "title": "section 1 row 1",
+                                  "description": "first row of first section description",
+                                  "postbackText": "section 1 row 1 postback payload"
+                                },
+                                {
+                                  "type": "text",
+                                  "title": "section 1 row 2",
+                                  "description": "second row of first section description",
+                                  "postbackText": "section 1 row 2 postback payload"
+                                },
+                                {
+                                  "type": "text",
+                                  "title": "section 1 row 3",
+                                  "description": "third row of first section description",
+                                  "postbackText": "section 1 row 3 postback payload"
+                                }
+                              ]
+                            },
+                            {
+                              "title": "second section",
+                              "subtitle": "second Subtitle",
+                              "options": [
+                                {
+                                  "type": "text",
+                                  "title": "section 2 row 1",
+                                  "description": "first row of second section description",
+                                  "postbackText": "section 1 row 3 postback payload"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "title": "Quick reply - text",
+                        "required": [
+                          "type",
+                          "msgid",
+                          "content",
+                          "options"
+                        ],
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "type": "string"
+                          },
+                          "msgid": {
+                            "type": "string"
+                          },
+                          "content": {
+                            "title": "Quick reply - Text Content object",
+                            "required": [
+                              "type",
+                              "header",
+                              "text",
+                              "caption"
+                            ],
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string"
+                              },
+                              "header": {
+                                "type": "string"
+                              },
+                              "text": {
+                                "type": "string"
+                              },
+                              "caption": {
+                                "type": "string"
+                              }
+                            },
+                            "example": {
+                              "type": "text",
+                              "header": "this is the header",
+                              "text": "this is the body",
+                              "caption": "this is the footer"
+                            }
+                          },
+                          "options": {
+                            "type": "array",
+                            "items": {
+                              "title": "Quick reply - Options object",
+                              "required": [
+                                "type",
+                                "title"
+                              ],
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string"
+                                },
+                                "title": {
+                                  "type": "string"
+                                }
+                              },
+                              "example": {
+                                "type": "text",
+                                "title": "First"
+                              }
+                            },
+                            "description": ""
+                          }
+                        },
+                        "example": {
+                          "type": "quick_reply",
+                          "msgid": "qr1",
+                          "content": {
+                            "type": "text",
+                            "header": "this is the header",
+                            "text": "this is the body",
+                            "caption": "this is the footer"
+                          },
+                          "options": [
+                            {
+                              "type": "text",
+                              "title": "First"
+                            },
+                            {
+                              "type": "text",
+                              "title": "Second"
+                            },
+                            {
+                              "type": "text",
+                              "title": "Third"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "title": "Quick reply - Image/Video",
+                        "required": [
+                          "type",
+                          "msgid",
+                          "content",
+                          "options"
+                        ],
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "type": "string"
+                          },
+                          "msgid": {
+                            "type": "string"
+                          },
+                          "content": {
+                            "title": "Quick reply - Image/Video Content object",
+                            "required": [
+                              "type",
+                              "url",
+                              "text",
+                              "caption"
+                            ],
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string"
+                              },
+                              "url": {
+                                "type": "string"
+                              },
+                              "text": {
+                                "type": "string"
+                              },
+                              "caption": {
+                                "type": "string"
+                              }
+                            },
+                            "example": {
+                              "type": "image/video",
+                              "url": "https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg",
+                              "text": "this is the body",
+                              "caption": "this is the footer"
+                            }
+                          },
+                          "options": {
+                            "type": "array",
+                            "items": {
+                              "title": "Quick reply - Options object",
+                              "required": [
+                                "type",
+                                "title"
+                              ],
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string"
+                                },
+                                "title": {
+                                  "type": "string"
+                                }
+                              },
+                              "example": {
+                                "type": "text",
+                                "title": "First"
+                              }
+                            },
+                            "description": ""
+                          }
+                        },
+                        "example": {
+                          "type": "quick_reply",
+                          "msgid": "qr1",
+                          "content": {
+                            "type": "image/video",
+                            "url": "https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg",
+                            "text": "this is the body",
+                            "caption": "this is the footer"
+                          },
+                          "options": [
+                            {
+                              "type": "text",
+                              "title": "First"
+                            },
+                            {
+                              "type": "text",
+                              "title": "Second"
+                            },
+                            {
+                              "type": "text",
+                              "title": "Third"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "title": "Quick reply - File",
+                        "required": [
+                          "type",
+                          "msgid",
+                          "content",
+                          "options"
+                        ],
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "type": "string"
+                          },
+                          "msgid": {
+                            "type": "string"
+                          },
+                          "content": {
+                            "title": "Quick reply - File Content object",
+                            "required": [
+                              "type",
+                              "url",
+                              "text",
+                              "filename",
+                              "caption"
+                            ],
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string"
+                              },
+                              "url": {
+                                "type": "string"
+                              },
+                              "text": {
+                                "type": "string"
+                              },
+                              "filename": {
+                                "type": "string"
+                              },
+                              "caption": {
+                                "type": "string"
+                              }
+                            },
+                            "example": {
+                              "type": "file",
+                              "url": "https://www.buildquickbots.com/whatsapp/media/sample/pdf/sample01.pdf",
+                              "text": "this is the body",
+                              "filename": "Sample file",
+                              "caption": "this is the footer"
+                            }
+                          },
+                          "options": {
+                            "type": "array",
+                            "items": {
+                              "title": "Quick reply - Options object",
+                              "required": [
+                                "type",
+                                "title"
+                              ],
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string"
+                                },
+                                "title": {
+                                  "type": "string"
+                                }
+                              },
+                              "example": {
+                                "type": "text",
+                                "title": "First"
+                              }
+                            },
+                            "description": ""
+                          }
+                        },
+                        "example": {
+                          "type": "quick_reply",
+                          "msgid": "qr1",
+                          "content": {
+                            "type": "file",
+                            "url": "https://www.buildquickbots.com/whatsapp/media/sample/pdf/sample01.pdf",
+                            "text": "this is the body",
+                            "filename": "Sample file",
+                            "caption": "this is the footer"
+                          },
+                          "options": [
+                            {
+                              "type": "text",
+                              "title": "First"
+                            },
+                            {
+                              "type": "text",
+                              "title": "Second"
+                            },
+                            {
+                              "type": "text",
+                              "title": "Third"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "title": "Location message",
+                        "required": [
+                          "type",
+                          "longitude",
+                          "latitude",
+                          "name",
+                          "address"
+                        ],
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "type": "string"
+                          },
+                          "longitude": {
+                            "type": "number"
+                          },
+                          "latitude": {
+                            "type": "number"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "address": {
+                            "type": "string"
+                          }
+                        },
+                        "example": {
+                          "type": "location",
+                          "longitude": 72.877655,
+                          "latitude": 19.075983,
+                          "name": "Mumbai",
+                          "address": "Mumbai, Maharashtra"
+                        }
+                      },
+                      {
+                        "title": "Contact message",
+                        "required": [
+                          "type",
+                          "contact"
+                        ],
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "type": "string"
+                          },
+                          "contact": {
+                            "title": "Contact Object",
+                            "required": [
+                              "addresses",
+                              "birthday",
+                              "emails",
+                              "name",
+                              "org",
+                              "phones",
+                              "urls"
+                            ],
+                            "type": "object",
+                            "properties": {
+                              "addresses": {
+                                "type": "array",
+                                "items": {
+                                  "title": "Contact - Address object",
+                                  "required": [
+                                    "city",
+                                    "country",
+                                    "countryCode",
+                                    "state",
+                                    "street",
+                                    "type",
+                                    "zip"
+                                  ],
+                                  "type": "object",
+                                  "properties": {
+                                    "city": {
+                                      "type": "string"
+                                    },
+                                    "country": {
+                                      "type": "string"
+                                    },
+                                    "countryCode": {
+                                      "type": "string"
+                                    },
+                                    "state": {
+                                      "type": "string"
+                                    },
+                                    "street": {
+                                      "type": "string"
+                                    },
+                                    "type": {
+                                      "type": "string"
+                                    },
+                                    "zip": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "example": {
+                                    "city": "Menlo Park",
+                                    "country": "United States",
+                                    "countryCode": "us",
+                                    "state": "CA",
+                                    "street": "1 Hacker Way",
+                                    "type": "HOME",
+                                    "zip": "94025"
+                                  }
+                                },
+                                "description": ""
+                              },
+                              "birthday": {
+                                "type": "string"
+                              },
+                              "emails": {
+                                "type": "array",
+                                "items": {
+                                  "title": "Contact - Email object",
+                                  "required": [
+                                    "email",
+                                    "type"
+                                  ],
+                                  "type": "object",
+                                  "properties": {
+                                    "email": {
+                                      "type": "string"
+                                    },
+                                    "type": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "example": {
+                                    "email": "personal.mail@gupshup.io",
+                                    "type": "Personal"
+                                  }
+                                },
+                                "description": ""
+                              },
+                              "name": {
+                                "title": "Contact - Name object",
+                                "required": [
+                                  "firstName",
+                                  "formattedName",
+                                  "lastName"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                  "firstName": {
+                                    "type": "string"
+                                  },
+                                  "formattedName": {
+                                    "type": "string"
+                                  },
+                                  "lastName": {
+                                    "type": "string"
+                                  }
+                                },
+                                "example": {
+                                  "firstName": "John",
+                                  "formattedName": "John Wick",
+                                  "lastName": "Wick"
+                                }
+                              },
+                              "org": {
+                                "title": "Contact - Org object",
+                                "required": [
+                                  "company",
+                                  "department",
+                                  "title"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                  "company": {
+                                    "type": "string"
+                                  },
+                                  "department": {
+                                    "type": "string"
+                                  },
+                                  "title": {
+                                    "type": "string"
+                                  }
+                                },
+                                "example": {
+                                  "company": "Guspshup",
+                                  "department": "Product",
+                                  "title": "Manager"
+                                }
+                              },
+                              "phones": {
+                                "type": "array",
+                                "items": {
+                                  "title": "Contact - Phone object",
+                                  "required": [
+                                    "phone",
+                                    "type"
+                                  ],
+                                  "type": "object",
+                                  "properties": {
+                                    "phone": {
+                                      "type": "string"
+                                    },
+                                    "type": {
+                                      "type": "string"
+                                    },
+                                    "wa_id": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "example": {
+                                    "phone": "+1 (940) 555-1234",
+                                    "type": "HOME"
+                                  }
+                                },
+                                "description": ""
+                              },
+                              "urls": {
+                                "type": "array",
+                                "items": {
+                                  "title": "Contact - Url object",
+                                  "required": [
+                                    "url",
+                                    "type"
+                                  ],
+                                  "type": "object",
+                                  "properties": {
+                                    "url": {
+                                      "type": "string"
+                                    },
+                                    "type": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "example": {
+                                    "url": "https://www.gupshup.io",
+                                    "type": "WORK"
+                                  }
+                                },
+                                "description": ""
+                              }
+                            },
+                            "example": {
+                              "addresses": [
+                                {
+                                  "city": "Menlo Park",
+                                  "country": "United States",
+                                  "countryCode": "us",
+                                  "state": "CA",
+                                  "street": "1 Hacker Way",
+                                  "type": "HOME",
+                                  "zip": "94025"
+                                },
+                                {
+                                  "city": "Menlo Park",
+                                  "country": "United States",
+                                  "countryCode": "us",
+                                  "state": "CA",
+                                  "street": "200 Jefferson Dr",
+                                  "type": "WORK",
+                                  "zip": "94025"
+                                }
+                              ],
+                              "birthday": "1995-08-18",
+                              "emails": [
+                                {
+                                  "email": "personal.mail@gupshup.io",
+                                  "type": "Personal"
+                                },
+                                {
+                                  "email": "devsupport@gupshup.io",
+                                  "type": "Work"
+                                }
+                              ],
+                              "name": {
+                                "firstName": "John",
+                                "formattedName": "John Wick",
+                                "lastName": "Wick"
+                              },
+                              "org": {
+                                "company": "Guspshup",
+                                "department": "Product",
+                                "title": "Manager"
+                              },
+                              "phones": [
+                                {
+                                  "phone": "+1 (940) 555-1234",
+                                  "type": "HOME"
+                                },
+                                {
+                                  "phone": "+1 (650) 555-1234",
+                                  "type": "WORK",
+                                  "wa_id": "16505551234"
+                                }
+                              ],
+                              "urls": [
+                                {
+                                  "url": "https://www.gupshup.io",
+                                  "type": "WORK"
+                                }
+                              ]
+                            }
+                          }
+                        },
+                        "example": {
+                          "type": "contact",
+                          "contact": {
+                            "addresses": [
+                              {
+                                "city": "Menlo Park",
+                                "country": "United States",
+                                "countryCode": "us",
+                                "state": "CA",
+                                "street": "1 Hacker Way",
+                                "type": "HOME",
+                                "zip": "94025"
+                              },
+                              {
+                                "city": "Menlo Park",
+                                "country": "United States",
+                                "countryCode": "us",
+                                "state": "CA",
+                                "street": "200 Jefferson Dr",
+                                "type": "WORK",
+                                "zip": "94025"
+                              }
+                            ],
+                            "birthday": "1995-08-18",
+                            "emails": [
+                              {
+                                "email": "personal.mail@gupshup.io",
+                                "type": "Personal"
+                              },
+                              {
+                                "email": "devsupport@gupshup.io",
+                                "type": "Work"
+                              }
+                            ],
+                            "name": {
+                              "firstName": "John",
+                              "formattedName": "John Wick",
+                              "lastName": "Wick"
+                            },
+                            "org": {
+                              "company": "Guspshup",
+                              "department": "Product",
+                              "title": "Manager"
+                            },
+                            "phones": [
+                              {
+                                "phone": "+1 (940) 555-1234",
+                                "type": "HOME"
+                              },
+                              {
+                                "phone": "+1 (650) 555-1234",
+                                "type": "WORK",
+                                "wa_id": "16505551234"
+                              }
+                            ],
+                            "urls": [
+                              {
+                                "url": "https://www.gupshup.io",
+                                "type": "WORK"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "src.name": {
+                    "type": "string",
+                    "example": "myapp",
+                    "description": "The Gupshup app name registered against the phone number provided in the API."
+                  },
+                  "disablePreview": {
+                    "type": "boolean",
+                    "example": false,
+                    "description": "This is only applicable for text messages. By default, the mobile WhatsApp application recognizes URLs and makes them clickable. To include a URL preview, include \"preview_url\": true in the message body and make sure the URL begins with http:// or https://. A hostname is required, IP addresses are not matched."
+                  },
+                  "encode": {
+                    "type": "boolean",
+                    "example": false,
+                    "description": "This flag is used for sending an emoji in an Interactive List message. If the list message consists of emojis, set the encode flag to 'true'. This flag will not affect any other type of message."
+                  }
+                }
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "2XX": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "submitted",
+                      "description": "The API call was successfully made and the request is submitted."
+                    },
+                    "messageId": {
+                      "type": "string",
+                      "example": "ee4a68a0-1203-4c85-8dc3-49d0b3226a35",
+                      "description": "It is the unique identifier for a message. You can track message status via the DLR message events obtained on the webhook."
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Send message API requests received by our platform are processed asynchronously, and hence you will always get an HTTP_SUCCESS(200 to 299) response range if the API request made is correct."
+          }
+        },
+        "deprecated": false
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "text": {
+        "title": "Text",
+        "required": [
+          "type",
+          "text"
+        ],
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "type": "text",
+          "text": "Hello user, how are you?"
+        }
+      },
+      "image": {
+        "title": "Image",
+        "required": [
+          "type",
+          "originalUrl",
+          "previewUrl",
+          "caption"
+        ],
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "originalUrl": {
+            "type": "string"
+          },
+          "previewUrl": {
+            "type": "string"
+          },
+          "caption": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "type": "image",
+          "originalUrl": "https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg",
+          "previewUrl": "https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg",
+          "caption": "Sample image"
+        }
+      },
+      "document": {
+        "title": "Document",
+        "required": [
+          "type",
+          "url",
+          "filename"
+        ],
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "filename": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "type": "file",
+          "url": "https://www.buildquickbots.com/whatsapp/media/sample/pdf/sample01.pdf",
+          "filename": "Sample file"
+        }
+      },
+      "video": {
+        "title": "Video",
+        "required": [
+          "type",
+          "url",
+          "caption"
+        ],
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "caption": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "type": "video",
+          "url": "https://www.buildquickbots.com/whatsapp/media/sample/video/sample01.mp4",
+          "caption": "Sample video"
+        }
+      },
+      "sticker": {
+        "title": "Sticker",
+        "required": [
+          "type",
+          "url"
+        ],
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "type": "sticker",
+          "url": "http://www.buildquickbots.com/whatsapp/stickers/SampleSticker01.webp"
+        }
+      },
+      "listmessage": {
+        "title": "Interactive - List message",
+        "required": [
+          "type",
+          "title",
+          "body",
+          "msgid",
+          "globalButtons",
+          "items"
+        ],
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "body": {
+            "type": "string"
+          },
+          "msgid": {
+            "type": "string"
+          },
+          "globalButtons": {
+            "type": "array",
+            "items": {
+              "title": "List message - GlobalButton object",
+              "required": [
+                "type",
+                "title"
+              ],
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "type": "text",
+                "title": "Global button"
+              }
+            },
+            "description": "Global buttons array description"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "title": "List message - Items object",
+              "required": [
+                "title",
+                "subtitle",
+                "options"
+              ],
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string"
+                },
+                "subtitle": {
+                  "type": "string"
+                },
+                "options": {
+                  "type": "array",
+                  "items": {
+                    "title": "List message - Options object",
+                    "required": [
+                      "type",
+                      "title",
+                      "description",
+                      "postbackText"
+                    ],
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string"
+                      },
+                      "title": {
+                        "type": "string"
+                      },
+                      "description": {
+                        "type": "string"
+                      },
+                      "postbackText": {
+                        "type": "string"
+                      }
+                    },
+                    "example": {
+                      "type": "text",
+                      "title": "section 1 row 1",
+                      "description": "first row of first section description",
+                      "postbackText": "section 1 row 1 postback payload"
+                    }
+                  },
+                  "description": ""
+                }
+              },
+              "example": {
+                "title": "first Section",
+                "subtitle": "first Subtitle",
+                "options": [
+                  {
+                    "type": "text",
+                    "title": "section 1 row 1",
+                    "description": "first row of first section description",
+                    "postbackText": "section 1 row 1 postback payload"
+                  },
+                  {
+                    "type": "text",
+                    "title": "section 1 row 2",
+                    "description": "second row of first section description",
+                    "postbackText": "section 1 row 2 postback payload"
+                  },
+                  {
+                    "type": "text",
+                    "title": "section 1 row 3",
+                    "description": "third row of first section description",
+                    "postbackText": "section 1 row 3 postback payload"
+                  }
+                ]
+              }
+            },
+            "description": "Items array description"
+          }
+        },
+        "example": {
+          "type": "list",
+          "title": "title text",
+          "body": "body text",
+          "msgid": "list1",
+          "globalButtons": [
+            {
+              "type": "text",
+              "title": "Global button"
+            }
+          ],
+          "items": [
+            {
+              "title": "first Section",
+              "subtitle": "first Subtitle",
+              "options": [
+                {
+                  "type": "text",
+                  "title": "section 1 row 1",
+                  "description": "first row of first section description",
+                  "postbackText": "section 1 row 1 postback payload"
+                },
+                {
+                  "type": "text",
+                  "title": "section 1 row 2",
+                  "description": "second row of first section description",
+                  "postbackText": "section 1 row 2 postback payload"
+                },
+                {
+                  "type": "text",
+                  "title": "section 1 row 3",
+                  "description": "third row of first section description",
+                  "postbackText": "section 1 row 3 postback payload"
+                }
+              ]
+            },
+            {
+              "title": "second section",
+              "subtitle": "second Subtitle",
+              "options": [
+                {
+                  "type": "text",
+                  "title": "section 2 row 1",
+                  "description": "first row of second section description",
+                  "postbackText": "section 1 row 3 postback payload"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "listMessageGlobalButtonsObject": {
+        "title": "List message - GlobalButton object",
+        "required": [
+          "type",
+          "title"
+        ],
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "type": "text",
+          "title": "Global button"
+        }
+      },
+      "lisMessageItemsObject": {
+        "title": "List message - Items object",
+        "required": [
+          "title",
+          "subtitle",
+          "options"
+        ],
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "subtitle": {
+            "type": "string"
+          },
+          "options": {
+            "type": "array",
+            "items": {
+              "title": "List message - Options object",
+              "required": [
+                "type",
+                "title",
+                "description",
+                "postbackText"
+              ],
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "postbackText": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "type": "text",
+                "title": "section 1 row 1",
+                "description": "first row of first section description",
+                "postbackText": "section 1 row 1 postback payload"
+              }
+            },
+            "description": ""
+          }
+        },
+        "example": {
+          "title": "first Section",
+          "subtitle": "first Subtitle",
+          "options": [
+            {
+              "type": "text",
+              "title": "section 1 row 1",
+              "description": "first row of first section description",
+              "postbackText": "section 1 row 1 postback payload"
+            },
+            {
+              "type": "text",
+              "title": "section 1 row 2",
+              "description": "second row of first section description",
+              "postbackText": "section 1 row 2 postback payload"
+            },
+            {
+              "type": "text",
+              "title": "section 1 row 3",
+              "description": "third row of first section description",
+              "postbackText": "section 1 row 3 postback payload"
+            }
+          ]
+        }
+      },
+      "listMessageOptionObject": {
+        "title": "List message - Options object",
+        "required": [
+          "type",
+          "title",
+          "description",
+          "postbackText"
+        ],
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "postbackText": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "type": "text",
+          "title": "section 1 row 1",
+          "description": "first row of first section description",
+          "postbackText": "section 1 row 1 postback payload"
+        }
+      },
+      "Quickreply": {
+        "title": "Quick reply - text",
+        "required": [
+          "type",
+          "msgid",
+          "content",
+          "options"
+        ],
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "msgid": {
+            "type": "string"
+          },
+          "content": {
+            "title": "Quick reply - Text Content object",
+            "required": [
+              "type",
+              "header",
+              "text",
+              "caption"
+            ],
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string"
+              },
+              "header": {
+                "type": "string"
+              },
+              "text": {
+                "type": "string"
+              },
+              "caption": {
+                "type": "string"
+              }
+            },
+            "example": {
+              "type": "text",
+              "header": "this is the header",
+              "text": "this is the body",
+              "caption": "this is the footer"
+            }
+          },
+          "options": {
+            "type": "array",
+            "items": {
+              "title": "Quick reply - Options object",
+              "required": [
+                "type",
+                "title"
+              ],
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "type": "text",
+                "title": "First"
+              }
+            },
+            "description": ""
+          }
+        },
+        "example": {
+          "type": "quick_reply",
+          "msgid": "qr1",
+          "content": {
+            "type": "text",
+            "header": "this is the header",
+            "text": "this is the body",
+            "caption": "this is the footer"
+          },
+          "options": [
+            {
+              "type": "text",
+              "title": "First"
+            },
+            {
+              "type": "text",
+              "title": "Second"
+            },
+            {
+              "type": "text",
+              "title": "Third"
+            }
+          ]
+        }
+      },
+      "Content": {
+        "title": "Quick reply - Text Content object",
+        "required": [
+          "type",
+          "header",
+          "text",
+          "caption"
+        ],
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "header": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          },
+          "caption": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "type": "text",
+          "header": "this is the header",
+          "text": "this is the body",
+          "caption": "this is the footer"
+        }
+      },
+      "quickreplyoptions": {
+        "title": "Quick reply - Options object",
+        "required": [
+          "type",
+          "title"
+        ],
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "type": "text",
+          "title": "First"
+        }
+      },
+      "quickreplyimage": {
+        "title": "Quick reply - Image/Video",
+        "required": [
+          "type",
+          "msgid",
+          "content",
+          "options"
+        ],
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "msgid": {
+            "type": "string"
+          },
+          "content": {
+            "title": "Quick reply - Image/Video Content object",
+            "required": [
+              "type",
+              "url",
+              "text",
+              "caption"
+            ],
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string"
+              },
+              "text": {
+                "type": "string"
+              },
+              "caption": {
+                "type": "string"
+              }
+            },
+            "example": {
+              "type": "image/video",
+              "url": "https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg",
+              "text": "this is the body",
+              "caption": "this is the footer"
+            }
+          },
+          "options": {
+            "type": "array",
+            "items": {
+              "title": "Quick reply - Options object",
+              "required": [
+                "type",
+                "title"
+              ],
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "type": "text",
+                "title": "First"
+              }
+            },
+            "description": ""
+          }
+        },
+        "example": {
+          "type": "quick_reply",
+          "msgid": "qr1",
+          "content": {
+            "type": "image/video",
+            "url": "https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg",
+            "text": "this is the body",
+            "caption": "this is the footer"
+          },
+          "options": [
+            {
+              "type": "text",
+              "title": "First"
+            },
+            {
+              "type": "text",
+              "title": "Second"
+            },
+            {
+              "type": "text",
+              "title": "Third"
+            }
+          ]
+        }
+      },
+      "quickReplyImageContentObject": {
+        "title": "Quick reply - Image/Video Content object",
+        "required": [
+          "type",
+          "url",
+          "text",
+          "caption"
+        ],
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          },
+          "caption": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "type": "image/video",
+          "url": "https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg",
+          "text": "this is the body",
+          "caption": "this is the footer"
+        }
+      },
+      "quickReplyFile": {
+        "title": "Quick reply - File",
+        "required": [
+          "type",
+          "msgid",
+          "content",
+          "options"
+        ],
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "msgid": {
+            "type": "string"
+          },
+          "content": {
+            "title": "Quick reply - File Content object",
+            "required": [
+              "type",
+              "url",
+              "text",
+              "filename",
+              "caption"
+            ],
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string"
+              },
+              "text": {
+                "type": "string"
+              },
+              "filename": {
+                "type": "string"
+              },
+              "caption": {
+                "type": "string"
+              }
+            },
+            "example": {
+              "type": "file",
+              "url": "https://www.buildquickbots.com/whatsapp/media/sample/pdf/sample01.pdf",
+              "text": "this is the body",
+              "filename": "Sample file",
+              "caption": "this is the footer"
+            }
+          },
+          "options": {
+            "type": "array",
+            "items": {
+              "title": "Quick reply - Options object",
+              "required": [
+                "type",
+                "title"
+              ],
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "type": "text",
+                "title": "First"
+              }
+            },
+            "description": ""
+          }
+        },
+        "example": {
+          "type": "quick_reply",
+          "msgid": "qr1",
+          "content": {
+            "type": "file",
+            "url": "https://www.buildquickbots.com/whatsapp/media/sample/pdf/sample01.pdf",
+            "text": "this is the body",
+            "filename": "Sample file",
+            "caption": "this is the footer"
+          },
+          "options": [
+            {
+              "type": "text",
+              "title": "First"
+            },
+            {
+              "type": "text",
+              "title": "Second"
+            },
+            {
+              "type": "text",
+              "title": "Third"
+            }
+          ]
+        }
+      },
+      "Quickreplyfilecontent": {
+        "title": "Quick reply - File Content object",
+        "required": [
+          "type",
+          "url",
+          "text",
+          "filename",
+          "caption"
+        ],
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          },
+          "filename": {
+            "type": "string"
+          },
+          "caption": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "type": "file",
+          "url": "https://www.buildquickbots.com/whatsapp/media/sample/pdf/sample01.pdf",
+          "text": "this is the body",
+          "filename": "Sample file",
+          "caption": "this is the footer"
+        }
+      },
+      "Locationmessage": {
+        "title": "Location message",
+        "required": [
+          "type",
+          "longitude",
+          "latitude",
+          "name",
+          "address"
+        ],
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "longitude": {
+            "type": "number"
+          },
+          "latitude": {
+            "type": "number"
+          },
+          "name": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "type": "location",
+          "longitude": 72.877655,
+          "latitude": 19.075983,
+          "name": "Mumbai",
+          "address": "Mumbai, Maharashtra"
+        }
+      },
+      "contact": {
+        "title": "Contact message",
+        "required": [
+          "type",
+          "contact"
+        ],
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "contact": {
+            "title": "Contact Object",
+            "required": [
+              "addresses",
+              "birthday",
+              "emails",
+              "name",
+              "org",
+              "phones",
+              "urls"
+            ],
+            "type": "object",
+            "properties": {
+              "addresses": {
+                "type": "array",
+                "items": {
+                  "title": "Contact - Address object",
+                  "required": [
+                    "city",
+                    "country",
+                    "countryCode",
+                    "state",
+                    "street",
+                    "type",
+                    "zip"
+                  ],
+                  "type": "object",
+                  "properties": {
+                    "city": {
+                      "type": "string"
+                    },
+                    "country": {
+                      "type": "string"
+                    },
+                    "countryCode": {
+                      "type": "string"
+                    },
+                    "state": {
+                      "type": "string"
+                    },
+                    "street": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "zip": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "city": "Menlo Park",
+                    "country": "United States",
+                    "countryCode": "us",
+                    "state": "CA",
+                    "street": "1 Hacker Way",
+                    "type": "HOME",
+                    "zip": "94025"
+                  }
+                },
+                "description": ""
+              },
+              "birthday": {
+                "type": "string"
+              },
+              "emails": {
+                "type": "array",
+                "items": {
+                  "title": "Contact - Email object",
+                  "required": [
+                    "email",
+                    "type"
+                  ],
+                  "type": "object",
+                  "properties": {
+                    "email": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "email": "personal.mail@gupshup.io",
+                    "type": "Personal"
+                  }
+                },
+                "description": ""
+              },
+              "name": {
+                "title": "Contact - Name object",
+                "required": [
+                  "firstName",
+                  "formattedName",
+                  "lastName"
+                ],
+                "type": "object",
+                "properties": {
+                  "firstName": {
+                    "type": "string"
+                  },
+                  "formattedName": {
+                    "type": "string"
+                  },
+                  "lastName": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "firstName": "John",
+                  "formattedName": "John Wick",
+                  "lastName": "Wick"
+                }
+              },
+              "org": {
+                "title": "Contact - Org object",
+                "required": [
+                  "company",
+                  "department",
+                  "title"
+                ],
+                "type": "object",
+                "properties": {
+                  "company": {
+                    "type": "string"
+                  },
+                  "department": {
+                    "type": "string"
+                  },
+                  "title": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "company": "Guspshup",
+                  "department": "Product",
+                  "title": "Manager"
+                }
+              },
+              "phones": {
+                "type": "array",
+                "items": {
+                  "title": "Contact - Phone object",
+                  "required": [
+                    "phone",
+                    "type"
+                  ],
+                  "type": "object",
+                  "properties": {
+                    "phone": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "wa_id": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "phone": "+1 (940) 555-1234",
+                    "type": "HOME"
+                  }
+                },
+                "description": ""
+              },
+              "urls": {
+                "type": "array",
+                "items": {
+                  "title": "Contact - Url object",
+                  "required": [
+                    "url",
+                    "type"
+                  ],
+                  "type": "object",
+                  "properties": {
+                    "url": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "url": "https://www.gupshup.io",
+                    "type": "WORK"
+                  }
+                },
+                "description": ""
+              }
+            },
+            "example": {
+              "addresses": [
+                {
+                  "city": "Menlo Park",
+                  "country": "United States",
+                  "countryCode": "us",
+                  "state": "CA",
+                  "street": "1 Hacker Way",
+                  "type": "HOME",
+                  "zip": "94025"
+                },
+                {
+                  "city": "Menlo Park",
+                  "country": "United States",
+                  "countryCode": "us",
+                  "state": "CA",
+                  "street": "200 Jefferson Dr",
+                  "type": "WORK",
+                  "zip": "94025"
+                }
+              ],
+              "birthday": "1995-08-18",
+              "emails": [
+                {
+                  "email": "personal.mail@gupshup.io",
+                  "type": "Personal"
+                },
+                {
+                  "email": "devsupport@gupshup.io",
+                  "type": "Work"
+                }
+              ],
+              "name": {
+                "firstName": "John",
+                "formattedName": "John Wick",
+                "lastName": "Wick"
+              },
+              "org": {
+                "company": "Guspshup",
+                "department": "Product",
+                "title": "Manager"
+              },
+              "phones": [
+                {
+                  "phone": "+1 (940) 555-1234",
+                  "type": "HOME"
+                },
+                {
+                  "phone": "+1 (650) 555-1234",
+                  "type": "WORK",
+                  "wa_id": "16505551234"
+                }
+              ],
+              "urls": [
+                {
+                  "url": "https://www.gupshup.io",
+                  "type": "WORK"
+                }
+              ]
+            }
+          }
+        },
+        "example": {
+          "type": "contact",
+          "contact": {
+            "addresses": [
+              {
+                "city": "Menlo Park",
+                "country": "United States",
+                "countryCode": "us",
+                "state": "CA",
+                "street": "1 Hacker Way",
+                "type": "HOME",
+                "zip": "94025"
+              },
+              {
+                "city": "Menlo Park",
+                "country": "United States",
+                "countryCode": "us",
+                "state": "CA",
+                "street": "200 Jefferson Dr",
+                "type": "WORK",
+                "zip": "94025"
+              }
+            ],
+            "birthday": "1995-08-18",
+            "emails": [
+              {
+                "email": "personal.mail@gupshup.io",
+                "type": "Personal"
+              },
+              {
+                "email": "devsupport@gupshup.io",
+                "type": "Work"
+              }
+            ],
+            "name": {
+              "firstName": "John",
+              "formattedName": "John Wick",
+              "lastName": "Wick"
+            },
+            "org": {
+              "company": "Guspshup",
+              "department": "Product",
+              "title": "Manager"
+            },
+            "phones": [
+              {
+                "phone": "+1 (940) 555-1234",
+                "type": "HOME"
+              },
+              {
+                "phone": "+1 (650) 555-1234",
+                "type": "WORK",
+                "wa_id": "16505551234"
+              }
+            ],
+            "urls": [
+              {
+                "url": "https://www.gupshup.io",
+                "type": "WORK"
+              }
+            ]
+          }
+        }
+      },
+      "Contactobject": {
+        "title": "Contact Object",
+        "required": [
+          "addresses",
+          "birthday",
+          "emails",
+          "name",
+          "org",
+          "phones",
+          "urls"
+        ],
+        "type": "object",
+        "properties": {
+          "addresses": {
+            "type": "array",
+            "items": {
+              "title": "Contact - Address object",
+              "required": [
+                "city",
+                "country",
+                "countryCode",
+                "state",
+                "street",
+                "type",
+                "zip"
+              ],
+              "type": "object",
+              "properties": {
+                "city": {
+                  "type": "string"
+                },
+                "country": {
+                  "type": "string"
+                },
+                "countryCode": {
+                  "type": "string"
+                },
+                "state": {
+                  "type": "string"
+                },
+                "street": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                },
+                "zip": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "city": "Menlo Park",
+                "country": "United States",
+                "countryCode": "us",
+                "state": "CA",
+                "street": "1 Hacker Way",
+                "type": "HOME",
+                "zip": "94025"
+              }
+            },
+            "description": ""
+          },
+          "birthday": {
+            "type": "string"
+          },
+          "emails": {
+            "type": "array",
+            "items": {
+              "title": "Contact - Email object",
+              "required": [
+                "email",
+                "type"
+              ],
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "email": "personal.mail@gupshup.io",
+                "type": "Personal"
+              }
+            },
+            "description": ""
+          },
+          "name": {
+            "title": "Contact - Name object",
+            "required": [
+              "firstName",
+              "formattedName",
+              "lastName"
+            ],
+            "type": "object",
+            "properties": {
+              "firstName": {
+                "type": "string"
+              },
+              "formattedName": {
+                "type": "string"
+              },
+              "lastName": {
+                "type": "string"
+              }
+            },
+            "example": {
+              "firstName": "John",
+              "formattedName": "John Wick",
+              "lastName": "Wick"
+            }
+          },
+          "org": {
+            "title": "Contact - Org object",
+            "required": [
+              "company",
+              "department",
+              "title"
+            ],
+            "type": "object",
+            "properties": {
+              "company": {
+                "type": "string"
+              },
+              "department": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              }
+            },
+            "example": {
+              "company": "Guspshup",
+              "department": "Product",
+              "title": "Manager"
+            }
+          },
+          "phones": {
+            "type": "array",
+            "items": {
+              "title": "Contact - Phone object",
+              "required": [
+                "phone",
+                "type"
+              ],
+              "type": "object",
+              "properties": {
+                "phone": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                },
+                "wa_id": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "phone": "+1 (940) 555-1234",
+                "type": "HOME"
+              }
+            },
+            "description": ""
+          },
+          "urls": {
+            "type": "array",
+            "items": {
+              "title": "Contact - Url object",
+              "required": [
+                "url",
+                "type"
+              ],
+              "type": "object",
+              "properties": {
+                "url": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "url": "https://www.gupshup.io",
+                "type": "WORK"
+              }
+            },
+            "description": ""
+          }
+        },
+        "example": {
+          "addresses": [
+            {
+              "city": "Menlo Park",
+              "country": "United States",
+              "countryCode": "us",
+              "state": "CA",
+              "street": "1 Hacker Way",
+              "type": "HOME",
+              "zip": "94025"
+            },
+            {
+              "city": "Menlo Park",
+              "country": "United States",
+              "countryCode": "us",
+              "state": "CA",
+              "street": "200 Jefferson Dr",
+              "type": "WORK",
+              "zip": "94025"
+            }
+          ],
+          "birthday": "1995-08-18",
+          "emails": [
+            {
+              "email": "personal.mail@gupshup.io",
+              "type": "Personal"
+            },
+            {
+              "email": "devsupport@gupshup.io",
+              "type": "Work"
+            }
+          ],
+          "name": {
+            "firstName": "John",
+            "formattedName": "John Wick",
+            "lastName": "Wick"
+          },
+          "org": {
+            "company": "Guspshup",
+            "department": "Product",
+            "title": "Manager"
+          },
+          "phones": [
+            {
+              "phone": "+1 (940) 555-1234",
+              "type": "HOME"
+            },
+            {
+              "phone": "+1 (650) 555-1234",
+              "type": "WORK",
+              "wa_id": "16505551234"
+            }
+          ],
+          "urls": [
+            {
+              "url": "https://www.gupshup.io",
+              "type": "WORK"
+            }
+          ]
+        }
+      },
+      "Addressobject": {
+        "title": "Contact - Address object",
+        "required": [
+          "city",
+          "country",
+          "countryCode",
+          "state",
+          "street",
+          "type",
+          "zip"
+        ],
+        "type": "object",
+        "properties": {
+          "city": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          },
+          "countryCode": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string"
+          },
+          "street": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "zip": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "city": "Menlo Park",
+          "country": "United States",
+          "countryCode": "us",
+          "state": "CA",
+          "street": "1 Hacker Way",
+          "type": "HOME",
+          "zip": "94025"
+        }
+      },
+      "Emailobject": {
+        "title": "Contact - Email object",
+        "required": [
+          "email",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "email": "personal.mail@gupshup.io",
+          "type": "Personal"
+        }
+      },
+      "Nameobject": {
+        "title": "Contact - Name object",
+        "required": [
+          "firstName",
+          "formattedName",
+          "lastName"
+        ],
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string"
+          },
+          "formattedName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "firstName": "John",
+          "formattedName": "John Wick",
+          "lastName": "Wick"
+        }
+      },
+      "Orgobject": {
+        "title": "Contact - Org object",
+        "required": [
+          "company",
+          "department",
+          "title"
+        ],
+        "type": "object",
+        "properties": {
+          "company": {
+            "type": "string"
+          },
+          "department": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "company": "Guspshup",
+          "department": "Product",
+          "title": "Manager"
+        }
+      },
+      "Phoneobject": {
+        "title": "Contact - Phone object",
+        "required": [
+          "phone",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "phone": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "wa_id": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "phone": "+1 (940) 555-1234",
+          "type": "HOME"
+        }
+      },
+      "Urlobject": {
+        "title": "Contact - Url object",
+        "required": [
+          "url",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "url": "https://www.gupshup.io",
+          "type": "WORK"
+        }
+      }
+    }
+  },
+  "x-readme": {
+    "explorer-enabled": true,
+    "proxy-enabled": true
+  }
+}
