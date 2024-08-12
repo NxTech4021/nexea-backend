@@ -4,7 +4,6 @@
   "description": "Backend structure for Nexea Event App projects to handle APIs.",
   "author": "Nexea developer team",
   "license": "MIT",
-  "type": "commonjs",
   "scripts": {
     "start": "node app",
     "build": "tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json",
@@ -18,13 +17,10 @@
     "studio": "npx prisma studio"
   },
   "dependencies": {
-    "@api/gupshup": "file:.api/apis/gupshup",
-<<<<<<< Updated upstream
     "@babel/core": "^7.24.9",
-=======
->>>>>>> Stashed changes
     "@google-cloud/storage": "^7.9.0",
     "@prisma/client": "^5.9.1",
+    "axios": "^1.7.3",
     "bcrypt": "^5.1.1",
     "cookie-parser": "^1.4.6",
     "cookies": "^0.9.1",
@@ -43,6 +39,7 @@
     "node-cron": "^3.0.3",
     "nodemailer": "^6.9.12",
     "passport-jwt": "^4.0.1",
+    "querystring": "^0.2.1",
     "uuid": "^9.0.1"
   },
   "devDependencies": {

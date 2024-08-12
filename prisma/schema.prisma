@@ -91,4 +91,5 @@ enum Type {
 enum NotificationStatus {
   Pending
   Sent
+  Error
 }

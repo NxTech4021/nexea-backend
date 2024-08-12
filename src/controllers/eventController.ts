@@ -2,8 +2,6 @@ import { Request, Response } from 'express';
 import { prisma } from '@configs/prisma';
 import cron from 'node-cron';
 import { EventStatus } from '@prisma/client';
-import gupshup from '@api/gupshup';
-// Get event by ID
 
 export const getEvent = async (req: Request, res: Response) => {
   const { id } = req.params;
@@ -158,67 +156,67 @@ export const updateEventStatus = () => {
   }
 };
 
-export const sendingText = async () => {
-  try {
-    await gupshup.postMsg(
-      {
-        message: { type: 'text', text: 'Hello user, how are you?' },
-        channel: 'whatsapp',
-        source: 917472850482,
-        destination: 60109037926,
-        'src.name': 'myapp',
-      },
-      { apikey: '092707e8296649XXXX94c0fXXX818ad', 'Content-Type': 'application/x-www-form-urlencoded' },
-    );
-  } catch (error) {
-    console.error('Error sending text:', error);
-  }
-};
+// export const sendingText = async () => {
+//   try {
+//     await gupshup.postMsg(
+//       {
+//         message: { type: 'text', text: 'Hello user, how are you?' },
+//         channel: 'whatsapp',
+//         source: 917472850482,
+//         destination: 60109037926,
+//         'src.name': 'myapp',
+//       },
+//       { apikey: '092707e8296649XXXX94c0fXXX818ad', 'Content-Type': 'application/x-www-form-urlencoded' },
+//     );
+//   } catch (error) {
+//     console.error('Error sending text:', error);
+//   }
+// };
 
-export const sendingImg = async () => {
-  try {
-    await gupshup.postMsg(
-      {
-        message: {
-          type: 'image',
-          originalUrl: 'https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg',
-          previewUrl: 'https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg',
-          caption: 'Sample image',
-        },
-        channel: 'whatsapp',
-        source: 917472850482,
-        destination: 918748133759,
-        'src.name': 'myapp',
-      },
-      { apikey: '092707e8296649XXXX94c0fXXX818ad', 'Content-Type': 'application/x-www-form-urlencoded' },
-    );
-  } catch (error) {
-    console.error('Error sending Image:', error);
-  }
-};
+// export const sendingImg = async () => {
+//   try {
+//     await gupshup.postMsg(
+//       {
+//         message: {
+//           type: 'image',
+//           originalUrl: 'https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg',
+//           previewUrl: 'https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg',
+//           caption: 'Sample image',
+//         },
+//         channel: 'whatsapp',
+//         source: 917472850482,
+//         destination: 918748133759,
+//         'src.name': 'myapp',
+//       },
+//       { apikey: '092707e8296649XXXX94c0fXXX818ad', 'Content-Type': 'application/x-www-form-urlencoded' },
+//     );
+//   } catch (error) {
+//     console.error('Error sending Image:', error);
+//   }
+// };
 
-export const sendingLocation = async () => {
-  try {
-    await gupshup.postMsg(
-      {
-        message: {
-          type: 'location',
-          longitude: 72.877655,
-          latitude: 19.075983,
-          name: 'Mumbai',
-          address: 'Mumbai, Maharashtra',
-        },
-        channel: 'whatsapp',
-        source: 917472850482,
-        destination: 918748133759,
-        'src.name': 'nexeaEvent',
-      },
-      { apikey: '092707e8296649XXXX94c0fXXX818ad', 'Content-Type': 'application/x-www-form-urlencoded' },
-    );
-  } catch (error) {
-    console.error('Error sending Location:', error);
-  }
-};
+// export const sendingLocation = async () => {
+//   try {
+//     await gupshup.postMsg(
+//       {
+//         message: {
+//           type: 'location',
+//           longitude: 72.877655,
+//           latitude: 19.075983,
+//           name: 'Mumbai',
+//           address: 'Mumbai, Maharashtra',
+//         },
+//         channel: 'whatsapp',
+//         source: 917472850482,
+//         destination: 918748133759,
+//         'src.name': 'nexeaEvent',
+//       },
+//       { apikey: '092707e8296649XXXX94c0fXXX818ad', 'Content-Type': 'application/x-www-form-urlencoded' },
+//     );
+//   } catch (error) {
+//     console.error('Error sending Location:', error);
+//   }
+// };
 
 (async () => {
   try {
