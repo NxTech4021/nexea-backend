@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  nexea-backend:
+    build:
+      context: ./nexea-backend
+      dockerfile: Dockerfile
+    container_name: nexea-backend
+    ports:
+      - "3001:3001"
+    environment:
+      - DATABASE_URL=postgres://postgres:oneminuteplease@34.87.1.242:5432/nexea
+    volumes:
+      - ./nexea-backend:/app
+      - /app/node_modules
+    networks:
+      - nexea
+      - db
+
+  nexea-frontend:
+    build:
+      context: ./nexea-frontend
+      dockerfile: Dockerfile
+    container_name: nexea-frontend
+    ports:
+      - "3031:3031"
+    volumes:
+      - ./nexea-frontend:/app
+      - /app/node_modules
+    networks:
+      - nexea
+
+  nginx:
+    build: ./nginx
+    ports:
+      - "81:80"
+    restart: always
+    networks:
+      - nexea
+
+networks:
+  nexea:
+    driver: bridge
+  db:
+    name: database_database_db
+    external: true
