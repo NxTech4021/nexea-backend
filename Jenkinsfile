@@ -31,11 +31,6 @@ pipeline {
                     }
                 }
             }
-            post {
-                always {
-                    cleanWs()
-                }
-            }
         }
         stage('Build Docker Images') {
             parallel {
