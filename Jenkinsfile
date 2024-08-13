@@ -10,8 +10,14 @@ pipeline {
         NEXEA_JENKINS_SERVICEACCOUNT_CREDENTIAL_ID = 'NEXEA_JENKINS_SERVICEACCOUNT_CREDENTIAL'
         NEXEA_EVENTAPP_SSH_CREDENTIAL_ID = 'NEXEA_EVENTAPP_SSH_CREDENTIAL'
         NEXEA_EVENTAPP_SERVICEACCOUNT_KEYFILE = 'NEXEA_EventApp_ServiceAccount_Keyfile.json'
+        DOCKER_BUILDKIT = '1' // Enable Docker BuildKit
     }
     stages {
+        stage('Initialize Docker Buildx') {
+            steps {
+                sh 'docker buildx create --use'
+            }
+        }
         stage('Checkout Repositories') {
             parallel {
                 stage('Checkout Frontend Repository') {
@@ -40,7 +46,7 @@ pipeline {
             parallel {
                 stage('Build Frontend Docker Image') {
                     steps {
-                        echo 'Building Frontend Docker Image...'
+                        echo 'Building Frontend Docker Image with Buildx...'
                         dir('frontend') {
                             script {
                                 sh 'ls -al'
@@ -51,7 +57,7 @@ pipeline {
                 }
                 stage('Build Backend Docker Image') {
                     steps {
-                        echo 'Building Backend Docker Image...'
+                        echo 'Building Backend Docker Image with Buildx...'
                         dir('backend') {
                             script {
                                 sh 'ls -al'
@@ -72,11 +78,11 @@ pipeline {
                         echo 'Pushing Frontend Docker Image...'
                         script {
                             withCredentials([file(credentialsId: 'NEXEA_JENKINS_SERVICEACCOUNT_CREDENTIAL', variable: 'NEXEA_JENKINS_SERVICEACCOUNT_CREDENTIAL_ID')]) {
-                                sh """
+                                sh '''
                                   cat $NEXEA_JENKINS_SERVICEACCOUNT_CREDENTIAL_ID | docker login -u _json_key --password-stdin https://gcr.io
                                   docker tag ${DOCKER_IMAGE_NAME}-frontend:latest gcr.io/${NEXEA_GCP_PROJECT_ID}/${DOCKER_IMAGE_NAME}-frontend:latest
                                   docker push gcr.io/${NEXEA_GCP_PROJECT_ID}/${DOCKER_IMAGE_NAME}-frontend:latest
-                                """
+                                '''
                             }
                         }
                     }
@@ -89,11 +95,11 @@ pipeline {
                         echo 'Pushing Backend Docker Image...'
                         script {
                             withCredentials([file(credentialsId: 'NEXEA_JENKINS_SERVICEACCOUNT_CREDENTIAL', variable: 'NEXEA_JENKINS_SERVICEACCOUNT_CREDENTIAL_ID')]) {
-                                sh """
+                                sh '''
                                   cat $NEXEA_JENKINS_SERVICEACCOUNT_CREDENTIAL_ID | docker login -u _json_key --password-stdin https://gcr.io
                                   docker tag ${DOCKER_IMAGE_NAME}-backend:latest gcr.io/${NEXEA_GCP_PROJECT_ID}/${DOCKER_IMAGE_NAME}-backend:latest
                                   docker push gcr.io/${NEXEA_GCP_PROJECT_ID}/${DOCKER_IMAGE_NAME}-backend:latest
-                                """
+                                '''
                             }
                         }
                     }
