@@ -7,7 +7,7 @@ pipeline {
         NEXEA_GCP_PROJECT_ID = 'my-project-nexea'
         NEXEA_GCP_INSTANCE_ID = 'nexea-event-app'
         DOCKER_IMAGE_NAME = 'nexea-event-app'
-        NEXEA_JENKINS_SERVICEACCOUNT_CREDENTIAL_ID = 'NEXEA_JENKINS_SERVICEACCOUNT_CREDENTIAL' 
+        NEXEA_JENKINS_SERVICEACCOUNT_CREDENTIAL_ID = 'NEXEA_JENKINS_SERVICEACCOUNT_CREDENTIAL'
         NEXEA_EVENTAPP_SSH_CREDENTIAL_ID = 'NEXEA_EVENTAPP_SSH_CREDENTIAL'
         NEXEA_EVENTAPP_SERVICEACCOUNT_KEYFILE = 'NEXEA_EventApp_ServiceAccount_Keyfile.json'
     }
@@ -20,6 +20,8 @@ pipeline {
                         dir('frontend') {
                             git url: 'https://github.com/NxTech4021/nexea-frontend.git', branch: 'main'
                         }
+                        echo 'Checked out frontend repository'
+                        sh 'ls -al frontend'
                     }
                 }
                 stage('Checkout Backend Repository') {
@@ -28,6 +30,8 @@ pipeline {
                         dir('backend') {
                             git url: 'https://github.com/NxTech4021/nexea-backend.git', branch: 'main'
                         }
+                        echo 'Checked out backend repository'
+                        sh 'ls -al backend'
                     }
                 }
             }
@@ -39,13 +43,9 @@ pipeline {
                         echo 'Building Frontend Docker Image...'
                         dir('frontend') {
                             script {
-                                dockerImageFrontend = docker.build("${DOCKER_IMAGE_NAME}-frontend", "${WORKSPACE}/frontend")
+                                sh 'ls -al'
+                                dockerImageFrontend = docker.build("${DOCKER_IMAGE_NAME}-frontend", ".")
                             }
-                        }
-                    }
-                    post {
-                        always {
-                            cleanWs()
                         }
                     }
                 }
@@ -54,13 +54,9 @@ pipeline {
                         echo 'Building Backend Docker Image...'
                         dir('backend') {
                             script {
-                                dockerImageBackend = docker.build("${DOCKER_IMAGE_NAME}-backend", "${WORKSPACE}/backend")
+                                sh 'ls -al'
+                                dockerImageBackend = docker.build("${DOCKER_IMAGE_NAME}-backend", ".")
                             }
-                        }
-                    }
-                    post {
-                        always {
-                            cleanWs()
                         }
                     }
                 }
@@ -69,6 +65,9 @@ pipeline {
         stage('Push Docker Images') {
             parallel {
                 stage('Push Frontend Docker Image') {
+                    when {
+                        expression { return dockerImageFrontend != null }
+                    }
                     steps {
                         echo 'Pushing Frontend Docker Image...'
                         script {
@@ -81,13 +80,11 @@ pipeline {
                             }
                         }
                     }
-                    post {
-                        always {
-                            cleanWs()
-                        }
-                    }
                 }
                 stage('Push Backend Docker Image') {
+                    when {
+                        expression { return dockerImageBackend != null }
+                    }
                     steps {
                         echo 'Pushing Backend Docker Image...'
                         script {
@@ -98,11 +95,6 @@ pipeline {
                                   docker push gcr.io/${NEXEA_GCP_PROJECT_ID}/${DOCKER_IMAGE_NAME}-backend:latest
                                 """
                             }
-                        }
-                    }
-                    post {
-                        always {
-                            cleanWs()
                         }
                     }
                 }
