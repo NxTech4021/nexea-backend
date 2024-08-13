@@ -5,7 +5,7 @@ pipeline {
     }
     environment {
         NEXEA_GCP_PROJECT_ID = 'my-project-nexea'
-        NEXEA_GCP_INSTANCE_ID = '34.87.1.242'
+        NEXEA_GCP_INSTANCE_ID = 'nexea-event-app'
         DOCKER_IMAGE_NAME = 'nexea-event-app'
         NEXEA_JENKINS_SERVICEACCOUNT_CREDENTIAL_ID = 'NEXEA_JENKINS_SERVICEACCOUNT_CREDENTIAL'
         NEXEA_EVENTAPP_SSH_CREDENTIAL_ID = 'NEXEA_EVENTAPP_SSH_CREDENTIAL'
@@ -102,7 +102,7 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                sshagent([NEXEA_EVENTAPP_SSH_CREDENTIAL_ID]) {
+                sshagent([NEXEA_EVENTAPP_SSH_CREDENTIAL]) {
                     script {
                         sh '''
                         # SSH into the GCP instance to clone the backend repository
