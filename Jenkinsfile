@@ -13,28 +13,12 @@ pipeline {
         DOCKER_BUILDKIT = '1' // Enable Docker BuildKit
     }
     stages {
-        // Print environment variables for debugging
-        stage('Print Environment') {
-            steps {
-                sh 'env'
-            }
-        }
         stage('Initialize Docker Buildx') {
             steps {
-                // Debugging steps to investigate Docker configuration
-                sh '''
-                    echo "Debugging Docker Configuration"
-                    docker version
-                    docker info
-                '''
-                // Debugging the Docker Buildx commands
-                sh '''
-                    echo "Creating and Using Docker Buildx Builder"
-                    docker buildx create --name mybuilder
-                    docker buildx use mybuilder
-                    docker buildx inspect --bootstrap
-                    docker buildx ls
-                '''
+                // Simplified and working Docker Buildx setup
+                sh 'docker buildx create --name mybuilder --use'
+                sh 'docker buildx inspect --bootstrap'
+                sh 'docker buildx ls'
             }
         }
         stage('Checkout Repositories') {
@@ -68,6 +52,7 @@ pipeline {
                         echo 'Building Frontend Docker Image with Buildx...'
                         dir('frontend') {
                             script {
+                                // Ensure Docker Buildx builder context is used
                                 sh 'ls -al'
                                 dockerImageFrontend = docker.build("${DOCKER_IMAGE_NAME}-frontend", ".")
                             }
@@ -79,6 +64,7 @@ pipeline {
                         echo 'Building Backend Docker Image with Buildx...'
                         dir('backend') {
                             script {
+                                // Ensure Docker Buildx builder context is used
                                 sh 'ls -al'
                                 dockerImageBackend = docker.build("${DOCKER_IMAGE_NAME}-backend", ".")
                             }
