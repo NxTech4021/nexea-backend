@@ -10,17 +10,8 @@ pipeline {
         NEXEA_JENKINS_SERVICEACCOUNT_CREDENTIAL_ID = 'NEXEA_JENKINS_SERVICEACCOUNT_CREDENTIAL'
         NEXEA_EVENTAPP_SSH_CREDENTIAL_ID = 'NEXEA_EVENTAPP_SSH_CREDENTIAL'
         NEXEA_EVENTAPP_SERVICEACCOUNT_KEYFILE = 'NEXEA_EventApp_ServiceAccount_Keyfile.json'
-        DOCKER_BUILDKIT = '1' // Enable Docker BuildKit
     }
     stages {
-        stage('Initialize Docker Buildx') {
-            steps {
-                // Simplified and working Docker Buildx setup
-                sh "docker buildx create --name mybuilder --use"
-                sh "docker buildx inspect --bootstrap"
-                sh "docker buildx ls"
-            }
-        }
         stage('Checkout Repositories') {
             parallel {
                 stage('Checkout Frontend Repository') {
@@ -49,10 +40,9 @@ pipeline {
             parallel {
                 stage('Build Frontend Docker Image') {
                     steps {
-                        echo 'Building Frontend Docker Image with Buildx...'
+                        echo 'Building Frontend Docker Image...'
                         dir('frontend') {
                             script {
-                                // Ensure Docker Buildx builder context is used
                                 sh 'ls -al'
                                 dockerImageFrontend = docker.build("${DOCKER_IMAGE_NAME}-frontend", ".")
                             }
@@ -61,10 +51,9 @@ pipeline {
                 }
                 stage('Build Backend Docker Image') {
                     steps {
-                        echo 'Building Backend Docker Image with Buildx...'
+                        echo 'Building Backend Docker Image...'
                         dir('backend') {
                             script {
-                                // Ensure Docker Buildx builder context is used
                                 sh 'ls -al'
                                 dockerImageBackend = docker.build("${DOCKER_IMAGE_NAME}-backend", ".")
                             }
