@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '10')) // Keep only last 10 builds
+    }
     environment {
         NEXEA_GCP_PROJECT_ID = 'my-project-nexea'
         NEXEA_GCP_INSTANCE_ID = 'nexea-event-app'
@@ -19,7 +22,7 @@ pipeline {
                         }
                     }
                 }
-                stage('Checkout Backend Repository.') {
+                stage('Checkout Backend Repository') {
                     steps {
                         echo 'Checking out Backend Repository...'
                         dir('backend') {
@@ -28,16 +31,26 @@ pipeline {
                     }
                 }
             }
+            post {
+                always {
+                    cleanWs()
+                }
+            }
         }
         stage('Build Docker Images') {
             parallel {
-                stage('Build Frontend Docker Image...') {
+                stage('Build Frontend Docker Image') {
                     steps {
                         echo 'Building Frontend Docker Image...'
                         dir('frontend') {
                             script {
                                 dockerImageFrontend = docker.build("${DOCKER_IMAGE_NAME}-frontend", ".")
                             }
+                        }
+                    }
+                    post {
+                        always {
+                            cleanWs()
                         }
                     }
                 }
@@ -50,12 +63,20 @@ pipeline {
                             }
                         }
                     }
+                    post {
+                        always {
+                            cleanWs()
+                        }
+                    }
                 }
             }
         }
         stage('Push Docker Images') {
             parallel {
                 stage('Push Frontend Docker Image') {
+                    when {
+                        successful
+                    }
                     steps {
                         echo 'Pushing Frontend Docker Image...'
                         script {
@@ -68,8 +89,16 @@ pipeline {
                             }
                         }
                     }
+                    post {
+                        always {
+                            cleanWs()
+                        }
+                    }
                 }
                 stage('Push Backend Docker Image') {
+                    when {
+                        successful
+                    }
                     steps {
                         echo 'Pushing Backend Docker Image...'
                         script {
@@ -80,6 +109,11 @@ pipeline {
                                   docker push gcr.io/${NEXEA_GCP_PROJECT_ID}/${DOCKER_IMAGE_NAME}-backend:latest
                                 """
                             }
+                        }
+                    }
+                    post {
+                        always {
+                            cleanWs()
                         }
                     }
                 }
