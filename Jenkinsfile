@@ -74,9 +74,6 @@ pipeline {
         stage('Push Docker Images') {
             parallel {
                 stage('Push Frontend Docker Image') {
-                    when {
-                        successful
-                    }
                     steps {
                         echo 'Pushing Frontend Docker Image...'
                         script {
@@ -96,9 +93,6 @@ pipeline {
                     }
                 }
                 stage('Push Backend Docker Image') {
-                    when {
-                        successful
-                    }
                     steps {
                         echo 'Pushing Backend Docker Image...'
                         script {
