@@ -19,7 +19,7 @@ pipeline {
                         }
                     }
                 }
-                stage('Checkout Backend Repository') {
+                stage('Checkout Backend Repository.') {
                     steps {
                         echo 'Checking out Backend Repository...'
                         dir('backend') {
