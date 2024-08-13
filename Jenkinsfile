@@ -16,9 +16,9 @@ pipeline {
         stage('Initialize Docker Buildx') {
             steps {
                 // Simplified and working Docker Buildx setup
-                sh 'docker buildx create --name mybuilder --use'
-                sh 'docker buildx inspect --bootstrap'
-                sh 'docker buildx ls'
+                sh "docker buildx create --name mybuilder --use"
+                sh "docker buildx inspect --bootstrap"
+                sh "docker buildx ls"
             }
         }
         stage('Checkout Repositories') {
