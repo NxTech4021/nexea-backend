@@ -1,7 +1,7 @@
 pipeline {
     agent any
     options {
-        buildDiscarder(logRotator(numToKeepStr: '10')) // Keep only last 10 builds
+        buildDiscarder(logRotator(numToKeepStr: '10')) // Keep only the last 10 builds
     }
     environment {
         NEXEA_GCP_PROJECT_ID = 'my-project-nexea'
@@ -105,27 +105,26 @@ pipeline {
                 sshagent([NEXEA_EVENTAPP_SSH_CREDENTIAL_ID]) {
                     script {
                         sh '''
-                        # SSH into the GCP instance to clone the backend repository
-                        ssh -o StrictHostKeyChecking=no famintech@$NEXEA_GCP_INSTANCE_ID
-                        "cd ~ &&
+                        ssh -o StrictHostKeyChecking=no famintech@${NEXEA_GCP_INSTANCE_ID} << 'EOF'
+                        cd ~
                         if [ ! -d 'nexea-backend' ]; then
                             git clone https://github.com/NxTech4021/nexea-backend.git
                         else
                             cd nexea-backend && git pull origin main && cd ..
-                        fi"
-                        
+                        fi
                         mv /home/famintech/nexea-backend/docker-compose.yml ~/
                         mv /home/famintech/nexea-backend/nginx ~/
+                        EOF
                         
-                        # SSH into the GCP instance to run docker-compose commands
-                        ssh -o StrictHostKeyChecking=no famintech@$NEXEA_GCP_INSTANCE_ID "
-                        cd ~ &&
-                        gcloud auth activate-service-account --key-file=$NEXEA_EVENTAPP_SERVICEACCOUNT_KEYFILE &&
-                        gcloud auth configure-docker &&
-                        docker pull gcr.io/$NEXEA_GCP_PROJECT_ID/${DOCKER_IMAGE_NAME}-frontend:latest &&
-                        docker pull gcr.io/$NEXEA_GCP_PROJECT_ID/${DOCKER_IMAGE_NAME}-backend:latest &&
-                        docker compose down &&
-                        docker compose up -d"
+                        ssh -o StrictHostKeyChecking=no famintech@${NEXEA_GCP_INSTANCE_ID} << 'EOF'
+                        cd ~
+                        gcloud auth activate-service-account --key-file=$NEXEA_EVENTAPP_SERVICEACCOUNT_KEYFILE
+                        gcloud auth configure-docker
+                        docker pull gcr.io/${NEXEA_GCP_PROJECT_ID}/${DOCKER_IMAGE_NAME}-frontend:latest
+                        docker pull gcr.io/${NEXEA_GCP_PROJECT_ID}/${DOCKER_IMAGE_NAME}-backend:latest
+                        docker compose down
+                        docker compose up -d
+                        EOF
                         '''
                     }
                 }
