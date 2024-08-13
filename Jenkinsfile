@@ -106,16 +106,16 @@ pipeline {
                     script {
                         sh '''
                         # SSH into the GCP instance to clone the backend repository
-                        ssh -o StrictHostKeyChecking=no famintech@$NEXEA_GCP_INSTANCE_ID "
-                        cd ~ &&
+                        ssh -o StrictHostKeyChecking=no famintech@$NEXEA_GCP_INSTANCE_ID
+                        "cd ~ &&
                         if [ ! -d 'nexea-backend' ]; then
                             git clone https://github.com/NxTech4021/nexea-backend.git
                         else
                             cd nexea-backend && git pull origin main && cd ..
                         fi"
                         
-                        # Copy necessary files to the deployment server
-                        scp -o StrictHostKeyChecking=no -r backend/nginx backend/docker-compose.yml famintech@$NEXEA_GCP_INSTANCE_ID:~/
+                        mv /home/famintech/nexea-backend/docker-compose.yml ~/
+                        mv /home/famintech/nexea-backend/nginx ~/
                         
                         # SSH into the GCP instance to run docker-compose commands
                         ssh -o StrictHostKeyChecking=no famintech@$NEXEA_GCP_INSTANCE_ID "
