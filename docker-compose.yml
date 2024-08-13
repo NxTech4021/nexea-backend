@@ -2,9 +2,7 @@ version: '3.8'
 
 services:
   nexea-backend:
-    build:
-      context: ./nexea-backend
-      dockerfile: Dockerfile
+    image: gcr.io/my-project-nexea/nexea-event-app-backend:latest
     container_name: nexea-backend
     ports:
       - "3001:3001"
@@ -18,9 +16,7 @@ services:
       - db
 
   nexea-frontend:
-    build:
-      context: ./nexea-frontend
-      dockerfile: Dockerfile
+    image: gcr.io/my-project-nexea/nexea-event-app-frontend:latest
     container_name: nexea-frontend
     ports:
       - "3031:3031"

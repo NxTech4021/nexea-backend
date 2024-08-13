@@ -5,7 +5,7 @@ pipeline {
     }
     environment {
         NEXEA_GCP_PROJECT_ID = 'my-project-nexea'
-        NEXEA_GCP_INSTANCE_ID = 'nexea-event-app'
+        NEXEA_GCP_INSTANCE_ID = '34.87.1.242'
         DOCKER_IMAGE_NAME = 'nexea-event-app'
         NEXEA_JENKINS_SERVICEACCOUNT_CREDENTIAL_ID = 'NEXEA_JENKINS_SERVICEACCOUNT_CREDENTIAL'
         NEXEA_EVENTAPP_SSH_CREDENTIAL_ID = 'NEXEA_EVENTAPP_SSH_CREDENTIAL'
@@ -96,6 +96,37 @@ pipeline {
                                 '''
                             }
                         }
+                    }
+                }
+            }
+        }
+        stage('Deploy') {
+            steps {
+                sshagent([NEXEA_EVENTAPP_SSH_CREDENTIAL_ID]) {
+                    script {
+                        sh '''
+                        # SSH into the GCP instance to clone the backend repository
+                        ssh -o StrictHostKeyChecking=no famintech@$NEXEA_GCP_INSTANCE_ID "
+                        cd ~ &&
+                        if [ ! -d 'nexea-backend' ]; then
+                            git clone https://github.com/NxTech4021/nexea-backend.git
+                        else
+                            cd nexea-backend && git pull origin main && cd ..
+                        fi"
+                        
+                        # Copy necessary files to the deployment server
+                        scp -o StrictHostKeyChecking=no -r backend/nginx backend/docker-compose.yml famintech@$NEXEA_GCP_INSTANCE_ID:~/
+                        
+                        # SSH into the GCP instance to run docker-compose commands
+                        ssh -o StrictHostKeyChecking=no famintech@$NEXEA_GCP_INSTANCE_ID "
+                        cd ~ &&
+                        gcloud auth activate-service-account --key-file=$NEXEA_EVENTAPP_SERVICEACCOUNT_KEYFILE &&
+                        gcloud auth configure-docker &&
+                        docker pull gcr.io/$NEXEA_GCP_PROJECT_ID/${DOCKER_IMAGE_NAME}-frontend:latest &&
+                        docker pull gcr.io/$NEXEA_GCP_PROJECT_ID/${DOCKER_IMAGE_NAME}-backend:latest &&
+                        docker compose down &&
+                        docker compose up -d"
+                        '''
                     }
                 }
             }
