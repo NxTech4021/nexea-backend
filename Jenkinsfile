@@ -102,7 +102,7 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                sshagent([NEXEA_EVENTAPP_SSH_CREDENTIAL]) {
+                sshagent([NEXEA_EVENTAPP_SSH_CREDENTIAL_ID]) {
                     script {
                         sh '''
                         # SSH into the GCP instance to clone the backend repository
