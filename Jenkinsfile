@@ -13,9 +13,28 @@ pipeline {
         DOCKER_BUILDKIT = '1' // Enable Docker BuildKit
     }
     stages {
+        // Print environment variables for debugging
+        stage('Print Environment') {
+            steps {
+                sh 'env'
+            }
+        }
         stage('Initialize Docker Buildx') {
             steps {
-                sh 'docker buildx create --use'
+                // Debugging steps to investigate Docker configuration
+                sh '''
+                    echo "Debugging Docker Configuration"
+                    docker version
+                    docker info
+                '''
+                // Debugging the Docker Buildx commands
+                sh '''
+                    echo "Creating and Using Docker Buildx Builder"
+                    docker buildx create --name mybuilder
+                    docker buildx use mybuilder
+                    docker buildx inspect --bootstrap
+                    docker buildx ls
+                '''
             }
         }
         stage('Checkout Repositories') {
