@@ -44,7 +44,7 @@ pipeline {
                         echo 'Building Frontend Docker Image...'
                         dir('frontend') {
                             script {
-                                dockerImageFrontend = docker.build("${DOCKER_IMAGE_NAME}-frontend", ".")
+                                dockerImageFrontend = docker.build("${DOCKER_IMAGE_NAME}-frontend", "${WORKSPACE}/frontend")
                             }
                         }
                     }
@@ -59,7 +59,7 @@ pipeline {
                         echo 'Building Backend Docker Image...'
                         dir('backend') {
                             script {
-                                dockerImageBackend = docker.build("${DOCKER_IMAGE_NAME}-backend", ".")
+                                dockerImageBackend = docker.build("${DOCKER_IMAGE_NAME}-backend", "${WORKSPACE}/backend")
                             }
                         }
                     }
