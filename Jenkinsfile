@@ -105,17 +105,17 @@ pipeline {
                 sshagent([NEXEA_EVENTAPP_SSH_CREDENTIAL_ID]) {
                     script {
                         sh '''
-                        ssh -o StrictHostKeyChecking=no famintech@$NEXEA_GCP_INSTANCE_ID                       
-                        # Authenticate with Google Cloud and pull Docker images
+                        ssh -o StrictHostKeyChecking=no famintech@$NEXEA_GCP_INSTANCE_ID << EOF
+                        echo "Authenticated with SSH"
                         pwd
                         cd ~
                         gcloud auth activate-service-account --key-file=$NEXEA_EVENTAPP_SERVICEACCOUNT_KEYFILE
                         gcloud auth configure-docker
                         docker pull gcr.io/${NEXEA_GCP_PROJECT_ID}/${DOCKER_IMAGE_NAME}-frontend:latest
                         docker pull gcr.io/${NEXEA_GCP_PROJECT_ID}/${DOCKER_IMAGE_NAME}-backend:latest
-                        # Restart Docker services using Docker Compose
                         docker compose down
                         docker compose up -d
+                        EOF
                         '''
                     }
                 }
