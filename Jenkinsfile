@@ -105,34 +105,16 @@ pipeline {
                 sshagent([NEXEA_EVENTAPP_SSH_CREDENTIAL_ID]) {
                     script {
                         sh '''
-                        ssh -o StrictHostKeyChecking=no famintech@$NEXEA_GCP_INSTANCE_ID << 'EOF'
-                        
-                        # Navigate to home directory
-                        cd ~
-                        
-                        # Clone or pull the latest code from the repository
-                        if [ ! -d 'nexea-backend' ]; then
-                            git clone https://github.com/NxTech4021/nexea-backend.git
-                        else
-                            cd nexea-backend && git pull origin main && cd ~
-                        fi
-                        
-                        # Move necessary files
-                        mv ~/nexea-backend/docker-compose.yml ~/
-                        mv ~/nexea-backend/nginx ~/
-                        
+                        ssh -o StrictHostKeyChecking=no famintech@$NEXEA_GCP_INSTANCE_I                       
                         # Authenticate with Google Cloud and pull Docker images
                         pwd
                         gcloud auth activate-service-account --key-file=$NEXEA_EVENTAPP_SERVICEACCOUNT_KEYFILE
                         gcloud auth configure-docker
                         docker pull gcr.io/${NEXEA_GCP_PROJECT_ID}/${DOCKER_IMAGE_NAME}-frontend:latest
                         docker pull gcr.io/${NEXEA_GCP_PROJECT_ID}/${DOCKER_IMAGE_NAME}-backend:latest
-                        
                         # Restart Docker services using Docker Compose
                         docker compose down
                         docker compose up -d
-                        
-                        EOF
                         '''
                     }
                 }

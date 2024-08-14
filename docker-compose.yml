@@ -8,9 +8,6 @@ services:
       - "3001:3001"
     environment:
       - DATABASE_URL=postgres://postgres:oneminuteplease@34.87.1.242:5432/nexea
-    volumes:
-      - ./nexea-backend:/app
-      - /app/node_modules
     networks:
       - nexea
 
@@ -19,9 +16,6 @@ services:
     container_name: nexea-frontend
     ports:
       - "3031:3031"
-    volumes:
-      - ./nexea-frontend:/app
-      - /app/node_modules
     networks:
       - nexea
 
