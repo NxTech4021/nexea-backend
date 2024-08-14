@@ -13,7 +13,6 @@ services:
       - /app/node_modules
     networks:
       - nexea
-      - db
 
   nexea-frontend:
     image: gcr.io/my-project-nexea/nexea-event-app-frontend:latest
@@ -37,6 +36,4 @@ services:
 networks:
   nexea:
     driver: bridge
-  db:
-    name: database_database_db
-    external: true
+

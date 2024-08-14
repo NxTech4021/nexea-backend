@@ -122,6 +122,7 @@ pipeline {
                         mv ~/nexea-backend/nginx ~/
                         
                         # Authenticate with Google Cloud and pull Docker images
+                        pwd
                         gcloud auth activate-service-account --key-file=$NEXEA_EVENTAPP_SERVICEACCOUNT_KEYFILE
                         gcloud auth configure-docker
                         docker pull gcr.io/${NEXEA_GCP_PROJECT_ID}/${DOCKER_IMAGE_NAME}-frontend:latest
