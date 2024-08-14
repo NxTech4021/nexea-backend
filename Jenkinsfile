@@ -108,6 +108,7 @@ pipeline {
                         ssh -o StrictHostKeyChecking=no famintech@$NEXEA_GCP_INSTANCE_ID                       
                         # Authenticate with Google Cloud and pull Docker images
                         pwd
+                        cd ~
                         gcloud auth activate-service-account --key-file=$NEXEA_EVENTAPP_SERVICEACCOUNT_KEYFILE
                         gcloud auth configure-docker
                         docker pull gcr.io/${NEXEA_GCP_PROJECT_ID}/${DOCKER_IMAGE_NAME}-frontend:latest
