@@ -105,7 +105,7 @@ pipeline {
                 sshagent([NEXEA_EVENTAPP_SSH_CREDENTIAL_ID]) {
                     script {
                         sh '''
-                        ssh -o StrictHostKeyChecking=no famintech@$NEXEA_GCP_INSTANCE_ID << EOF
+                        ssh -o StrictHostKeyChecking=no famintech@$NEXEA_GCP_INSTANCE_ID <<'EOF'
                         echo "Authenticated with SSH"
                         pwd
                         cd ~
@@ -115,7 +115,7 @@ pipeline {
                         docker pull gcr.io/${NEXEA_GCP_PROJECT_ID}/${DOCKER_IMAGE_NAME}-backend:latest
                         docker compose down
                         docker compose up -d
-                        EOF
+EOF
                         '''
                     }
                 }
