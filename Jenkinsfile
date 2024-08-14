@@ -105,7 +105,7 @@ pipeline {
                 sshagent([NEXEA_EVENTAPP_SSH_CREDENTIAL_ID]) {
                     script {
                         sh '''
-                        ssh -o StrictHostKeyChecking=no famintech@$NEXEA_GCP_INSTANCE_I                       
+                        ssh -o StrictHostKeyChecking=no famintech@$NEXEA_GCP_INSTANCE_ID                       
                         # Authenticate with Google Cloud and pull Docker images
                         pwd
                         gcloud auth activate-service-account --key-file=$NEXEA_EVENTAPP_SERVICEACCOUNT_KEYFILE
