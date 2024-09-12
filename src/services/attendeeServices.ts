@@ -76,9 +76,16 @@ export const processCSVData = async (filePath: string, eventId: string) => {
         } = data;
         try {
           // Extract from CSV data
-          const attendee = await prisma.attendee.findUnique({
+          const attendee = await prisma.attendee.findFirst({
             where: {
-              ticketCode: ticketCode,
+              AND: [
+                {
+                  ticketCode: ticketCode,
+                },
+                {
+                  eventId: eventId,
+                },
+              ],
             },
           });
 

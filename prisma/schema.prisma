@@ -70,6 +70,12 @@ model Event {
   attendees      Attendee[]
 }
 
+model EventApi {
+  id         String @id @default(uuid())
+  name       String
+  templateId String
+}
+
 enum EventStatus {
   live
   scheduled

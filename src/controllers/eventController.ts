@@ -99,6 +99,8 @@ export const getAllEvents = async (_req: Request, res: Response) => {
         attendees: true,
       },
     });
+
+    // console.log(events);
     // Return success response with the fetched events
     res.status(200).json({ success: true, events });
   } catch (error) {
@@ -133,15 +135,13 @@ export const updateEventStatus = () => {
             }
 
             if (event.status !== newStatus) {
-              const updatedEventStatus = await prisma.event.update({
+              await prisma.event.update({
                 where: { id: event.id },
                 data: {
                   status: newStatus,
                   pic_id: event.pic_id,
                 },
               });
-
-              console.log(updatedEventStatus);
             }
           }),
         );

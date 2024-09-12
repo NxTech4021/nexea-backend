@@ -115,6 +115,7 @@ export const getAttendee = async (req: Request, res: Response) => {
 
 export const getAttendeeByEventID = async (req: Request, res: Response) => {
   const { id } = req.params;
+
   try {
     const attendee = await prisma.attendee.findMany({
       where: {
