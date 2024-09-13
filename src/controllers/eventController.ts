@@ -2,6 +2,8 @@ import { Request, Response } from 'express';
 import { prisma } from '@configs/prisma';
 import cron from 'node-cron';
 import { EventStatus } from '@prisma/client';
+import dayjs from 'dayjs';
+import { processCSVData } from '@services/attendeeServices';
 
 export const getEvent = async (req: Request, res: Response) => {
   const { id } = req.params;
@@ -19,21 +21,22 @@ export const getEvent = async (req: Request, res: Response) => {
 };
 
 export const createEvent = async (req: Request, res: Response) => {
+  const { startDate, personInCharge, eventDescription, eventName } = JSON.parse(req.body.data);
   try {
     // Extract data from request body
-    const { name, personInCharge, description, tickera_api, date } = req.body;
-
     const event = await prisma.event.create({
       data: {
-        name,
-        personInCharge: { connect: { id: personInCharge } },
-        description,
-        tickera_api,
-        date,
-        status: 'scheduled',
+        name: eventName,
+        personInCharge: { connect: { id: personInCharge.id } },
+        description: eventDescription,
+        date: dayjs(startDate).format(),
+        status: dayjs().isSame(dayjs(startDate), 'date') ? 'live' : 'scheduled',
       },
     });
 
+    if (req.files && (req.files as any).attendeesData) {
+      await processCSVData((req.files as any).attendeesData.tempFilePath, event.id);
+    }
     // Return success response with the created event and event ID
     res.status(201).json({ success: true, event, eventId: event.id });
   } catch (error) {
@@ -100,8 +103,6 @@ export const getAllEvents = async (_req: Request, res: Response) => {
       },
     });
 
-    // console.log(events);
-    // Return success response with the fetched events
     res.status(200).json({ success: true, events });
   } catch (error) {
     // Handle errors

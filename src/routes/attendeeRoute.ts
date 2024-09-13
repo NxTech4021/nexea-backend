@@ -1,5 +1,6 @@
 import express from 'express';
 import {
+  checkInAttendee,
   getAttendee,
   getAttendeeByEventID,
   insertUser,
@@ -37,3 +38,4 @@ attendeesRouter.post('/create', insertUser);
 
 // Update
 attendeesRouter.patch('/update/:id', updateAttendees);
+attendeesRouter.patch('/checkInAttendee', checkInAttendee);

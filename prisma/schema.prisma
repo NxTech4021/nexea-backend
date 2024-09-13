@@ -29,31 +29,25 @@ model User {
 }
 
 model Attendee {
-  id             String              @id @default(uuid())
-  firstName      String?
-  lastName       String?
-  name           String?
-  orderNumber    String?
-  email          String?
-  ticketTotal    String?
-  discountCode   String?
-  ticketCode     String?             @unique
-  ticketID       String?
-  ticketType     String?
-  buyerFirstName String?
-  buyerLastName  String?
-  buyerName      String?
-  buyerEmail     String?
-  phoneNumber    String?
-  companyName    String?
-  templateOne    NotificationStatus? @default(Pending)
-  templateTwo    NotificationStatus? @default(Pending)
-  templateThree  NotificationStatus? @default(Pending)
-  checkedIn      CheckIns?
-  created_at     DateTime            @default(now())
-  update_at      DateTime            @updatedAt
-  eventId        String?
-  event          Event?              @relation(fields: [eventId], references: [id])
+  id               String              @id @default(uuid())
+  buyerFullName    String?
+  buyerEmail       String?
+  attendeeFullName String?
+  attendeeEmail    String?
+  orderNumber      String?
+  ticketCode       String?
+  ticketID         String?
+  ticketType       String?
+  phoneNumber      String?
+  companyName      String?
+  templateOne      NotificationStatus? @default(Pending)
+  templateTwo      NotificationStatus? @default(Pending)
+  templateThree    NotificationStatus? @default(Pending)
+  checkedIn        Boolean             @default(false)
+  created_at       DateTime            @default(now())
+  update_at        DateTime            @updatedAt
+  eventId          String?
+  event            Event?              @relation(fields: [eventId], references: [id])
 }
 
 model Event {
@@ -82,11 +76,6 @@ enum EventStatus {
   completed
   postponed
   done
-}
-
-enum CheckIns {
-  Yes
-  No
 }
 
 enum Type {

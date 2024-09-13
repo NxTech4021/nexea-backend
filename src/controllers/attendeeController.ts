@@ -122,8 +122,29 @@ export const getAttendeeByEventID = async (req: Request, res: Response) => {
         eventId: id,
       },
     });
-    console.log(attendee);
+
     return res.status(200).json(attendee);
+  } catch (error) {
+    return res.status(400).json(error);
+  }
+};
+
+export const checkInAttendee = async (req: Request, res: Response) => {
+  const { name, email, companyName, id } = req.body;
+  try {
+    await prisma.attendee.update({
+      where: {
+        id: id,
+      },
+      data: {
+        attendeeFullName: name,
+        attendeeEmail: email,
+        companyName,
+        checkedIn: true,
+      },
+    });
+
+    return res.status(200).json({ message: 'Attendee Successfully checked in.' });
   } catch (error) {
     return res.status(400).json(error);
   }
