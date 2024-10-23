@@ -14,7 +14,7 @@
     "test": "jest",
     "migrate": "npx prisma migrate dev",
     "prod:prev": "node dist/app.js",
-    "deploy": "npx prisma migrate deploy",
+    "deploy": "npx prisma migrate deploy --force",
     "studio": "npx prisma studio"
   },
   "dependencies": {
