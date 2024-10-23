@@ -25,6 +25,19 @@ interface Attendee {
   // attendance: string;
 }
 
+// const requiredColumns = [
+//   'attendeeFullName',
+//   'attendeeEmail',
+//   'orderNumber',
+//   'ticketCode',
+//   'ticketID',
+//   'ticketType',
+//   'buyerFullName',
+//   'buyerEmail',
+//   'phoneNumber',
+//   'companyName',
+// ];
+
 export const processCSVData = async (filePath: string, eventId: string) => {
   const results: Attendee[] = [];
   return new Promise((resolve, reject) => {
@@ -61,28 +74,20 @@ export const processCSVData = async (filePath: string, eventId: string) => {
             'phoneNumber',
             'companyName',
           ],
+          // columns: true,
           from_line: 2,
         }),
       )
       .on('data', async (data: any) => {
+        // const missingColumns = requiredColumns.filter((column) => !data[column]);
+        // console.log(data);
+        // if (missingColumns.length > 0) {
+        //   reject({ type: 'missingColumns', missingColumns: `${missingColumns.join(', ')}` });
+        //   // console.error(`Row is missing required columns: ${missingColumns.join(', ')}`, data);
+        //   // return; // Skip this row
+        // }
+
         const {
-          // firstName,
-          // lastName,
-          // name,
-          // email,
-          // orderNumber,
-          // ticketTotal,
-          // discountCode,
-          // ticketCode,
-          // ticketID,
-          // ticketType,
-          // buyerFirstName,
-          // buyerLastName,
-          // buyerEmail,
-          // buyerName,
-          // phoneNumber,
-          // companyName,
-          // checkedIn,
           attendeeFullName,
           attendeeEmail,
           orderNumber,
@@ -94,6 +99,7 @@ export const processCSVData = async (filePath: string, eventId: string) => {
           phoneNumber,
           companyName,
         } = data;
+
         try {
           // Extract from CSV data
           const attendee = await prisma.attendee.findFirst({
@@ -135,9 +141,11 @@ export const processCSVData = async (filePath: string, eventId: string) => {
       })
       .on('end', () => {
         fs.unlinkSync(filePath);
+
         resolve(results);
       })
       .on('error', (error: any) => {
+        console.log(error);
         reject(error);
       });
   });
@@ -271,11 +279,13 @@ export const userService = async (userData: {
     const newUser = await prisma.attendee.create({
       data: {
         id: userData.id,
-        firstName: userData.firstName,
-        lastName: userData.lastName,
-        name: userData.name,
+        attendeeFullName: `${userData.firstName} ${userData.lastName}`,
+        // firstName: userData.firstName,
+        // lastName: userData.lastName,
+        // name: userData.name,
         orderNumber: userData.orderNumber,
-        email: userData.email,
+        attendeeEmail: userData.email,
+        // attende: userData.email,
         ticketTotal: userData.ticketTotal,
         discountCode: userData.discountCode,
         ticketCode: userData.ticketCode,

@@ -70,7 +70,6 @@ export const Attendance = (
 export const insertUser = async (req: Request, res: Response) => {
   try {
     const userData = req.body;
-
     const newUser = await userService(userData);
     return res.status(201).json(newUser);
   } catch (error) {
@@ -117,20 +116,30 @@ export const getAttendeeByEventID = async (req: Request, res: Response) => {
   const { id } = req.params;
 
   try {
-    const attendee = await prisma.attendee.findMany({
+    const event = await prisma.event.findUnique({
       where: {
-        eventId: id,
+        id: id,
       },
     });
 
-    return res.status(200).json(attendee);
+    if (!event) {
+      return res.status(404).json({ message: 'No event found.' });
+    }
+
+    const attendee = await prisma.attendee.findMany({
+      where: {
+        eventId: event.id,
+      },
+    });
+
+    return res.status(200).json({ attendee, event });
   } catch (error) {
     return res.status(400).json(error);
   }
 };
 
 export const checkInAttendee = async (req: Request, res: Response) => {
-  const { name, email, companyName, id } = req.body;
+  const { name, email, companyName, id, phoneNumber } = req.body;
   try {
     await prisma.attendee.update({
       where: {
@@ -140,6 +149,7 @@ export const checkInAttendee = async (req: Request, res: Response) => {
         attendeeFullName: name,
         attendeeEmail: email,
         companyName,
+        phoneNumber: phoneNumber,
         checkedIn: true,
       },
     });

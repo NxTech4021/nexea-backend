@@ -38,11 +38,12 @@ export const createEvent = async (req: Request, res: Response) => {
       await processCSVData((req.files as any).attendeesData.tempFilePath, event.id);
     }
     // Return success response with the created event and event ID
-    res.status(201).json({ success: true, event, eventId: event.id });
-  } catch (error) {
-    // Handle errors
-    console.error('Error creating event:', error);
-    res.status(500).json({ success: false, error: 'Internal server error' });
+    return res.status(201).json({ success: true, event, eventId: event.id });
+  } catch (error: any) {
+    if (error?.type && error?.type === 'missingColumns') {
+      return res.status(400).json({ missingColumns: error?.missingColumns });
+    }
+    return res.status(400).json({ success: false, error: 'Internal server error' });
   }
 };
 

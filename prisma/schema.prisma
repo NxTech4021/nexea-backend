@@ -33,6 +33,7 @@ model Attendee {
   buyerFullName    String?
   buyerEmail       String?
   attendeeFullName String?
+  // email            String?
   attendeeEmail    String?
   orderNumber      String?
   ticketCode       String?
