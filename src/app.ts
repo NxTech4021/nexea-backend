@@ -22,6 +22,7 @@ const storage = new Storage({
 const bucket = storage.bucket('nexea');
 
 const app: Application = express();
+
 app.use(express.json());
 app.use(
   express.urlencoded({
@@ -44,6 +45,15 @@ app.use(
 );
 app.use(morgan('combined'));
 app.use(cookieParser());
+
+declare module 'express-session' {
+  interface Session {
+    userid?: string; // Define the type for userid, if optional
+    userType: string;
+    user: any;
+  }
+}
+
 app.use(
   session({
     secret: 'nexeaeventapp',

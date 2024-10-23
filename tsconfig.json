@@ -58,11 +58,11 @@
   "compilerOptions": {
     "lib": ["ES6", "dom"],
     "target": "ES6",
-    "module": "Node16",
-    "strict": true,
+    "module": "NodeNext",
+    "strict": false,
     "baseUrl": ".",
-    "outDir": "dist",
-    "rootDir": "src",
+    "outDir": "./dist",
+    "rootDir": "./src",
     "paths": {
       "@controllers/*": ["./src/controllers/*"],
       "@routes/*": ["./src/routes/*"],
@@ -75,7 +75,7 @@
     },
     "skipLibCheck": true,
     "esModuleInterop": true,
-    "moduleResolution": "Node16",
+    "moduleResolution": "NodeNext",
     "resolveJsonModule": true,
     "removeComments": true,
     "strictNullChecks": true,
@@ -93,7 +93,7 @@
   },
   "include": [
     "src/**/*",
-    "src/test"
+    // "src/test"
   ],
   "exclude": [
     "node_modules",
@@ -101,6 +101,6 @@
   ],
   "ts-node": {
     "require": ["tsconfig-paths/register"],
-    "transpileOnly": true
+    // "transpileOnly": true
   }
 }

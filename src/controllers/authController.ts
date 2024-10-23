@@ -8,6 +8,16 @@ import { verificationCode } from '../utils/JwtHelper';
 import { getUser } from '@services/userServices';
 import { isAdmin } from '@utils/isAdmin';
 
+// declare module 'express-serve-static-core' {
+//   interface Request {
+//     user?: {
+//       id: string; // Adjust according to your application's user object structure
+//       name: string;
+//       email: string;
+//     };
+//   }
+// }
+
 // Login function
 export const getlogin = async (req: Request, res: Response) => {
   try {
@@ -244,7 +254,7 @@ export const resendConfirmationEmail = async (req: Request, res: Response) => {
 //   }
 // };
 
-export const getprofile = async (req: Request, res: Response) => {
+export const getprofile = async (req: any, res: Response) => {
   try {
     const { userId } = req.user as any;
     const user = await getUser(userId);
