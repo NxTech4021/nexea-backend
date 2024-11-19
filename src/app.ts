@@ -13,7 +13,7 @@ import { PrismaSessionStore } from '@quixo3/prisma-session-store';
 import { Storage } from '@google-cloud/storage';
 import bcrypt from 'bcrypt';
 import fileUpload from 'express-fileupload';
-import { PrismaClient } from '@prisma/client/extension';
+import { PrismaClient } from '@prisma/client';
 
 dotenv.config();
 
