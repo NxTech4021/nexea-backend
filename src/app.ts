@@ -63,6 +63,7 @@ app.use(
     },
     secret: 'nexeaeventapp',
     saveUninitialized: true,
+    resave: false,
     store: new PrismaSessionStore(new PrismaClient(), {
       checkPeriod: 2 * 60 * 1000,
       dbRecordIdIsSessionId: true,
