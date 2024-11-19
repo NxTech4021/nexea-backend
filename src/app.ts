@@ -8,10 +8,12 @@ import session from 'express-session';
 import { prisma } from '@configs/prisma';
 import cookieParser from 'cookie-parser';
 // import fileUpload from 'express-fileupload';
+import { PrismaSessionStore } from '@quixo3/prisma-session-store';
 
 import { Storage } from '@google-cloud/storage';
 import bcrypt from 'bcrypt';
 import fileUpload from 'express-fileupload';
+import { PrismaClient } from '@prisma/client/extension';
 
 dotenv.config();
 
@@ -56,15 +58,30 @@ declare module 'express-session' {
 
 app.use(
   session({
+    cookie: {
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    },
     secret: 'nexeaeventapp',
     saveUninitialized: true,
-    resave: false,
-    // proxy: true,
-    // cookie: {
-    //   secure: true,
-    // },
+    store: new PrismaSessionStore(new PrismaClient(), {
+      checkPeriod: 2 * 60 * 1000,
+      dbRecordIdIsSessionId: true,
+      dbRecordIdFunction: undefined,
+    }),
   }),
 );
+
+// app.use(
+//   session({
+//     secret: 'nexeaeventapp',
+//     saveUninitialized: true,
+//     resave: false,
+//     // proxy: true,
+//     // cookie: {
+//     //   secure: true,
+//     // },
+//   }),
+// );
 
 app.use(routes);
 
