@@ -173,6 +173,10 @@ app.patch('/update', async (req: any, res: any) => {
   }
 });
 
+app.get('/tracking', (req, _) => {
+  console.log(req);
+});
+
 app.listen(process.env.PORT, () => {
   console.log(`Listening to port ${process.env.PORT}...`);
 });
