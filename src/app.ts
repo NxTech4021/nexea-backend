@@ -128,7 +128,7 @@ app.get('/attendees', async (_req: Request, res: Response) => {
 
 app.patch('/update', async (req: any, res: any) => {
   try {
-    const { id, name, address, email, department, password } = req.body;
+    const { id, name: fullName, email, department, password } = req.body;
 
     const { files } = req;
     const saltRounds = 10;
@@ -159,8 +159,8 @@ app.patch('/update', async (req: any, res: any) => {
                 },
                 data: {
                   photoURL: publicUrl,
-                  name,
-                  address,
+                  fullName,
+
                   email,
                   department,
                 },
@@ -176,8 +176,8 @@ app.patch('/update', async (req: any, res: any) => {
           id: id,
         },
         data: {
-          name,
-          address,
+          fullName,
+
           email,
           department,
           password: hashedPassword,

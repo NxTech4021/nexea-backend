@@ -6,7 +6,7 @@ import { registerService, getLoginUser, forgetpassService } from '@services/auth
 import { sendConfirmationEmail, sendResetEmail } from '@utils/nodemailer.config';
 import { verificationCode } from '../utils/JwtHelper';
 import { getUser } from '@services/userServices';
-import { isAdmin } from '@utils/isAdmin';
+// import { isAdmin } from '@utils/isAdmin';
 
 // declare module 'express-serve-static-core' {
 //   interface Request {
@@ -96,7 +96,7 @@ export const registerUser = async (req: Request, res: Response) => {
     const user = await registerService({ name, email, password });
 
     try {
-      await sendConfirmationEmail(user.email, user.name, user.confirmationCode);
+      await sendConfirmationEmail(user.email, user.fullName, user.confirmationCode);
       return res.status(200).json({ message: 'Password reset email has been sent.', user: { email: user.email } });
     } catch (error) {
       return res.status(500).json({ error: 'An error occurred while sending the password reset email' });
@@ -164,9 +164,8 @@ export const verifyUser = async (req: Request, res: Response) => {
         id: user.id,
       },
       data: {
-        verified: true,
+        isVerified: true,
         confirmationCode: null,
-        userType: isAdmin(email) ? 'admin' : 'normal',
       },
     });
 
@@ -213,7 +212,7 @@ export const resendConfirmationEmail = async (req: Request, res: Response) => {
     });
 
     // Send the confirmation email with the new verification token
-    await sendConfirmationEmail(updatedUser.email, updatedUser.name, newVerifyCode);
+    await sendConfirmationEmail(updatedUser.email, updatedUser.fullName, newVerifyCode);
 
     return res.status(200).json({ message: 'A new verification email has been sent to ' + email });
   } catch (error) {

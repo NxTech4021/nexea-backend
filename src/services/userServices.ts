@@ -33,10 +33,9 @@ const userUpdateService = async (
         id: userNewData.id,
       },
       data: {
-        name: userNewData.name,
+        fullName: userNewData.name,
         email: userNewData.email,
         password: hashedPassword,
-        address: userNewData.address,
         department: userNewData.department,
       },
     });

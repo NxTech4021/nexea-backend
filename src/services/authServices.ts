@@ -19,7 +19,7 @@ export const getLoginUser = async (email: string): Promise<any | null> => {
   return existUser;
 };
 
-export const registerService = async ({ name, email, password }: any) => {
+export const registerService = async ({ name: fullName, email, password }: any) => {
   const saltRounds = 10;
   const hashedPassword = await bcrypt.hash(password, saltRounds);
 
@@ -28,11 +28,11 @@ export const registerService = async ({ name, email, password }: any) => {
   // Create the new user with the hashed password
   const newUser = await prisma.user.create({
     data: {
-      name,
+      fullName,
       email,
       password: hashedPassword,
       confirmationCode: code,
-      verified: false,
+      isVerified: false,
     },
   });
 

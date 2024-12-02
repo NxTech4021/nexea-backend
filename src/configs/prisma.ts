@@ -9,11 +9,10 @@ export async function main(): Promise<void> {
     try {
       await prisma.user.create({
         data: {
-          name: elem.name,
+          fullName: elem.name,
           email: elem.email,
           password: elem.password,
-          position: elem.position,
-          verified: elem.verified,
+          isVerified: elem.verified,
           createdAt: typeof elem.createdAt === 'object' ? Object.values(elem.createdAt)[0] : elem.createdAt,
           updatedAt: typeof elem.updatedAt === 'object' ? Object.values(elem.updatedAt)[0] : elem.updatedAt,
         },
