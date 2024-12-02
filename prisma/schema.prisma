@@ -18,21 +18,16 @@ model User {
   id                   String    @id @unique @default(uuid())
   email                String    @unique
   password             String?
-  name                 String?   @db.VarChar(100)
-  position             String?   @db.VarChar(50)
-  verified             Boolean?
+  fullName             String?   @db.VarChar(100)
+  isVerified           Boolean?  @default(false)
   confirmationCode     Int?      @unique @db.Integer()
   createdAt            DateTime  @default(now())
   updatedAt            DateTime? @updatedAt
-  userType             Type?     @default(normal)
-  address              String?   @db.VarChar(255)
   resetPasswordToken   String?   @unique
   resetPasswordExpires DateTime?
   department           String?   @db.VarChar(100)
   photoURL             String?   @db.VarChar(255)
   Event                Event[]
-  created_at           DateTime  @default(now())
-  update_at            DateTime  @updatedAt
 }
 
 model Attendee {
@@ -40,7 +35,6 @@ model Attendee {
   buyerFullName    String?
   buyerEmail       String?
   attendeeFullName String?
-  // email            String?
   attendeeEmail    String?
   orderNumber      String?
   ticketCode       String?
@@ -56,20 +50,56 @@ model Attendee {
   update_at        DateTime            @updatedAt
   eventId          String?
   event            Event?              @relation(fields: [eventId], references: [id])
+  order            Order[]
 }
 
 model Event {
-  id             String      @id @default(uuid())
+  id             String         @id @default(uuid())
   name           String
-  personInCharge User        @relation(fields: [pic_id], references: [id])
+  personInCharge User           @relation(fields: [pic_id], references: [id])
   pic_id         String
-  description    String?     @db.VarChar(255)
-  tickera_api    String?     @db.VarChar(255)
+  description    String?        @db.VarChar(255)
+  tickera_api    String?        @db.VarChar(255)
   date           DateTime
   status         EventStatus
-  created_at     DateTime    @default(now())
-  update_at      DateTime    @updatedAt
+  created_at     DateTime       @default(now())
+  update_at      DateTime       @updatedAt
   attendees      Attendee[]
+  discountCode   DiscountCode[]
+  ticketType     TicketType[]
+  order          Order[]
+}
+
+model DiscountCode {
+  id         String       @id @unique @default(uuid())
+  eventId    String
+  event      Event        @relation(references: [id], fields: [eventId])
+  ticketType TicketType[]
+  order      Order[]
+}
+
+model TicketType {
+  id           String         @id @unique @default(uuid())
+  title        String
+  eventId      String
+  event        Event          @relation(references: [id], fields: [eventId])
+  price        Int            @default(0)
+  quantity     Int            @default(0)
+  sold         Int            @default(0)
+  isActive     Boolean        @default(false)
+  discountCode DiscountCode[]
+}
+
+model Order {
+  id             String       @id @unique @default(uuid())
+  eventId        String
+  attendeeId     String
+  discountCodeId String
+  event          Event        @relation(references: [id], fields: [eventId])
+  attendee       Attendee     @relation(references: [id], fields: [attendeeId])
+  discountCode   DiscountCode @relation(references: [id], fields: [discountCodeId])
+  status         String
+  orderDate      DateTime     @default(now())
 }
 
 model EventApi {
