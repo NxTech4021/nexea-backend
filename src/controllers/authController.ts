@@ -30,7 +30,7 @@ export const getlogin = async (req: Request, res: Response) => {
       return res.status(404).json({ message: "User doesn't exist" });
     }
 
-    if (!user.verified) {
+    if (!user.isVerified) {
       return res.status(404).json({ message: 'User is not verified' });
     }
 
@@ -56,7 +56,6 @@ export const getlogin = async (req: Request, res: Response) => {
     const session = req.session;
 
     session.userid = user.id;
-    session.userType = user.userType;
 
     res.cookie('accessToken', token, {
       secure: false,
@@ -66,8 +65,7 @@ export const getlogin = async (req: Request, res: Response) => {
 
     return res.status(200).json({ accessToken: token, user });
   } catch (error) {
-    console.log(error);
-    return res.status(500).json({ message: 'Something went wrong' });
+    return res.status(400).json({ message: 'Something went wrong' });
   }
 };
 
